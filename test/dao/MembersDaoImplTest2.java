@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -138,6 +139,10 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			stmt=con.prepareStatement(sql);
 			stmt.executeUpdate();
 
+			sql="TRUNCATE department";
+			stmt=con.prepareStatement(sql);
+			stmt.executeUpdate();
+
 			//テストデータを登録
 			sql=	"INSERT INTO `members` VALUES ('001','山本葵','ヤマモトアオイ','1995-12-10','東京都新宿区飯田橋54-10-1','090-6433-1233','2018-04-02',1,0,'aoi'),"
 					+ "('002','中村悠真','ナカムラユウマ','1995-12-11','東京都新宿区飯田橋54-10-1','090-6433-1234','2018-04-02',1,0,'yuma'),"
@@ -148,6 +153,10 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			stmt.executeUpdate();
 
 			sql="INSERT INTO `account` VALUES ('aoi','$2a$10$Yqwi/LAApvFZ8W4g3OM9AeEBy1gLOathGPuBD7yKqhx1jKmzpIBtC',1),('ren','$2a$10$Yqwi/LAApvFZ8W4g3OM9AeEBy1gLOathGPuBD7yKqhx1jKmzpIBtC',2),('takaha','$2a$10$CoGBg/6zSKJQKwdvZPmRbOfHrIr.fseKjYJO4TRIrCGoF3J4r3vFe',1),('taro','$2a$10$Yqwi/LAApvFZ8W4g3OM9AeEBy1gLOathGPuBD7yKqhx1jKmzpIBtC',1),('test','pass',1),('yuma','$2a$10$Yqwi/LAApvFZ8W4g3OM9AeEBy1gLOathGPuBD7yKqhx1jKmzpIBtC',1);";
+			stmt=con.prepareStatement(sql);
+			stmt.executeUpdate();
+
+			sql="INSERT INTO `department` VALUES (1,'人事',4),(2,'経理',2),(3,'総務',2),(4,'営業',3),(5,'開発',4);";
 			stmt=con.prepareStatement(sql);
 			stmt.executeUpdate();
 
@@ -810,5 +819,58 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 
 
+	@Test
+	public void testinsertMast正常() throws Exception {
+		MembersDao membersDao = DaoFactory.createMembersDao();
+		Members member=new Members();
+		List<Members> MemList=new ArrayList<>();
+
+		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date1 = dateTimeFormat.parse(INSERT_DATE);
+		member.setMember_id(INSERT_MEMBER_ID);
+		member.setName(INSERT_MEMBER_NAME);
+		member.setKana(INSERT_MEMBER_KANA);
+		member.setDep_id(NUMBER1);
+		member.setAddress(INSERT_MEMBER_ADDRESS);
+		member.setTel(INSERT_MEMBER_TEL);
+		member.setBirthday(date1);
+		member.setPosition_type(NUMBER0);
+		member.setHired(date1);
+		member.setLogin_id(INSERT_LOGIN_ID);
+		MemList.add(0,member);
+
+		String result=membersDao.insertMast(MemList);
+		assertThat(result,is("100"));
+
+		membersDao.delete(member);
+
+	}
+
+	@Test
+	public void testinsertMast異常() throws Exception{
+
+		MembersDao membersDao = DaoFactory.createMembersDao();
+		Members member=new Members();
+		List<Members> MemList=new ArrayList<>();
+
+		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date1 = dateTimeFormat.parse(INSERT_DATE);
+		member.setMember_id(INSERT_MEMBER_ID);
+		member.setName(INSERT_MEMBER_NAME);
+		member.setKana(INSERT_MEMBER_KANA);
+		member.setDep_id(NUMBER1);
+		member.setAddress(INSERT_MEMBER_ADDRESS);
+		member.setTel(INSERT_MEMBER_TEL);
+		member.setBirthday(date1);
+		member.setPosition_type(NUMBER0);
+		member.setHired(date1);
+		member.setLogin_id(INSERT_LOGIN_ID);
+		MemList.add(0,member);
+		MemList.add(1,member);
+		String result=membersDao.insertMast(MemList);
+		assertThat(result,is("300"));
+
+		membersDao.delete(member);
+	}
 
 }

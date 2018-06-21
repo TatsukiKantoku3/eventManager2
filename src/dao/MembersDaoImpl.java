@@ -237,9 +237,12 @@ public class MembersDaoImpl implements MembersDao {
 				stmt.setObject(9, 0);
 				stmt.setString(10, member.getLogin_id());
 				stmt.executeUpdate();
+
 			}
+
 			con.commit();
 		} catch (Exception e) {
+			System.out.println(e);
 			return "300";
 		}
 		return "100";
