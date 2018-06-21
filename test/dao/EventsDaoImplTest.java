@@ -91,7 +91,6 @@ public class EventsDaoImplTest extends TestDBAccess{
 					br.close();
 				}
 
-
 			}catch (Exception e) {
 				System.out.println("DB/ファイルエラー");
 				e.printStackTrace();
