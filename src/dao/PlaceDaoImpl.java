@@ -25,7 +25,7 @@ public class PlaceDaoImpl implements PlaceDao {
 				con.setAutoCommit(false);
 
 				for(Place place:placeList) {
-				String sql1 = "SELECT member_id from members where member_id=?;";
+				String sql1 = "SELECT COUNT(*) from members where member_id=?;";
 				PreparedStatement stmt1 = con.prepareStatement(sql1);
 				stmt1.setString(1, place.getAdmin_id().toString());
 				ResultSet rs = stmt1.executeQuery();
