@@ -34,6 +34,8 @@ public class DepartDaoImplTest extends TestDBAccess{
 	final static int POSITIONTYPE2=201;
 
 	//異常系
+	final String ERROR="300";
+	final String ERROR2="302";
 	final String FAIL_DEPARTMENT="技術部";
 	final int FAIL_FLOOR=12;
 	final int FAIL_POSITIONTYPE=792310;
@@ -156,7 +158,7 @@ public class DepartDaoImplTest extends TestDBAccess{
 
 		String result=departDao.insert(DepList);
 
-		assertThat(result,is("300"));
+		assertThat(result,is(ERROR));
 	}
 
 	@Test
@@ -170,7 +172,7 @@ public class DepartDaoImplTest extends TestDBAccess{
 		DepList.add(0, dep);
 
 		String result=departDao.insert(DepList);
-		assertThat(result,is("302"));
+		assertThat(result,is(ERROR2));
 	}
 
 }
