@@ -77,7 +77,7 @@ public class DepartDaoImplTest extends TestDBAccess{
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-
+		//最後に最初に格納したメンバーの削除
 		try (Connection con = ds.getConnection()){
 			PreparedStatement stmt;
 			String sql;
@@ -92,13 +92,9 @@ public class DepartDaoImplTest extends TestDBAccess{
 		}
 
 	}
-//
-//	@Before
-//	public void setUp() throws Exception {
-//	}
-//
 	@After
 	public void tearDown() throws Exception {
+		//departmentテーブルの初期化を毎回行う
 		try (Connection con = ds.getConnection()){
 			PreparedStatement stmt;
 			String sql;
@@ -109,11 +105,6 @@ public class DepartDaoImplTest extends TestDBAccess{
 			stmt.executeUpdate();
 		}
 	}
-
-//	@Test
-//	public void testDepartDaoImpl() {
-//
-//	}
 
 	@Test
 	public void testInsert正常() throws Exception {
@@ -128,9 +119,8 @@ public class DepartDaoImplTest extends TestDBAccess{
 		dep2.setPosition_type(POSITIONTYPE2);
 		List<Depart> DepList=new ArrayList<>();
 		DepList.add(0, dep);
-		System.out.println(DepList.get(0).getDepartment());
+
 		DepList.add(1, dep2);
-		//departDao.insert(DepList);
 		String result=departDao.insert(DepList);
 
 		//テーブルを整える
@@ -141,6 +131,7 @@ public class DepartDaoImplTest extends TestDBAccess{
 
 	@Test
 	public void testInsert異常1() throws Exception {
+		//UQであるdepartmentを二回格納
 		DepartDao departDao=DaoFactory.createDepartDao();
 		Depart dep=new Depart();
 		dep.setDepartment(DEPARTMENT);
@@ -163,6 +154,7 @@ public class DepartDaoImplTest extends TestDBAccess{
 
 	@Test
 	public void testInsert異常2() throws Exception {
+		//存在しないmember_idをposition_typeに格納
 		DepartDao departDao=DaoFactory.createDepartDao();
 		Depart dep=new Depart();
 		List<Depart> DepList=new ArrayList<>();

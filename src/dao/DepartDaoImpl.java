@@ -36,7 +36,7 @@ public class DepartDaoImpl implements DepartDao {
 					PreparedStatement stmt = con.prepareStatement(sql);
 					stmt.setObject(1, depart.getDepartment());
 					stmt.setObject(2, depart.getFloor());
-					System.out.println(stmt);
+
 					stmt.executeUpdate();
 
 					//member_idを検索して結果をResultSetにセットする
@@ -60,7 +60,7 @@ public class DepartDaoImpl implements DepartDao {
 						String sql2 = "update Members set position_type =1 where member_id=?;";
 						PreparedStatement stmt2 = con.prepareStatement(sql2);
 						stmt2.setObject(1, depart.getPosition_type());
-						System.out.println(stmt2);
+
 						stmt2.executeUpdate();
 					}
 				}
