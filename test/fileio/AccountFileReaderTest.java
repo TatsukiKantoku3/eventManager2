@@ -150,7 +150,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 		AccountFileReader accountFileReader2 = new AccountFileReader("C:\\work_1\\account_doubledata.csv",
 				valid_data_quantity);
 		result = accountFileReader2.main();
-		String Result="302";
+		String Result="300";
 		assertThat(result,is(Result));
 	}
 
