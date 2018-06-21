@@ -212,7 +212,7 @@ public class EventsDaoImplTest extends TestDBAccess{
 		List<Events> eventList = eventsDao.findToday(0);
 
 		// DBのeventsテーブルでstartが今日のイベントid
-		final int ID = 5;
+		final int ID = 6;
 
 		assertThat(eventList.get(0).getEvent_id(), is(ID));
 	}
@@ -334,17 +334,16 @@ public class EventsDaoImplTest extends TestDBAccess{
 
 
 	/**
-	 * DBeventsテーブルにあるデータの件数をカウントする
+	 * DBeventsテーブルにあるデータ件数を元にページネーションのページ数を算出する
 	 * @throws Exception
 	 */
 	@Test
 	public void testCountAll() throws Exception {
 		EventsDao eventsDao = DaoFactory.createEventsDao();
-		double val = eventsDao.countAll();
-		// 期待値:イベント数[7件]
-		double expected = 7.0;
+		// 期待値:ページ数[2p] (イベント数[7件]/5[端数切上])
+		int expected = 2;
 
-		assertThat(val, is(expected));
+		assertThat(eventsDao.countAll(), is(expected));
 	}
 
 
