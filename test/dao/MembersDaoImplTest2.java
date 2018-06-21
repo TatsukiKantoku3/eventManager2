@@ -843,7 +843,6 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		assertThat(result,is("100"));
 
 		membersDao.delete(member);
-
 	}
 
 	@Test
