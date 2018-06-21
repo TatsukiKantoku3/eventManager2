@@ -1,6 +1,10 @@
 package dao;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -8,7 +12,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class AccountDaoImplTest {
+import com.TestDBAccess;
+
+import domain.Account;
+
+public class AccountDaoImplTest extends TestDBAccess {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -32,8 +40,18 @@ public class AccountDaoImplTest {
 	}
 
 	@Test
-	public void testInsertAcount() {
-		fail("まだ実装されていません");
+	public void testInsertAcount() throws Exception {
+		List<Account> accountList=new ArrayList<Account>();
+		AccountDao accountDao = DaoFactory.createAccountDao();
+		Account account=new Account();
+		account.setLoginId("112");
+		account.setMemberId("112");
+		account.setLoginPass("112");
+		account.setAuthId(1);
+		accountList.add(account);
+
+		String result=accountDao.insertAcount(accountList);
+		assertThat(result, is("300"));
 	}
 
 }

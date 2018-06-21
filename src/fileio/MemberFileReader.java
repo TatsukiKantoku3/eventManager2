@@ -19,29 +19,6 @@ public class MemberFileReader extends EventMgFileIO {
 	static String errorCode="100";
 	static final String className = new Object(){}.getClass().getEnclosingClass().getName();
 
-
-//	public static void main(String args[]) {
-//		int valid_data_quantity = 9;
-//		try {
-//			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\Member_20180601.csv",
-//					valid_data_quantity);
-//
-//			/*
-//			 *Junitを使うまではこれで接続します
-//			 */
-//			try {
-//				JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
-//			} catch (NamingException e) {
-//				e.printStackTrace();
-//			}
-//
-//			String result = MembersFileReader.main();
-//			System.out.print(result);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	/**
 	 * ファイル名と列数をセットします
 	 * @param	fileName	パスを含めたファイル名

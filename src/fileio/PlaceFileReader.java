@@ -1,16 +1,12 @@
 package fileio;
 
-import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.naming.NamingException;
-
 import com.DataValid;
-import com.javaranch.unittest.helper.sql.pool.JNDIUnitTestHelper;
 
 import dao.DaoFactory;
 import dao.PlaceDao;
@@ -18,30 +14,6 @@ import domain.Place;
 
 public class PlaceFileReader extends EventMgFileIO {
 
-
-	public static void main(String args[]) {
-		int valid_data_quantity = 8;
-		try {
-			PlaceFileReader PlaceFileReader = new PlaceFileReader("C:\\work_1\\place_20180601.csv",
-					valid_data_quantity);
-
-			/*
-			 *Junitを使うまではこれで接続します
-			 */
-			try {
-				JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
-			} catch (NamingException | IOException e) {
-
-				e.printStackTrace();
-			}
-
-			String result = PlaceFileReader.main();
-
-			System.out.print(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	/**
 	 * ファイル名と列数をセットします
 	 * @param	fileName	パスを含めたファイル名
