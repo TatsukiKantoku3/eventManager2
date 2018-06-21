@@ -9,8 +9,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import domain.Depart;
-import domain.Events;
-import domain.Members;
 
 public class DepartDaoImpl implements DepartDao {
 	private DataSource ds;
@@ -19,11 +17,7 @@ public class DepartDaoImpl implements DepartDao {
 		this.ds = ds;
 	}
 
-	@Override
-	public List<Depart> findAttends(Integer dep_id) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
+
 
 	public String insert(List<Depart> department) throws Exception {
 
@@ -94,22 +88,6 @@ public class DepartDaoImpl implements DepartDao {
 		}
 	}
 
-	@Override
-	public void delete(String member_Id, int event_Id) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
 
-	}
-
-	@Override
-	public void deleteByUserId(Members user) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
-
-	@Override
-	public void deleteByEventId(Events event) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
 
 }
