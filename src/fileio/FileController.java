@@ -14,7 +14,7 @@ public class FileController extends OutputLog {
 		try {
 			code=member.main();
 
-		} catch (NoSuchFileException e) {
+		} catch (Exception e) {
 
 			System.out.println(e);
 		}

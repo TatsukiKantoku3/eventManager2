@@ -1,6 +1,5 @@
 package fileio;
 
-import java.nio.file.NoSuchFileException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,9 +31,9 @@ public class MemberFileReader extends EventMgFileIO {
 	/**
 	 * このクラスのメイン処理です
 	 * @return String 結果コードを返却します
-	 * @throws NoSuchFileException
+	 * @throws Exception
 	 */
-	public String main() throws NoSuchFileException {
+	public String main() throws Exception {
 
 		String result = null; //結果
 
@@ -96,17 +95,9 @@ public class MemberFileReader extends EventMgFileIO {
 			}
 		}
 		//リストをDB登録
-		try {
+
 			MembersDao MembersDao = DaoFactory.createMembersDao();
 			result = MembersDao.insertMast(MembersList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			result = "DB接続エラー";
-
-			 logger.error(className+e.getMessage());
-			return result;
-		}
 
 		return result;
 	}
