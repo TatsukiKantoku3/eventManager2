@@ -27,7 +27,6 @@ public class DepartDaoImpl implements DepartDao {
 				//DB接続
 				//オートコミットを切る
 				con.setAutoCommit(false);
-
 				//departmentテーブルに部署名とフロア情報を挿入
 				//membersテーブルにpositionタイプ（役職情報）を挿入
 				for (Depart depart:department) {
