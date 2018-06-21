@@ -12,9 +12,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.TestDBAccess;
+
 import domain.Account;
 
-public class AccountDaoImplTest {
+public class AccountDaoImplTest extends TestDBAccess {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
