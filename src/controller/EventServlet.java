@@ -40,8 +40,8 @@ public class EventServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// どのページ遷移かをパラメータから取得し定数と比較
 		//EventServName eventServName = EventServName.valueOf(request.getParameter("servName"));
-		String pageName = (String)request.getSession().getAttribute("servletName");
-		if(DataValid.isNotNull(pageName)) { //(pageName==null || pageName == "")
+		String pageName = (String)request.getAttribute("servletName");
+		if(!DataValid.isNotNull(pageName)) { //(pageName==null || pageName == "")
 			pageName = (String)request.getParameter("servletName");
 		}
 
@@ -152,7 +152,7 @@ public class EventServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String pageName = (String) request.getAttribute("servletName");
-		if (DataValid.isNotNull(pageName)) {
+		if (!DataValid.isNotNull(pageName)) {
 			pageName = (String) request.getParameter("servletName");
 		}
 		switch (pageName) {
