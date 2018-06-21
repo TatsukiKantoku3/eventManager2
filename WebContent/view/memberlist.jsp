@@ -10,7 +10,7 @@
 	<div class="col-md-10 col-md-offset-1">
 		<h1>ユーザ一覧</h1>
 
-
+<div align="right">
 		<%
 		//最終ページ番号をセッションから取得する
 		Object lastpage = session.getAttribute("lastpage");
@@ -53,7 +53,7 @@
 			</ul>
 		</nav>
 
-
+</div>
 
 
 

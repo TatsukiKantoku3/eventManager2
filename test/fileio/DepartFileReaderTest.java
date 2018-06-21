@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -19,8 +19,8 @@ import com.TestDBAccess;
 import com.javaranch.unittest.helper.sql.pool.JNDIUnitTestHelper;
 
 public class DepartFileReaderTest extends TestDBAccess {
-	private final String FILE_NAME[] = {"C:\\work\\department_20180601.csv",
-			"C:\\xxxx.csv", "C:\\work\\lossDataFile.csv", "C:\\work\\noneValidData.csv"};
+	private final String FILE_NAME[] = {"C:\\work_1\\department_20180601.csv",
+			"C:\\xxxx.csv", "C:\\work_1\\department_lossDataFile.csv", "C:\\work_1\\department_noneValidData.csv"};
 	private final int COLUMNS = 4;
 	private final DepartFileReader DEP_FIL_RED = new DepartFileReader(FILE_NAME[0], COLUMNS);
 
@@ -53,20 +53,31 @@ public class DepartFileReaderTest extends TestDBAccess {
 		try (Connection conn = ds.getConnection() ) {
 
 			try {
+				String sql;
+				PreparedStatement stmt;
+
 				//オートコミットを切る
 				conn.setAutoCommit(false);
-				String sqlTrn = "TRUNCATE TABLE eventdb2.department;";
-				Statement stmt = (Statement) conn.createStatement();
-				stmt.executeUpdate(sqlTrn);
+				sql = "TRUNCATE TABLE eventdb2.department;";
+				stmt = conn.prepareStatement(sql);
+				stmt.executeUpdate();
 
-				String sqlDep = "INSERT INTO department(department, floor) VALUES"
-						+ " ('"+DEP_NAME[0]+"', "+DEP_FLOOR[0]+"),"
-						+ " ('"+DEP_NAME[1]+"', "+DEP_FLOOR[1]+"),"
-						+ " ('"+DEP_NAME[2]+"', "+DEP_FLOOR[2]+"),"
-						+ " ('"+DEP_NAME[3]+"', "+DEP_FLOOR[3]+"),"
-						+ " ('"+DEP_NAME[4]+"', "+DEP_FLOOR[4]+");";
-				Statement stmtDep = (Statement) conn.createStatement();
-				stmtDep.executeUpdate(sqlDep);
+				sql="TRUNCATE TABLE members";
+				stmt = conn.prepareStatement(sql);
+				stmt.executeUpdate();
+
+				sql="INSERT INTO `members` VALUES ('105','山本葵','ヤマモトアオイ','1995-12-10','東京都新宿区飯田橋54-10-1','090-6433-1233','2018-04-02',3,NULL,'aoi'),"
+						+ "('106','中村悠真','ナカムラユウマ','1995-12-11','東京都新宿区飯田橋54-10-1','090-6433-1234','2018-04-02',3,NULL,'yuma'),"
+						+ "('107','小林蓮','コバヤシレン','1995-12-12','東京都新宿区飯田橋54-10-1','090-6433-1235','2018-04-02',1,NULL,'ren'),"
+						+ "('108','田中太郎','タナカタロウ','1990-12-12','東京都新宿区飯田橋54-10-1','090-6433-1200','2010-04-02',1,NULL,'taro'),"
+						+ "('109','山本葵','ヤマモトアオイ','1995-12-10','東京都新宿区飯田橋54-10-1','090-6433-1233','2018-04-02',3,NULL,NULL),"
+						+ "('110','中村悠真','ナカムラユウマ','1995-12-11','東京都新宿区飯田橋54-10-1','090-6433-1234','2018-04-02',3,NULL,NULL),"
+						+ "('111','小林蓮','コバヤシレン','1995-12-12','東京都新宿区飯田橋54-10-1','090-6433-1235','2018-04-02',1,NULL,NULL),"
+						+ "('112','田中太郎','タナカタロウ','1990-12-12','東京都新宿区飯田橋54-10-1','090-6433-1200','2010-04-02',1,NULL,NULL),"
+						+ "('113','田中太郎','タナカタロウ','1990-12-12','東京都新宿区飯田橋54-10-1','090-6433-1200','2010-04-02',1,NULL,NULL);";
+
+				stmt = conn.prepareStatement(sql);
+				stmt.executeUpdate();
 
 				//エラーがなければコミットする
 				conn.commit();
@@ -164,14 +175,14 @@ public class DepartFileReaderTest extends TestDBAccess {
 	}
 
 	// フロアの文字規定違反(intのみ)
-		@Test
-		public void 異常系testEnableLineFaultData2() throws NamingException, IOException {
-			JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
+	@Test
+	public void 異常系testEnableLineFaultData2() throws NamingException, IOException {
+		JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
 
-			String[] overString3 = {"D", DEP_NAME[1], FAULT_DATA[1], "12"};
-			boolean dataOver3 = DEP_FIL_RED.enableLine(overString3);
-			assertThat(dataOver3, is(false));
-		}
+		String[] overString3 = {"D", DEP_NAME[1], FAULT_DATA[1], "12"};
+		boolean dataOver3 = DEP_FIL_RED.enableLine(overString3);
+		assertThat(dataOver3, is(false));
+	}
 
 	// 部長IDの文字数(8)超過
 	@Test
