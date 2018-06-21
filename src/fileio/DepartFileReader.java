@@ -12,28 +12,6 @@ import domain.Depart;
 public class DepartFileReader extends EventMgFileIO {
 	static final int VALID_DATA_QUANTITY = 4;
 
-//	public static void main(String args[]) {
-//
-//		try {
-//			DepartFileReader DepartFileReader = new DepartFileReader("c:\\work\\department_20180601.csv",
-//					VALID_DATA_QUANTITY);
-//
-//			/*
-//			 *Junitを使うまではこれで接続します
-//			 */
-//			try {
-//				JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
-//			} catch (NamingException | IOException e) {
-//				e.printStackTrace();
-//			}
-//
-//			String result = DepartFileReader.main();
-//			System.out.print(result);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	/**
 	 * ファイル名と列数をセットします
 	 * @param	fileName	パスを含めたファイル名
