@@ -1,0 +1,28 @@
+#radius {
+  border: 1px solid #aaa;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 6px;
+}
+
+.color {
+  border-bottom: 1px solid #aaa;
+  background-color: #ddd;
+}
+
+/* ヘッダー*/
+#impact{
+  color:#6495ed;
+  font-family: Impact;
+}
+
+/* eventinsert */
+.eventinsert { width: 100%; }
+
+/* 太字	*/
+.bold{font-weight: bold;}
+
+/* 表示するデータが0のときのページネーションボタン非表示 */
+.invisible{visility:hidden}
+
+#hh2 {text-align:center}

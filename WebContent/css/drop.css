@@ -1,0 +1,38 @@
+.drop {
+		width: 750px;
+		height: 40px;
+		margin: 0 auto;
+		padding: 0;
+		display: flex;
+	}
+	.drop li {
+		position: relative;
+		list-style: none;
+	}
+	.drop li a {
+		display: block;
+		width: 150px;
+		height: 40px;
+		text-align: center;
+		font-size: 14px;
+		line-height: 2.8;
+		color: #000000;
+		background: #dcdcdc;
+		transition: 0.5s;
+		text-decoration: none;
+		box-sizing: border-box;
+	}
+	.drop li ul {
+		top: 40px;
+		left: -40px;
+		position: absolute;
+	}
+	.drop li ul li {
+		overflow: hidden;
+		height: 0;
+		transition: 0.2s;
+	}
+	.drop li:hover > ul > li {
+		overflow: visible;
+		height: 40px;
+	}
