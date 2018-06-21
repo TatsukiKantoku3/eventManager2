@@ -65,7 +65,7 @@ public class MembersDaoImpl implements MembersDao {
 			for (Members fuga : hoge) {
 				String sql = "SELECT "
 						+ "members.member_id, members.name, department.department "
-						+ "FROM members JOIN department "
+						+ "FROM members LEFT JOIN department "
 						+ "ON members.dep_id = department.dep_id "
 						+ "WHERE members.member_id = ?;";
 
@@ -149,7 +149,7 @@ public class MembersDaoImpl implements MembersDao {
 					+ "members.member_id, members.login_id, members.name, members.kana, department.department,"
 					+ "members.address,members.tel,members.birthday,members.position_type,members.hired"
 					+ " FROM members "
-					+ "JOIN department ON members.dep_id = department.dep_id "
+					+ "LEFT JOIN department ON members.dep_id = department.dep_id "
 					+ "WHERE members.member_id = ?;";
 
 			PreparedStatement stmt = con.prepareStatement(sql);
