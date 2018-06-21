@@ -1,5 +1,6 @@
 package fileio;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -8,7 +9,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FileControllerTest {
+import com.OutputLog;
+
+public class FileControllerTest extends OutputLog {
+	protected final String MEMBER_INSERT = "memberInsert";
+	protected final String ACCOUNT_INSERT = "accountInsert";
+	protected final String PLACE_INSERT = "placeInsert";
+	protected final String DEPART_INSERT = "departInsert";
+
+	private static final String EXPECTED = "100"; // expected
+
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -27,28 +37,28 @@ public class FileControllerTest {
 	}
 
 	@Test
-	public void testMember() {
-		fail("まだ実装されていません");
+	public void 正常testMember() {
+		String result =  FileController.member(MEMBER_INSERT);
+		assertThat(result, is(EXPECTED));
 	}
 
 	@Test
-	public void testAccount() {
-		fail("まだ実装されていません");
+	public void 正常testAccount() {
+		String result =  FileController.account(ACCOUNT_INSERT);
+		assertThat(result, is(EXPECTED));
 	}
 
 	@Test
-	public void testPlace() {
-		fail("まだ実装されていません");
+	public void 正常testPlace(){
+		String result = FileController.member(PLACE_INSERT);
+		assertThat(result, is(EXPECTED));
 	}
 
 	@Test
-	public void testDepart() {
-		fail("まだ実装されていません");
+	public void 正常testDepart() {
+		String result = FileController.member(DEPART_INSERT);
+		assertThat(result, is(EXPECTED));
 	}
 
-	@Test
-	public void testOutput() {
-		fail("まだ実装されていません");
-	}
 
 }
