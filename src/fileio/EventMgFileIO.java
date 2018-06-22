@@ -188,7 +188,6 @@ public abstract class EventMgFileIO extends OutputLog {
 				}
 				recordCounter++;
 			} //whileの閉じ --終端
-
 			reader.close();
 
 			//最終行以降にデータがないか確認
