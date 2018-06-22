@@ -21,7 +21,7 @@
 			int now = (a / 5) + 1;
 		%>
 
-
+<div align="right">
 		<nav>
 			<ul class="pagination">
 				<% if(now!=1){ %>
@@ -53,7 +53,7 @@
 			</ul>
 		</nav>
 
-
+</div>
 
 
 
