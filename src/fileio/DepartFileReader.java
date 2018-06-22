@@ -10,7 +10,10 @@ import dao.DepartDao;
 import domain.Depart;
 
 public class DepartFileReader extends EventMgFileIO {
-	static final int VALID_DATA_QUANTITY = 4;
+
+	static String errorCode="100";
+	static final String className = new Object(){}.getClass().getEnclosingClass().getName();
+
 
 	/**
 	 * ファイル名と列数をセットします
@@ -36,6 +39,7 @@ public class DepartFileReader extends EventMgFileIO {
 
 		result = getResult(); //結果セット
 		if (!result.equals(SUCCESS)) {//異常であれば終了
+			logger.info(className);
 			return result;
 		}
 
@@ -54,7 +58,8 @@ public class DepartFileReader extends EventMgFileIO {
 				// リストに追加
 				DepartList.add(depData);
 			} else {
-				result = "データ有効性エラー";
+				result = errorCode;
+				logger.info(className);
 				return result;
 			}
 		}
@@ -62,6 +67,9 @@ public class DepartFileReader extends EventMgFileIO {
 		// Departリストデータをinsert
 		DepartDao DepartDao = DaoFactory.createDepartDao();
 		result = DepartDao.insert(DepartList);
+
+			logger.info(className);
+
 		return result;
 	}
 
@@ -81,6 +89,7 @@ public class DepartFileReader extends EventMgFileIO {
 		for (int i = 1; i < columns.length; i++) {
 			//空のデータがあれば終了
 			if (!DataValid.isNotNull(columns[i])) {
+				errorCode="200";
 				return false;
 			}
 		}
@@ -90,6 +99,7 @@ public class DepartFileReader extends EventMgFileIO {
 				!DataValid.isNum(columns[2]) ||
 				!DataValid.limitChar(columns[3], 8) ||
 				!DataValid.isAlphanum(columns[3])) {
+			errorCode="200";
 			return false;
 		}
 		return true;

@@ -13,6 +13,10 @@ import domain.Place;
 
 public class PlaceFileReader extends EventMgFileIO {
 
+
+	static String errorCode="100";
+	static final String className = new Object(){}.getClass().getEnclosingClass().getName();
+
 	/**
 	 * ファイル名と列数をセットします
 	 * @param	fileName	パスを含めたファイル名
@@ -38,6 +42,7 @@ public class PlaceFileReader extends EventMgFileIO {
 		//ファイル有効性チェック
 		result = getResult(); //結果セット
 		if (!result.equals(SUCCESS)) {//異常であれば終了
+			logger.info(className);
 			return result;
 		}
 
@@ -66,7 +71,8 @@ public class PlaceFileReader extends EventMgFileIO {
 				PlaceList.add(acoData);
 
 			} else {
-				result = "データ有効性エラー";
+				result =errorCode;
+				logger.info(className);
 				return result;
 			}
 
@@ -74,7 +80,7 @@ public class PlaceFileReader extends EventMgFileIO {
 		//リストをDB登録
 		PlaceDao PlaceDao=DaoFactory.createPlaceDao();
 		result=PlaceDao.insert(PlaceList);
-
+		logger.info(className);
 		return result;
 	}
 
@@ -105,6 +111,8 @@ public class PlaceFileReader extends EventMgFileIO {
 				!(columns[3].equals("0") || columns[3].equals("1")) ||
 				!(columns[4].equals("0") || columns[4].equals("1")) ||
 				!(columns[5].equals("0") || columns[5].equals("1"))) {
+
+			errorCode="200";
 			return false;
 
 		}

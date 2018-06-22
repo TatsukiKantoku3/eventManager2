@@ -11,7 +11,7 @@ import domain.Account;
 
 public class AccountFileReader extends EventMgFileIO {
 	static String CHECKCODE="100";
-
+	static final String className = new Object(){}.getClass().getEnclosingClass().getName();
 
 	/**
 	 * ファイル名と列数をセットします
@@ -41,7 +41,7 @@ public class AccountFileReader extends EventMgFileIO {
 //		}
 		result = getResult(); //結果セット
 		if (!result.equals(SUCCESS)) {//異常であれば終了
-
+			logger.info(className);
 			return result;
 		}
 
@@ -55,13 +55,6 @@ public class AccountFileReader extends EventMgFileIO {
 
 				// ドメインにセット
 				Account acoData = new Account();
-				//int authId = 0;
-
-				// ログインパスワードをhash化
-				//String hashPass = BCrypt.hashpw(columns[3], BCrypt.gensalt());
-
-				//authId = new Integer(Integer.parseInt(columns[4]));
-
 
 				// accountsのインスタンスに格納
 				acoData.setMemberId(columns[1]);
@@ -73,7 +66,8 @@ public class AccountFileReader extends EventMgFileIO {
 				accountList.add(acoData);
 
 			} else {
-				result = "データ有効性エラー";
+				result = CHECKCODE;
+				logger.info(className);
 				return result;
 			}
 		}
@@ -82,7 +76,7 @@ public class AccountFileReader extends EventMgFileIO {
 
 		// Accountリストデータをinsert
 		result=accountDao.insertAcount(accountList);
-
+		logger.info(className);
 		return result;
 	}
 

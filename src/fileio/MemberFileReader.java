@@ -43,6 +43,7 @@ public class MemberFileReader extends EventMgFileIO {
 
 		result = getResult(); //結果セット
 		if (!result.equals(SUCCESS)) {//異常であれば終了
+			logger.info(className);
 			return result;
 		}
 
@@ -89,8 +90,8 @@ public class MemberFileReader extends EventMgFileIO {
 				//--リストに追加
 				MembersList.add(domain);
 			} else {
-				result = "データ有効性エラー";
-				 logger.error(className);
+				result = errorCode;
+				 logger.info(className);
 				return result;
 			}
 		}
@@ -98,7 +99,7 @@ public class MemberFileReader extends EventMgFileIO {
 
 			MembersDao MembersDao = DaoFactory.createMembersDao();
 			result = MembersDao.insertMast(MembersList);
-
+			logger.info(className);
 		return result;
 	}
 
