@@ -328,7 +328,7 @@ public class EventsDaoImpl implements EventsDao {
 
 		return lastpage;
 	}
-
+	
 	@Override
 	public List<Events> placeList() throws SQLException {
 		List<Events> placeList=new ArrayList<>();
