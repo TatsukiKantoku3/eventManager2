@@ -39,9 +39,9 @@ public class PlaceFileReaderTest extends TestDBAccess {
 	protected static final String SUCCESS = "100"; //正常結果値100
 	private static final String DATA_ROW = "D";//ファイルのデータ行
 	private static final String SEPARATE = ",";//区切り文字 カンマ
-	private static final String ERROR_FILE_READ = "ファイル読み込みエラー";
-	private static final String ERROR_FILE_CHAR = "ファイルキャラクターセットエラー";
-	private static final String ERROR_FILE_HEAD = "ヘッダ行異常2";
+	private static final String ERROR_FILE_READ = "214";
+	private static final String ERROR_FILE_CHAR = "213";
+	private static final String ERROR_FILE_HEAD = "210";
 	private static final String ERROR_FILE_DATA = "200";
 
 	private static final String[][] BAD_DATA_LIST = {

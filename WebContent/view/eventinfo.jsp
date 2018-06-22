@@ -112,7 +112,7 @@
 					<input type="submit" class="btn btn-default" value="編集" />
 				</form>
 				<%}else{ %>
-				<c:if test="${event.member_name==member_name }">
+				<c:if test="${event.member_name==name }">
 				<form action="EventServlet?servletName=eventEdit" method="get">
 					<input type="hidden" name="event_id" value="${event.event_id}">
 					<input type="hidden" name="servletName" value="eventEdit" />
@@ -131,7 +131,7 @@
 					</button>
 				</section>
 				<%}else{ %>
-				<c:if test="${event.member_name==member_name }">
+				<c:if test="${event.member_name==name }">
 				<section>
 					<!-- ボタンをクリックしたらモーダル・ダイアログが表示されます -->
 					<button type="button" class="btn btn-danger"

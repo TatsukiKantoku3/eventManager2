@@ -98,10 +98,8 @@ public class MemberServlet extends HttpServlet {
 		case MEMBER_INFO:
 			try {
 				String memberId = request.getParameter("member_id");
-
 				request.getSession().setAttribute("editingId", memberId);
 			} catch (Exception e) {
-
 
 			}
 			String editingId = (String) request.getSession().getAttribute("editingId");
