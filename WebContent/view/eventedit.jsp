@@ -46,7 +46,7 @@
 							<select name="place_id" class="form-control">
 								<c:forEach items="${placeList}" var="place">
 									<option value="<%=i++%>"><c:out
-											value="${place.place_name}" /></option>
+											value="${place.place}" /></option>
 
 								</c:forEach>
 							</select>
