@@ -329,4 +329,27 @@ public class EventsDaoImpl implements EventsDao {
 		return lastpage;
 	}
 
+	@Override
+	public List<Events> placeList() throws SQLException {
+		List<Events> placeList=new ArrayList<>();
+
+		try(Connection con=ds.getConnection()){
+			String sql="SELECT place FROM place";
+			PreparedStatement stms = con.prepareStatement(sql);
+			ResultSet rs = stms.executeQuery();
+			while(rs.next()){
+				placeList.add(mapToPlace(rs));
+			}
+		}
+
+		return placeList;
+
+	}
+
+	private Events mapToPlace(ResultSet rs) throws SQLException {
+		Events events = new Events();
+		events.setPlace_name(rs.getString("place"));
+		return events;
+
+	}
 }

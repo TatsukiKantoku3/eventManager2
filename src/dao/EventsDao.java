@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import domain.Events;
@@ -15,5 +16,6 @@ public interface EventsDao {
 	List<Events> findfive(List<Events> eventsList, String member_id) throws Exception;
 	int countAll() throws Exception;
 	int countAllToday() throws Exception;
+	List<Events> placeList() throws SQLException;
 
 }
