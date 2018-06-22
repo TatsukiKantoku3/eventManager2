@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,11 +38,8 @@ public class FileIOServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String fileName = (String) request.getParameter("fileName");
-		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
 		String error = fileName + "error";
 		String complete = fileName + "complete";
-		System.out.println((String) rb.getString(fileName));//動作確認用なのでコメントアウト
-		System.out.println((String) rb.getString(fileName + "column"));//動作確認用なのでコメントアウト
 
 		String result = null;
 		try {
@@ -67,7 +63,6 @@ public class FileIOServlet extends HttpServlet {
 				break;
 			}
 		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 
