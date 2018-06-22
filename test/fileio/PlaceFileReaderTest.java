@@ -42,7 +42,7 @@ public class PlaceFileReaderTest extends TestDBAccess {
 	private static final String ERROR_FILE_READ = "ファイル読み込みエラー";
 	private static final String ERROR_FILE_CHAR = "ファイルキャラクターセットエラー";
 	private static final String ERROR_FILE_HEAD = "ヘッダ行異常2";
-	private static final String ERROR_FILE_DATA = "データ有効性エラー";
+	private static final String ERROR_FILE_DATA = "200";
 
 	private static final String[][] BAD_DATA_LIST = {
 			{ "D", "123456789012345678901", "10", "1", "1", "1", "523", "17:00" },
