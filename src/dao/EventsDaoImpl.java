@@ -333,6 +333,13 @@ public class EventsDaoImpl implements EventsDao {
 	public List<Events> placeList() throws SQLException {
 		List<Events> placeList=new ArrayList<>();
 
+<<<<<<< HEAD
+=======
+	@Override
+	public List<Events> placeList() throws SQLException {
+		List<Events> placeList=new ArrayList<>();
+
+>>>>>>> branch 'master' of https://github.com/TatsukiKantoku3/eventManager2.git
 		try(Connection con=ds.getConnection()){
 			String sql="SELECT place FROM place";
 			PreparedStatement stms = con.prepareStatement(sql);
