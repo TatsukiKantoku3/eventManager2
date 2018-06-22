@@ -94,7 +94,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 			AccountFileReader accountFileReader2 = new AccountFileReader("c:\\work_1\\sample.csv",
 					valid_data_quantity);
 			result = accountFileReader2.main();
-			String Result="ファイル読み込みエラー";
+			String Result="214";
 			assertThat(result,is(Result));
 
 
@@ -108,7 +108,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 			AccountFileReader accountFileReader2 = new AccountFileReader("c:\\work_1\\account_20180601.csv",
 					valid_data_quantity);
 			result = accountFileReader2.main();
-			String Result="ヘッダ行異常１";
+			String Result="209";
 			assertThat(result,is(Result));
 	}
 
@@ -122,7 +122,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 					valid_data_quantity);
 			result = accountFileReader2.main();
 
-			String Result="ファイルキャラクターセットエラー";
+			String Result="213";
 			assertThat(result,is(Result));
 
 
@@ -137,7 +137,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 			AccountFileReader accountFileReader2 = new AccountFileReader("C:\\work_1\\account_fake2.csv",
 					valid_data_quantity);
 			result = accountFileReader2.main();
-			String Result="データ有効性エラー";
+			String Result="205";
 			assertThat(result,is(Result));
 
 	}
@@ -150,7 +150,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 		AccountFileReader accountFileReader2 = new AccountFileReader("C:\\work_1\\account_doubledata.csv",
 				valid_data_quantity);
 		result = accountFileReader2.main();
-		String Result="302";
+		String Result="300";
 		assertThat(result,is(Result));
 	}
 
@@ -162,7 +162,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 		AccountFileReader accountFileReader2 = new AccountFileReader("C:\\work_1\\account_blankdata.csv",
 				valid_data_quantity);
 		result = accountFileReader2.main();
-		String Result="データ有効性エラー";
+		String Result="205";
 		assertThat(result,is(Result));
 	}
 
