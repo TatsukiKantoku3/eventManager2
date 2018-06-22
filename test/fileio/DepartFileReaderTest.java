@@ -130,7 +130,7 @@ public class DepartFileReaderTest extends TestDBAccess {
 		JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
 
 		String result = DepFaultFilReader.main();
-		assertThat(result, is("ファイル読み込みエラー"));
+		assertThat(result, is("214"));
 	}
 
 	// csvデータ不整合
@@ -140,7 +140,7 @@ public class DepartFileReaderTest extends TestDBAccess {
 		JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
 
 		String result = DepFaultFilRed.main();
-		assertThat(result, is("データ有効性エラー"));
+		assertThat(result, is("214"));
 	}
 
 	// データ行にnull
