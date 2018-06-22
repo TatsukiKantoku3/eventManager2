@@ -3,6 +3,8 @@ package fileio;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.DataValid;
 
 import dao.AccountDao;
@@ -58,7 +60,7 @@ public class AccountFileReader extends EventMgFileIO {
 				//int authId = 0;
 
 				// ログインパスワードをhash化
-				//String hashPass = BCrypt.hashpw(columns[3], BCrypt.gensalt());
+				String hashPass = BCrypt.hashpw(columns[3], BCrypt.gensalt());
 
 				//authId = new Integer(Integer.parseInt(columns[4]));
 
@@ -66,7 +68,7 @@ public class AccountFileReader extends EventMgFileIO {
 				// accountsのインスタンスに格納
 				acoData.setMemberId(columns[1]);
 				acoData.setLoginId(columns[2]);
-				acoData.setLoginPass(columns[3]);
+				acoData.setLoginPass(hashPass);
 				acoData.setAuthId(new Integer(Integer.parseInt(columns[4])));
 
 				// リストに追加
