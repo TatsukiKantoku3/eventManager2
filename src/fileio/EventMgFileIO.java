@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.OutputLog;
 /**
  *  このクラスはCSVファイルの読み込みと
@@ -43,6 +45,9 @@ public abstract class EventMgFileIO extends OutputLog {
 	private static final String END_ROW = "E";
 	/** 区切り文字 カンマ */
 	private static final String SEPARATE = ",";
+
+
+
 
 	/**
 	 * ファイル名と列数をセットします
