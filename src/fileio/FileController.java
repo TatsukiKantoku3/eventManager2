@@ -5,77 +5,51 @@ import java.util.ResourceBundle;
 import com.OutputLog;
 public class FileController extends OutputLog {
 
+	public static String member(String fileName) throws Exception {
 
-	public static String member(String fileName) {
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
+		MemberFileReader member = new MemberFileReader((String) rb.getString(fileName),
+				Integer.parseInt(rb.getString(fileName + "column")));
 
-		String filepass =  (String)rb.getString(fileName);
-		int cols = Integer.parseInt(rb.getString(fileName+"column"));
-
-		MemberFileReader  member=new MemberFileReader(filepass, cols);
-
-		try {
-			code=member.main();
-		} catch (Exception e) {
-
-			System.out.println(e);
-		}
-
+		code = member.main();
 		output();
 
 		return code;
 	}
 
-
-
-	public static String account(String fileName) {
+	public static String account(String fileName) throws Exception {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
-		AccountFileReader  account=new AccountFileReader((String)rb.getString(fileName),Integer.parseInt(rb.getString(fileName+"column")));
+		AccountFileReader account = new AccountFileReader((String) rb.getString(fileName),
+				Integer.parseInt(rb.getString(fileName + "column")));
 
-
-		try {
-			code=account.main();
-		} catch (Exception e) {
-
-
-			System.out.println(e);
-		}
+		code = account.main();
 		output();
+
 		return code;
 	}
 
-	public static String place(String fileName) {
+	public static String place(String fileName) throws Exception {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
-		PlaceFileReader  place=new PlaceFileReader((String)rb.getString(fileName),Integer.parseInt(rb.getString(fileName+"column")));
+		PlaceFileReader place = new PlaceFileReader((String) rb.getString(fileName),
+				Integer.parseInt(rb.getString(fileName + "column")));
 
-
-		try {
-			code=place.main();
-		} catch (Exception e) {
-
-
-			System.out.println(e);
-		}
+		code = place.main();
 		output();
+
 		return code;
 	}
 
-	public static String depart(String fileName) {
+	public static String depart(String fileName) throws Exception {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
-		DepartFileReader  depart=new DepartFileReader((String)rb.getString(fileName),Integer.parseInt(rb.getString(fileName+"column")));
+		DepartFileReader depart = new DepartFileReader((String) rb.getString(fileName),
+				Integer.parseInt(rb.getString(fileName + "column")));
 
-
-		try {
-			code=depart.main();
-		} catch (Exception e) {
-
-
-			System.out.println(e);
-		}
+		code = depart.main();
 		output();
+
 		return code;
 	}
 
