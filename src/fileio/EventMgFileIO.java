@@ -11,8 +11,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.OutputLog;
 /**
  *  このクラスはCSVファイルの読み込みと
@@ -103,7 +101,7 @@ public abstract class EventMgFileIO extends OutputLog {
 
 				//１列目が S H D E以外の行が存在しないか確認
 				if (!matchType(columns[0])) {
-					setResult("不明行存在");
+					setResult("208");
 					reader.close();
 					dataList.clear();
 					return dataList;
@@ -116,7 +114,7 @@ public abstract class EventMgFileIO extends OutputLog {
 					//レコードごとのデータの数がフォーマットとあっているか確認
 					if (columnCounter > this.cols && !(columns[j].isEmpty())) {
 						if (recordCounter == 1) {
-							setResult("ヘッダ行異常１");
+							setResult("209");
 							reader.close();
 							dataList.clear();
 							return dataList;
@@ -124,7 +122,7 @@ public abstract class EventMgFileIO extends OutputLog {
 						}
 						if (!endFlg) {
 							if (2 <= recordCounter) {
-								setResult("ヘッダ行異常１");
+								setResult("209");
 								reader.close();
 								dataList.clear();
 								return dataList;
@@ -136,7 +134,7 @@ public abstract class EventMgFileIO extends OutputLog {
 					//ヘッダまたはデータが空じゃないか確認
 					if (recordCounter > 0 && !endFlg && columnCounter <= this.cols) {
 						if (columns[j].isEmpty() && recordCounter == 1) {
-							setResult("ヘッダ行異常2");
+							setResult("210");
 							reader.close();
 							dataList.clear();
 							return dataList;
@@ -147,7 +145,7 @@ public abstract class EventMgFileIO extends OutputLog {
 
 					//2行目の最初がHかどうか確認
 					if (!(HEAD_ROW.equals(columns[j])) && (recordCounter == 1) && (columnCounter == 1)) {
-						setResult("ヘッダ行異常2");
+						setResult("210");
 						reader.close();
 						dataList.clear();
 						return dataList;
@@ -158,14 +156,14 @@ public abstract class EventMgFileIO extends OutputLog {
 					if (endFlg) {
 						try {
 							if (!(Integer.parseInt(columns[j]) == dataCounter) && (columnCounter == 2)) {
-								setResult("終端行異常１");
+								setResult("211");
 								reader.close();
 								dataList.clear();
 								return dataList;
 
 							}
 						} catch (NumberFormatException e) {//終端の値が数値ではない
-							setResult("終端行異常１");
+							setResult("211");
 							dataList.clear();
 							return dataList;
 
@@ -195,18 +193,18 @@ public abstract class EventMgFileIO extends OutputLog {
 
 			//最終行以降にデータがないか確認
 			if (recordCounter != dataCounter + 3) {
-				setResult("終端行異常２");
+				setResult("212");
 				dataList.clear();
 				return dataList;
 			}
 		}catch(MalformedInputException e) {
 			e.printStackTrace();
-			setResult("ファイルキャラクターセットエラー");
+			setResult("213");
 			dataList.clear();
 			return dataList;
 		} catch (IOException e) {
 			e.printStackTrace();
-			setResult("ファイル読み込みエラー");
+			setResult("214");
 			dataList.clear();
 			return dataList;
 
