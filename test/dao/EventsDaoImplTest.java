@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -231,16 +232,22 @@ public class EventsDaoImplTest extends TestDBAccess {
 	 */
 	@Test
 	public void testFindfive() throws Exception {
+		//DataIns();
+		//Insert Attend (null,member_id=001,Event_id=1)
 		EventsDao eventsDao = DaoFactory.createEventsDao();
+		Events event = new Events();
+		event.setEvent_id(1);
 
-		List<Events> events = eventsDao.findAll(0);
-		List<Events> fiveEvents = eventsDao.findfive(events, "001");
+		List<Events> eventsList = new ArrayList<Events>();
+		eventsList.add(event);
+
+		List<Events> fiveEvents = eventsDao.findfive(eventsList, "001");//loginしているmember_id
 
 		assertThat(fiveEvents.get(0).getMember_name(), is("山本葵"));
-		assertThat(fiveEvents.get(1).getTitle(), is(TITLE[1]));
-		assertThat(fiveEvents.get(2).getDetail(), is(DETAIL[2]));
-		assertThat(fiveEvents.get(3).getDep_name(), is(DEPART[3][1]));
-		assertThat(fiveEvents.get(4).getStart().toString(), is(START[4] + ".0"));
+		assertThat(fiveEvents.get(0).getTitle(), is(TITLE[0]));
+		assertThat(fiveEvents.get(0).getDetail(), is(DETAIL[0]));
+		assertThat(fiveEvents.get(0).getDep_name(), is(DEPART[0][1]));
+		assertThat(fiveEvents.get(0).getStart().toString(), is(START[0] + ".0"));
 	}
 
 	/**
