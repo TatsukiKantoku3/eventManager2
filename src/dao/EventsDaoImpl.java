@@ -72,11 +72,11 @@ public class EventsDaoImpl implements EventsDao {
 						+ "		MEMBERS.name AS MEMBERS_name,"
 						+ "		EVENTS.created"
 						+ " FROM"
-						+ " 	EVENTS join"
+						+ " 	EVENTS left join"
 						+ "		   PLACE"
 						+ "     ON EVENTS.place_id=Place.place_id LEFT JOIN"
 						+ " 		(SELECT * FROM ATTENDS WHERE member_id= ?) AS atn"
-						+ " 	ON EVENTS.event_id = atn.event_id JOIN"
+						+ " 	ON EVENTS.event_id = atn.event_id left JOIN"
 						+ " 		DEPARTMENT"
 						+ " 	ON EVENTS.dep_id = DEPARTMENT.dep_id  LEFT JOIN"
 						+ " 		MEMBERS"
@@ -197,11 +197,11 @@ public class EventsDaoImpl implements EventsDao {
 					+ " 	EVENTS.created"
 					+ " FROM"
 					+ " 	EVENTS"
-					+ " 		JOIN"
+					+ " 		left JOIN"
 					+ " 	PLACE ON EVENTS.place_id = PLACE.place_id"
-					+ " 		JOIN"
+					+ " 		left JOIN"
 					+ " 	DEPARTMENT ON EVENTS.dep_id = DEPARTMENT.dep_id"
-					+ " 		JOIN"
+					+ " 		left JOIN"
 					+ "		MEMBERS ON EVENTS.registered_id = MEMBERS.member_id"
 					+ " WHERE"
 					+ "		EVENTS.event_id = ?";
@@ -329,4 +329,27 @@ public class EventsDaoImpl implements EventsDao {
 		return lastpage;
 	}
 
+	@Override
+	public List<Events> placeList() throws SQLException {
+		List<Events> placeList=new ArrayList<>();
+
+		try(Connection con=ds.getConnection()){
+			String sql="SELECT place FROM place";
+			PreparedStatement stms = con.prepareStatement(sql);
+			ResultSet rs = stms.executeQuery();
+			while(rs.next()){
+				placeList.add(mapToPlace(rs));
+			}
+		}
+
+		return placeList;
+
+	}
+
+	private Events mapToPlace(ResultSet rs) throws SQLException {
+		Events events = new Events();
+		events.setPlace_name(rs.getString("place"));
+		return events;
+
+	}
 }
