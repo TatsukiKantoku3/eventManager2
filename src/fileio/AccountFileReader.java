@@ -32,7 +32,6 @@ public class AccountFileReader extends EventMgFileIO {
 	 */
 
 	public String main() throws Exception {
-
 		String result = null; //結果
 
 		List<String[]> fileRead = new ArrayList<String[]>();
