@@ -100,6 +100,7 @@ public class PlaceFileReader extends EventMgFileIO {
 		for (int i = 1; i < columns.length; i++) {
 			//空のデータがあれば終了
 			if (!DataValid.isNotNull(columns[i])) {
+				errorCode="200";
 				return false;
 			}
 		}
