@@ -73,14 +73,9 @@ public class PlaceFileReader extends EventMgFileIO {
 
 			}
 		//リストをDB登録
+		PlaceDao PlaceDao=DaoFactory.createPlaceDao();
+		result=PlaceDao.insert(PlaceList);
 
-		try {
-			PlaceDao PlaceDao=DaoFactory.createPlaceDao();
-			result=PlaceDao.insert(PlaceList);
-		}catch(Exception e) {
-			e.printStackTrace();
-			result = "DB接続エラー";
-		}
 		return result;
 	}
 
