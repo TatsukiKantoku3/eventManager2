@@ -5,10 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import domain.Events;
 import domain.Place;
 
 public class PlaceDaoImpl implements PlaceDao {
@@ -88,6 +90,30 @@ public class PlaceDaoImpl implements PlaceDao {
 				}
 			}
 		}
+
+	}
+
+	@Override
+	public List<Events> placeList() throws SQLException {
+		List<Events> placeList=new ArrayList<>();
+
+		try(Connection con=ds.getConnection()){
+			String sql="SELECT place FROM place";
+			PreparedStatement stms = con.prepareStatement(sql);
+			ResultSet rs = stms.executeQuery();
+			while(rs.next()){
+				placeList.add(mapToPlace(rs));
+			}
+		}
+
+		return placeList;
+
+	}
+
+	private Events mapToPlace(ResultSet rs) throws SQLException {
+		Events events = new Events();
+		events.setPlace_name(rs.getString("place"));
+		return events;
 
 	}
 
