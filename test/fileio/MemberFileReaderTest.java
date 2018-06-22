@@ -10,7 +10,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -72,13 +71,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 		}
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-//		MembersDao membersDao=DaoFactory.createMembersDao();
-//		Members members = new Members();
-//		members.setMember_id(MEMBER_ID);
-//		membersDao.delete(members);
-	}
+
 
 
 

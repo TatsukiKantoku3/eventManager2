@@ -45,6 +45,7 @@
 					<c:out value="${name}" /> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="logout">ログアウト</a></li>
+						<c:if test="${auth_id == 1}"><li><a href="FileIOServlet">マスタ登録</a></li></c:if>
 					</ul>
 				</li>
 			</ul>

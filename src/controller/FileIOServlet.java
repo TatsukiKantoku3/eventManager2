@@ -71,11 +71,13 @@ public class FileIOServlet extends HttpServlet {
 		if (result.equals("100")) {
 
 			request.setAttribute(complete, "test");
+
 		} else {
 
 			request.setAttribute(error, "testt2");
 
 		}
+		request.setAttribute("errorCode",result);
 		request.getRequestDispatcher("view/MasterInsert.jsp").forward(request, response);
 
 	}

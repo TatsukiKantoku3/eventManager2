@@ -104,7 +104,7 @@ public class PlaceDaoImplTest extends TestDBAccess {
 	}
 
 	@Test
-	public void 異常系testInsert() throws Exception {
+	public void 異常系testInsert1() throws Exception {
 
 		//インサート用のサンプルデータをセットしリストに格納
 		//not nullに設定されているデータ「capa」に何もセットしない

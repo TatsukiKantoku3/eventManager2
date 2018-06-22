@@ -75,7 +75,6 @@ public class PlaceDaoImpl implements PlaceDao {
 
 			} catch (Exception e) {
 
-				System.out.println("error1");
 				e.printStackTrace();
 				con.rollback();
 				return "300";
@@ -85,7 +84,7 @@ public class PlaceDaoImpl implements PlaceDao {
 						con.close();
 					}
 				} catch (SQLException e) {
-					System.out.println("error2");
+					e.printStackTrace();
 				}
 			}
 		}
