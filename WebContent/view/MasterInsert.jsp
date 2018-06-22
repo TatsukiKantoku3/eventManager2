@@ -47,10 +47,10 @@
 		<input type="hidden" name="fileName"  value="memberInsert">
 		<input type="submit" class="btn btn-primary center-block btn-block form-control" value="メンバー登録" />
 		<c:if test="${!empty memberInsertcomplete}">
-			<div class="alert alert-warning" role="alert">マスタ登録が完了しました</div>
+			<div class="alert alert-warning" >マスタ登録が完了しました</div>
 		</c:if>
 		<c:if test="${!empty memberInserterror}">
-			<div class="alert alert-warning" role="alert">マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
+			<div class="alert alert-warning" >マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
 		</c:if>
 	</form>
 	</div>
@@ -62,10 +62,10 @@
 		<input type="hidden" name="fileName" value="accountInsert">
 		<input type="submit" class="btn btn-primary center-block btn-block form-control" value="アカウント登録" />
 		<c:if test="${!empty accountInsertcomplete}">
-			<div class="alert alert-warning" role="alert">マスタ登録が完了しました</div>
+			<div class="alert alert-warning" >マスタ登録が完了しました</div>
 		</c:if>
 		<c:if test="${!empty accountInserterror}">
-			<div class="alert alert-warning" role="alert">マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
+			<div class="alert alert-warning">マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
 		</c:if>
 	</form>
 	</div>
@@ -77,10 +77,10 @@
 		<input type="hidden" name="fileName" value="placeInsert">
 		<input type="submit" class="btn btn-primary center-block btn-block form-control" value="会議室登録" />
 		<c:if test="${!empty placeInsertcomplete}">
-			<div class="alert alert-warning" role="alert">マスタ登録が完了しました</div>
+			<div class="alert alert-warning" >マスタ登録が完了しました</div>
 		</c:if>
 		<c:if test="${!empty placeInserterror}">
-			<div class="alert alert-warning" role="alert">マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
+			<div class="alert alert-warning" >マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
 		</c:if>
 	</form>
 	</div>
@@ -92,10 +92,10 @@
 		<input type="hidden" name="fileName" value="departInsert">
 		<input type="submit" class="btn btn-primary center-block btn-block form-control" value="部署登録" />
 		<c:if test="${!empty departInsertcomplete}">
-			<div class="alert alert-warning" role="alert">マスタ登録が完了しました</div>
+			<div class="alert alert-warning" >マスタ登録が完了しました</div>
 		</c:if>
 		<c:if test="${!empty departInserterror}">
-			<div class="alert alert-warning" role="alert">マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
+			<div class="alert alert-warning" >マスタ登録でエラーが発生しました。システム管理者に連絡してください。エラーコードは<%out.print(request.getAttribute("errorCode")); %>です。</div>
 		</c:if>
 	</form>
 	</div>
