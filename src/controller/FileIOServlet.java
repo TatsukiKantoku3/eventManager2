@@ -46,24 +46,29 @@ public class FileIOServlet extends HttpServlet {
 		System.out.println((String) rb.getString(fileName + "column"));//動作確認用なのでコメントアウト
 
 		String result = null;
-		switch (fileName) {
+		try {
+			switch (fileName) {
 
-		case MEMBER_INSERT:
-			result = FileController.member(fileName);
+			case MEMBER_INSERT:
+				result = FileController.member(fileName);
 
-			break;
-		case ACCOUNT_INSERT:
-			result = FileController.account(fileName);
+				break;
+			case ACCOUNT_INSERT:
+				result = FileController.account(fileName);
 
-			break;
-		case PLACE_INSERT:
-			result = FileController.place(fileName);
+				break;
+			case PLACE_INSERT:
+				result = FileController.place(fileName);
 
-			break;
-		case DEPART_INSERT:
-			result = FileController.depart(fileName);
+				break;
+			case DEPART_INSERT:
+				result = FileController.depart(fileName);
 
-			break;
+				break;
+			}
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
 		}
 
 		// マスター登録するjavaクラスのコントローラーをインスタンス
@@ -77,7 +82,7 @@ public class FileIOServlet extends HttpServlet {
 			request.setAttribute(error, "testt2");
 
 		}
-		request.setAttribute("errorCode",result);
+		request.setAttribute("errorCode", result);
 		request.getRequestDispatcher("view/MasterInsert.jsp").forward(request, response);
 
 	}
