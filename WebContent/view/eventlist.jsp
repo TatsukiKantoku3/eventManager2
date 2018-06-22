@@ -85,7 +85,12 @@ int numC = new Integer(objStr);
 					</td>
 					<td><fmt:formatDate value="${event.start}" pattern="y年M月d日(E) HH時mm分" /></td>
 					<td><c:out value="${event.place_name}" /></td>
-					<td><c:out value="${event.dep_name}" /></td>
+					<td>
+					<c:out value="${event.dep_name}" />
+					<c:if test="${event.dep_name==null}">
+					全員
+					</c:if>
+					</td>
 					<td>
 						<form action="EventServlet" method="get">
 							<input type="hidden" name="event_id" value="${event.event_id}">

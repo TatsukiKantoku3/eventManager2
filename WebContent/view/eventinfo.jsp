@@ -52,7 +52,11 @@
 			</tr>
 			<tr>
 				<th>対象グループ</th>
-				<td><c:out value="${event.dep_name}" /></td>
+				<td><c:out value="${event.dep_name}" />
+				<c:if test="${event.dep_name==null}">
+					全員
+				</c:if>
+				</td>
 			</tr>
 			<tr>
 				<th>詳細</th>
