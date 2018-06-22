@@ -9,11 +9,14 @@ public class FileController extends OutputLog {
 
 	public static String member(String fileName) {
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
-		MemberFileReader  member=new MemberFileReader((String)rb.getString(fileName),Integer.parseInt(rb.getString(fileName+"column")));
+
+		String filepass =  (String)rb.getString(fileName);
+		int cols = Integer.parseInt(rb.getString(fileName+"column"));
+
+		MemberFileReader  member=new MemberFileReader(filepass, cols);
 
 		try {
 			code=member.main();
-
 		} catch (Exception e) {
 
 			System.out.println(e);
