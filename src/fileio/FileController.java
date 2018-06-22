@@ -1,6 +1,5 @@
 package fileio;
 
-import java.nio.file.NoSuchFileException;
 import java.util.ResourceBundle;
 
 import com.OutputLog;
@@ -46,7 +45,7 @@ public class FileController extends OutputLog {
 		return code;
 	}
 
-	public static String place(String fileName) throws NoSuchFileException, NumberFormatException {
+	public static String place(String fileName) {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
 		PlaceFileReader  place=new PlaceFileReader((String)rb.getString(fileName),Integer.parseInt(rb.getString(fileName+"column")));
@@ -63,7 +62,7 @@ public class FileController extends OutputLog {
 		return code;
 	}
 
-	public static String depart(String fileName) throws NoSuchFileException, NumberFormatException {
+	public static String depart(String fileName) {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
 		DepartFileReader  depart=new DepartFileReader((String)rb.getString(fileName),Integer.parseInt(rb.getString(fileName+"column")));

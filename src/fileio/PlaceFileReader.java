@@ -1,6 +1,5 @@
 package fileio;
 
-import java.nio.file.NoSuchFileException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +19,7 @@ public class PlaceFileReader extends EventMgFileIO {
 	 * @param	cols	データタイプコード列を含めた列数
 	 *
 	 * **/
-	PlaceFileReader(String filename, int columns) throws NoSuchFileException {
+	PlaceFileReader(String filename, int columns){
 		super(filename, columns);
 	}
 

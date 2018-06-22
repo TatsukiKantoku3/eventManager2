@@ -243,7 +243,7 @@ public class PlaceFileReaderTest extends TestDBAccess {
 				System.out.println();
 				i++;
 			}
-		} catch (NoSuchFileException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -255,7 +255,7 @@ public class PlaceFileReaderTest extends TestDBAccess {
 			PlaceFileReader PlaceFileReader = new PlaceFileReader(LEGAL_FILE_NAME, COLUMNS);
 			String result =  PlaceFileReader.getResult();
 			assertThat(result, is(not(notNullValue())));
-		} catch (NoSuchFileException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -270,7 +270,7 @@ public class PlaceFileReaderTest extends TestDBAccess {
 			for(String[] cols:dataList) {
 				assertThat(PlaceFileReader.matchType(cols[0]), is(true));
 			}
-		} catch (NoSuchFileException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

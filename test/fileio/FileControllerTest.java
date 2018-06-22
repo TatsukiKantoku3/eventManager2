@@ -9,9 +9,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.OutputLog;
+import com.TestDBAccess;
 
-public class FileControllerTest extends OutputLog {
+public class FileControllerTest extends TestDBAccess {
 	protected final String MEMBER_INSERT = "memberInsert";
 	protected final String ACCOUNT_INSERT = "accountInsert";
 	protected final String PLACE_INSERT = "placeInsert";
@@ -50,13 +50,13 @@ public class FileControllerTest extends OutputLog {
 
 	@Test
 	public void 正常testPlace(){
-		String result = FileController.member(PLACE_INSERT);
+		String result = FileController.place(PLACE_INSERT);
 		assertThat(result, is(EXPECTED));
 	}
 
 	@Test
 	public void 正常testDepart() {
-		String result = FileController.member(DEPART_INSERT);
+		String result = FileController.depart(DEPART_INSERT);
 		assertThat(result, is(EXPECTED));
 	}
 
