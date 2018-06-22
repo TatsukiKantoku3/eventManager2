@@ -17,8 +17,10 @@ import com.DataValid;
 import dao.AttendDao;
 import dao.DaoFactory;
 import dao.EventsDao;
+import dao.PlaceDao;
 import domain.Attend;
 import domain.Events;
+import domain.Place;
 
 /**
  * Servlet implementation class EventServlet
@@ -127,8 +129,9 @@ public class EventServlet extends HttpServlet {
 				int event_id = Integer.parseInt(request.getParameter("event_id"));
 				try {
 					EventsDao eventsDao = DaoFactory.createEventsDao();
+					PlaceDao placeDao = DaoFactory.createPlaceDao();
 					Events event = eventsDao.findById(event_id);
-					List<Events> placeList=eventsDao.placeList();
+					List<Place> placeList= placeDao.placeList();
 					request.setAttribute("placeList", placeList);
 					request.setAttribute("event",event);
 		            request.getRequestDispatcher("view/eventedit.jsp").forward(request, response);
@@ -140,8 +143,8 @@ public class EventServlet extends HttpServlet {
 			case EVENT_INSERT:
 
 				try {
-					EventsDao eventsDao = DaoFactory.createEventsDao();
-					List<Events> placeList=eventsDao.placeList();
+					PlaceDao placeDao = DaoFactory.createPlaceDao();
+					List<Place> placeList= placeDao.placeList();
 					request.setAttribute("placeList", placeList);
 				request.getRequestDispatcher("view/eventinsert.jsp").forward(request, response);
 

@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import domain.Events;
 import domain.Place;
 
 public class PlaceDaoImpl implements PlaceDao {
@@ -94,8 +93,8 @@ public class PlaceDaoImpl implements PlaceDao {
 	}
 
 	@Override
-	public List<Events> placeList() throws SQLException {
-		List<Events> placeList=new ArrayList<>();
+	public List<Place> placeList() throws SQLException {
+		List<Place> placeList=new ArrayList<>();
 
 		try(Connection con=ds.getConnection()){
 			String sql="SELECT place FROM place";
@@ -110,10 +109,10 @@ public class PlaceDaoImpl implements PlaceDao {
 
 	}
 
-	private Events mapToPlace(ResultSet rs) throws SQLException {
-		Events events = new Events();
-		events.setPlace_name(rs.getString("place"));
-		return events;
+	private Place mapToPlace(ResultSet rs) throws SQLException {
+		Place place = new Place();
+		place.setPlace(rs.getString("place"));
+		return place;
 
 	}
 
