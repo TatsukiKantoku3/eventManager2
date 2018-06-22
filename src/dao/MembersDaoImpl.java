@@ -413,9 +413,9 @@ public class MembersDaoImpl implements MembersDao {
 		try (Connection con = ds.getConnection()) {
 			String sql ="DELETE "
 					+ "FROM members "
-					+ "WHERE login_id = ?;";
+					+ "WHERE member_id = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, Members.getLogin_id());
+			stmt.setString(1, Members.getMember_id());
 			line=stmt.executeUpdate();
 		}
 		return line;
