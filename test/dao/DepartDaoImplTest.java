@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -74,7 +75,23 @@ public class DepartDaoImplTest extends TestDBAccess{
 
 	}
 
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		//最後に最初に格納したメンバーの削除
+		try (Connection con = ds.getConnection()){
+			PreparedStatement stmt;
+			String sql;
 
+			sql="DELETE FROM `eventdb2`.`members` WHERE `member_id`="+POSITIONTYPE;
+			stmt=con.prepareStatement(sql);
+			stmt.executeUpdate();
+
+			sql="DELETE FROM `eventdb2`.`members` WHERE `member_id`="+POSITIONTYPE2;
+			stmt=con.prepareStatement(sql);
+			stmt.executeUpdate();
+		}
+
+	}
 	@After
 	public void tearDown() throws Exception {
 		//departmentテーブルの初期化を毎回行う
