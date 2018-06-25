@@ -117,22 +117,38 @@ public class MemberServlet extends HttpServlet {
 
 		case MEMBER_INSERT:
 			request.getRequestDispatcher("view/memberinsert.jsp").forward(request, response);
+
 			break;
 		case MEMBER_EDIT:
+			MembersDao MembersDao = DaoFactory.createMembersDao();
+			int auth_id=(Integer)request.getSession().getAttribute("auth_id");
+			if(auth_id==2) {
+				String login_id=(String)request.getAttribute("login_id");
+				System.out.println(login_id);
+				try {
+					Members member = MembersDao.findById(login_id);
+					member.setLogin_id(login_id);
+					this.loginId = member.getLogin_id();
+
+					request.setAttribute("member", member);
+					request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
+				} catch (Exception e) {
+					throw new ServletException(e);
+				}
+			}else {
 			this.editId = (String) request.getSession().getAttribute("editingId");
 			String login_id = request.getParameter("login_id");
 
 			try {
-				MembersDao MembersDao = DaoFactory.createMembersDao();
 				Members member = MembersDao.findById(this.editId);
 				member.setLogin_id(login_id);
 				this.loginId = member.getLogin_id();
-				System.out.println(login_id);
 
 				request.setAttribute("member", member);
 				request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
 			} catch (Exception e) {
 				throw new ServletException(e);
+			}
 			}
 			break;
 		case MEMBER_DELETE:
