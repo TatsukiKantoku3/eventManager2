@@ -132,9 +132,15 @@ public class EventServlet extends HttpServlet {
 					PlaceDao placeDao = DaoFactory.createPlaceDao();
 					Events event = eventsDao.findById(event_id);
 					List<Place> placeList= placeDao.placeList();
+
+					if(placeList.isEmpty()) {
+						request.getRequestDispatcher("view/405.jsp").forward(request, response);
+					}else {
+
 					request.setAttribute("placeList", placeList);
 					request.setAttribute("event",event);
 		            request.getRequestDispatcher("view/eventedit.jsp").forward(request, response);
+					}
 				} catch (Exception e) {
 					throw new ServletException(e);
 				}
@@ -145,8 +151,14 @@ public class EventServlet extends HttpServlet {
 				try {
 					PlaceDao placeDao = DaoFactory.createPlaceDao();
 					List<Place> placeList= placeDao.placeList();
+					if(placeList.isEmpty()) {
+
+						request.getRequestDispatcher("view/405.jsp").forward(request, response);
+					}else {
+
 					request.setAttribute("placeList", placeList);
 				request.getRequestDispatcher("view/eventinsert.jsp").forward(request, response);
+					}
 
 				}catch(Exception e) {
 					throw new ServletException(e);
