@@ -76,140 +76,7 @@ public class EventsDaoImplTest extends TestDBAccess {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		InitialContext ctx = null;
-
-		try {
-			ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/eventdb2");
-			try (Connection conn = ds.getConnection()) {
-				try {
-					//オートコミットを切る
-					conn.setAutoCommit(false);
-					String sqlTrn = "set foreign_key_checks = 0";
-					Statement stmt = conn.createStatement();
-					stmt.executeUpdate(sqlTrn);
-					sqlTrn = "TRUNCATE TABLE eventdb2.events";
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sqlTrn);
-					sqlTrn = "TRUNCATE TABLE eventdb2.place";
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sqlTrn);
-					sqlTrn = "TRUNCATE TABLE eventdb2.attends";
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sqlTrn);
-					sqlTrn = "TRUNCATE TABLE eventdb2.department";
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sqlTrn);
-					sqlTrn = "TRUNCATE TABLE eventdb2.members";
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sqlTrn);
-					//						sqlTrn = "set foreign_key_checks = 1;";
-					//						stmt = conn.createStatement();
-					//						stmt.executeUpdate(sqlTrn);
-
-					String sqlEve = "INSERT INTO events VALUES"
-							+ "('" + EVENT_ID[0] + "', '" + TITLE[0] + "', '" + START[0] + "', '" + END[0] + "', '"
-							+ PLACE_ID[0] + "', '" + DEP_ID[0] + "', '" + DETAIL[0] + "', '" + REGISTERD_ID[0] + "', '"
-							+ CREATED[0] + "'),"
-							+ "('" + EVENT_ID[1] + "', '" + TITLE[1] + "', '" + START[1] + "', '" + END[1] + "', '"
-							+ PLACE_ID[1] + "', '" + DEP_ID[1] + "', '" + DETAIL[1] + "', '" + REGISTERD_ID[1] + "', '"
-							+ CREATED[1] + "'),"
-							+ "('" + EVENT_ID[2] + "', '" + TITLE[2] + "', '" + START[2] + "', '" + END[2] + "', '"
-							+ PLACE_ID[2] + "', '" + DEP_ID[2] + "', '" + DETAIL[2] + "', '" + REGISTERD_ID[2] + "', '"
-							+ CREATED[2] + "'),"
-							+ "('" + EVENT_ID[3] + "', '" + TITLE[3] + "', '" + START[3] + "', '" + END[3] + "', '"
-							+ PLACE_ID[3] + "', '" + DEP_ID[3] + "', '" + DETAIL[3] + "', '" + REGISTERD_ID[3] + "', '"
-							+ CREATED[3] + "'),"
-							+ "('" + EVENT_ID[4] + "', '" + TITLE[4] + "', '" + START[4] + "', '" + END[4] + "', '"
-							+ PLACE_ID[4] + "', '" + DEP_ID[4] + "', '" + DETAIL[4] + "', '" + REGISTERD_ID[4] + "', '"
-							+ CREATED[4] + "'),"
-							+ "('" + EVENT_ID[5] + "', '" + TITLE[5] + "', '" + START[5] + "', '" + END[5] + "', '"
-							+ PLACE_ID[5] + "', '" + DEP_ID[5] + "', '" + DETAIL[5] + "', '" + REGISTERD_ID[5] + "', '"
-							+ CREATED[5] + "'),"
-							+ "('" + EVENT_ID[6] + "', '" + TITLE[6] + "', '" + START[6] + "', '" + END[6] + "', '"
-							+ PLACE_ID[6] + "', '" + DEP_ID[6] + "', '" + DETAIL[6] + "', '" + REGISTERD_ID[6] + "', '"
-							+ CREATED[6] + "')";
-					stmt = (Statement) conn.createStatement();
-					stmt.executeUpdate(sqlEve);
-
-					String sqlMem = "INSERT INTO members (member_id, name, kana, birthday, address, tel, hired, dep_id) VALUES"
-							+ "('" + MEMBERS[0][0] + "', '" + MEMBERS[0][1] + "', '" + MEMBERS[0][2] + "', '"
-							+ MEMBERS[0][3] + "', '" + MEMBERS[0][4] + "', '" + MEMBERS[0][5] + "', '" + MEMBERS[0][6]
-							+ "', '" + MEMBERS[0][7] + "'),"
-							+ "('" + MEMBERS[1][0] + "', '" + MEMBERS[1][1] + "', '" + MEMBERS[1][2] + "', '"
-							+ MEMBERS[1][3] + "', '" + MEMBERS[1][4] + "', '" + MEMBERS[1][5] + "', '" + MEMBERS[1][6]
-							+ "', '" + MEMBERS[1][7] + "'),"
-							+ "('" + MEMBERS[2][0] + "', '" + MEMBERS[2][1] + "', '" + MEMBERS[2][2] + "', '"
-							+ MEMBERS[2][3] + "', '" + MEMBERS[2][4] + "', '" + MEMBERS[2][5] + "', '" + MEMBERS[2][6]
-							+ "', '" + MEMBERS[2][7] + "')";
-					stmt = (Statement) conn.createStatement();
-					stmt.executeUpdate(sqlMem);
-
-					String sqlPlc = "INSERT INTO place VALUES"
-							+ "('" + PLACE[0][0] + "', '" + PLACE[0][1] + "', '" + PLACE[0][2] + "', '" + PLACE[0][3]
-							+ "', '" + PLACE[0][4] + "', '" + PLACE[0][5] + "', '" + PLACE[0][6] + "', '" + PLACE[0][7]
-							+ "'),"
-							+ "('" + PLACE[1][0] + "', '" + PLACE[1][1] + "', '" + PLACE[1][2] + "', '" + PLACE[1][3]
-							+ "', '" + PLACE[1][4] + "', '" + PLACE[1][5] + "', '" + PLACE[1][6] + "', '" + PLACE[1][7]
-							+ "'),"
-							+ "('" + PLACE[2][0] + "', '" + PLACE[2][1] + "', '" + PLACE[2][2] + "', '" + PLACE[2][3]
-							+ "', '" + PLACE[2][4] + "', '" + PLACE[2][5] + "', '" + PLACE[2][6] + "', '" + PLACE[2][7]
-							+ "')";
-					stmt = (Statement) conn.createStatement();
-					stmt.executeUpdate(sqlPlc);
-
-					String sqlAtn = "INSERT INTO attends VALUES"
-							+ "('" + ATTEND[0][0] + "', '" + ATTEND[0][1] + "', '" + ATTEND[0][2] + "'),"
-							+ "('" + ATTEND[1][0] + "', '" + ATTEND[1][1] + "', '" + ATTEND[1][2] + "'),"
-							+ "('" + ATTEND[2][0] + "', '" + ATTEND[2][1] + "', '" + ATTEND[2][2] + "')";
-					stmt = (Statement) conn.createStatement();
-					stmt.executeUpdate(sqlAtn);
-
-					String sqlDep = "INSERT INTO department VALUES"
-							+ "('" + DEPART[0][0] + "', '" + DEPART[0][1] + "', '" + DEPART[0][2] + "'),"
-							+ "('" + DEPART[1][0] + "', '" + DEPART[1][1] + "', '" + DEPART[1][2] + "'),"
-							+ "('" + DEPART[2][0] + "', '" + DEPART[2][1] + "', '" + DEPART[2][2] + "'),"
-							+ "('" + DEPART[3][0] + "', '" + DEPART[3][1] + "', '" + DEPART[3][2] + "'),"
-							+ "('" + DEPART[4][0] + "', '" + DEPART[4][1] + "', '" + DEPART[4][2] + "')";
-					stmt = (Statement) conn.createStatement();
-					stmt.executeUpdate(sqlDep);
-
-					sqlTrn = "set foreign_key_checks = 1;";
-					stmt = conn.createStatement();
-					stmt.executeUpdate(sqlTrn);
-
-					//エラーがなければコミットする
-					conn.commit();
-
-				}
-				//挿入時にエラーが発生したらロールバックしてエラー文を表示
-				catch (Exception e) {
-					System.out.println("error1");
-					e.printStackTrace();
-					conn.rollback();
-
-				} finally {
-					try {
-						if (conn != null) {
-							conn.close();
-							//System.out.println("切断しました");
-						}
-					} catch (SQLException e) {
-						System.out.println("error2");
-					}
-				}
-			}
-		} catch (NamingException e) {
-			if (ctx != null) {
-				try {
-					ctx.close();
-				} catch (NamingException el) {
-					throw new RuntimeException(el);
-				}
-			}
-			throw new RuntimeException(e);
-		}
-
+		DataIns();
 	}
 
 	/**
@@ -414,27 +281,27 @@ public class EventsDaoImplTest extends TestDBAccess {
 
 			try (Connection conn = ds.getConnection()) {
 				try {
-					// 下記コメントは、テスト後にDBを初期化する場合にのみ外して下さい
-					//						//オートコミットを切る
-					//						conn.setAutoCommit(false);
-					//						String sqlTrn = "TRUNCATE TABLE eventdb2.events;";
-					//						Statement stmt = conn.createStatement();
-					//						stmt.executeUpdate(sqlTrn);
-					//						sqlTrn = "TRUNCATE TABLE eventdb2.place";
-					//						stmt = conn.createStatement();
-					//						stmt.executeUpdate(sqlTrn);
-					//						sqlTrn = "TRUNCATE TABLE eventdb2.attends;";
-					//						stmt = conn.createStatement();
-					//						stmt.executeUpdate(sqlTrn);
-					//						sqlTrn = "TRUNCATE TABLE eventdb2.department;";
-					//						stmt = conn.createStatement();
-					//						stmt.executeUpdate(sqlTrn);
-					//						sqlTrn = "TRUNCATE TABLE eventdb2.members;";
-					//						stmt = conn.createStatement();
-					//						stmt.executeUpdate(sqlTrn);
-					//
-					//						//エラーがなければコミットする
-					//						conn.commit();
+// 下記コメントは、テスト後にDBを初期化する場合にのみ外して下さい
+//						//オートコミットを切る
+//						conn.setAutoCommit(false);
+//						String sqlTrn = "TRUNCATE TABLE eventdb2.events;";
+//						Statement stmt = conn.createStatement();
+//						stmt.executeUpdate(sqlTrn);
+//						sqlTrn = "TRUNCATE TABLE eventdb2.place";
+//						stmt = conn.createStatement();
+//						stmt.executeUpdate(sqlTrn);
+//						sqlTrn = "TRUNCATE TABLE eventdb2.attends;";
+//						stmt = conn.createStatement();
+//						stmt.executeUpdate(sqlTrn);
+//						sqlTrn = "TRUNCATE TABLE eventdb2.department;";
+//						stmt = conn.createStatement();
+//						stmt.executeUpdate(sqlTrn);
+//						sqlTrn = "TRUNCATE TABLE eventdb2.members;";
+//						stmt = conn.createStatement();
+//						stmt.executeUpdate(sqlTrn);
+//
+//						//エラーがなければコミットする
+//						conn.commit();
 				}
 				//挿入時にエラーが発生したらロールバックしてエラー文を表示
 				catch (Exception e) {
@@ -494,9 +361,6 @@ public class EventsDaoImplTest extends TestDBAccess {
 					sqlTrn = "TRUNCATE TABLE eventdb2.members";
 					stmt = conn.createStatement();
 					stmt.executeUpdate(sqlTrn);
-					//						sqlTrn = "set foreign_key_checks = 1;";
-					//						stmt = conn.createStatement();
-					//						stmt.executeUpdate(sqlTrn);
 
 					String sqlEve = "INSERT INTO events VALUES"
 							+ "('" + EVENT_ID[0] + "', '" + TITLE[0] + "', '" + START[0] + "', '" + END[0] + "', '"
@@ -565,6 +429,7 @@ public class EventsDaoImplTest extends TestDBAccess {
 					stmt = (Statement) conn.createStatement();
 					stmt.executeUpdate(sqlDep);
 
+					// 外部キー制約の再制限
 					sqlTrn = "set foreign_key_checks = 1";
 					stmt = conn.createStatement();
 					stmt.executeUpdate(sqlTrn);
