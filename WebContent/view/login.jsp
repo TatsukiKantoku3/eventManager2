@@ -14,14 +14,14 @@
     <link href="css/style.css" rel="stylesheet"/>
     <link href="css/sticky-footer.css" rel="stylesheet"/>
 
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="row">
-	<div class="col-md-10 col-md-offset-1">
-		<table class="table" id="radius">
-			<tr>
+<div class="container-fluid login_top">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<table class="table" id="radius">
+				<tr>
 				<td class="color" id="impact"><h2>Event Manager</h2></td></tr>
 					<tr>
 					<td>
@@ -38,9 +38,10 @@
 							id="loginPass" class="form-control" required> <br> <br>
 						<input type="submit" value="ログイン" class="btn btn-primary form-control" />
 					</form></td>
-			</tr>
-		</table>
+				</tr>
+			</table>
+		</div>
 	</div>
-	</div>
+</div>
 </body>
 </html>
