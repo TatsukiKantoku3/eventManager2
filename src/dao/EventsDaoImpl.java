@@ -247,9 +247,17 @@ public class EventsDaoImpl implements EventsDao {
 
 
 	@Override
-	public void update(Events events) throws Exception {
-		Timestamp castStart = new Timestamp(events.getStart().getTime());
-		Timestamp castEnd = new Timestamp(events.getEnd().getTime());
+	public boolean update(Events events) throws Exception {
+		Timestamp castStart=null;
+		Timestamp castEnd=null;
+		try{castStart = new Timestamp(events.getStart().getTime());
+		}catch(NullPointerException e) {
+			return false;
+		}
+		try{castEnd = new Timestamp(events.getEnd().getTime());
+		}catch(NullPointerException e) {
+
+		}
 		try (Connection con = ds.getConnection()) {
 			String sql = "UPDATE"
 					+ " 	EVENTS"
@@ -272,6 +280,7 @@ public class EventsDaoImpl implements EventsDao {
 			stmt.setInt(7, events.getEvent_id());
 			stmt.executeUpdate();
 		}
+		return true;
 	}
 
 	@Override

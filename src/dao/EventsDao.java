@@ -8,7 +8,7 @@ public interface EventsDao {
 
 	Events findById(Integer event_id) throws Exception;
 	boolean insert(Events events) throws Exception;
-	void update(Events events) throws Exception;
+	boolean update(Events events) throws Exception;
 	void delete(Events events) throws Exception;
 	List<Events> findAll(int event_page) throws Exception;
 	List<Events> findToday(int event_page) throws Exception;

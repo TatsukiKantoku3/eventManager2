@@ -7,7 +7,8 @@
 <title>イベント登録</title>
 
 <%String invalid_data=null;
-try{ invalid_data = request.getAttribute("invalid_data").toString(); }catch(NullPointerException e){}%>
+try{ invalid_data = request.getAttribute("invalid_data").toString(); }catch(NullPointerException e){}
+%>
 </head>
 <body>
 	<%@ include file="navbar.jsp"%>

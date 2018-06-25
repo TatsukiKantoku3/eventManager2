@@ -6,7 +6,9 @@
 <head>
 <title>イベント編集</title>
 <script src="js/jquery-3.3.1.min.js"></script>
-
+<%String invalid_data=null;
+try{ invalid_data = request.getAttribute("invalid_data").toString(); }catch(NullPointerException e){}
+%>
 </head>
 <body>
 	<%@ include file="navbar.jsp"%>
@@ -25,6 +27,10 @@
 						</p>
 
 						<p class="bold">開始日時（必須）</p>
+						<%try{
+						if(invalid_data.equals("1")){ %>
+						<div class="alert alert-warning" role="alert">入力された値が正しくありません</div>
+						<%}}catch(NullPointerException e){} %>
 						<p>
 							<input type="text" name="start" placeholder="0000-00-00 00:00:00"
 								class="form-control" value="${event.start}" required>
