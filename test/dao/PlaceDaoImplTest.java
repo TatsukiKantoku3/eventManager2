@@ -147,7 +147,7 @@ public class PlaceDaoImplTest extends TestDBAccess {
 
 		//正常なデータを二回インサートしてエラーを確認する
 					placeDao.insert(testList);
-		assertThat(placeDao.insert(testList), is("302"));
+		assertThat(placeDao.insert(testList), is("300"));
 	}
 
 	@Test

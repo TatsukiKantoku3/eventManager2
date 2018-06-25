@@ -23,6 +23,7 @@ import com.OutputLog;
  */
 
 public abstract class EventMgFileIO extends OutputLog {
+	static final String className = new Object(){}.getClass().getEnclosingClass().getName();
 	/** ファイル名 インスタンス時に外部からセットします*/
 	private String fileName;
 	/** データタイプコードを含めた列数 インスタンス時に外部からセットします*/
@@ -197,12 +198,12 @@ public abstract class EventMgFileIO extends OutputLog {
 				return dataList;
 			}
 		}catch(MalformedInputException e) {
-			e.printStackTrace();
+			logger.error(className+e.getMessage());
 			setResult("213");
 			dataList.clear();
 			return dataList;
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(className+e.getMessage());
 			setResult("214");
 			dataList.clear();
 			return dataList;

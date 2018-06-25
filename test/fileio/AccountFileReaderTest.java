@@ -159,7 +159,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 		//データ行の空白
 		String result=null;
 
-		AccountFileReader accountFileReader2 = new AccountFileReader("C:\\work_1\\account_blankdata.csv",
+		AccountFileReader accountFileReader2 = new AccountFileReader("C:\\work_3\\account_blankdata.csv",
 				valid_data_quantity);
 		result = accountFileReader2.main();
 		String Result="205";
