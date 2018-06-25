@@ -138,7 +138,7 @@ public class EventServlet extends HttpServlet {
 					}else {
 
 					request.getSession().setAttribute("placeList", placeList);
-					request.setAttribute("event",event);
+					request.getSession().setAttribute("event",event);
 		            request.getRequestDispatcher("view/eventedit.jsp").forward(request, response);
 					}
 				} catch (Exception e) {
