@@ -6,6 +6,8 @@
 <head>
 <title>イベント登録</title>
 
+<%String invalid_data=null;
+try{ invalid_data = request.getAttribute("invalid_data").toString(); }catch(NullPointerException e){}%>
 </head>
 <body>
 	<%@ include file="navbar.jsp"%>
@@ -24,6 +26,10 @@
 						</p>
 
 						<p class="bold">開始日時（必須）</p>
+						<%try{
+						if(invalid_data.equals("1")){ %>
+						<div class="alert alert-warning" role="alert">入力された値が正しくありません</div>
+						<%}}catch(NullPointerException e){} %>
 						<p>
 							<input type="text" name="start" placeholder="0000-00-00 00:00:00"
 								class="form-control" required>
@@ -43,9 +49,8 @@
 						<p>
 							<select name="place_id" class="form-control">
 								<c:forEach items="${placeList}" var="place">
-									<option value="<%=i++%>"><c:out
-											value="${place.place}" /></option>
-
+									<option value="<%=i++%>">
+									<c:out	value="${place.place}" /></option>
 								</c:forEach>
 							</select>
 						</p>

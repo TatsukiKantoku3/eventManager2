@@ -216,9 +216,17 @@ public class EventsDaoImpl implements EventsDao {
 	}
 
 	@Override
-	public void insert(Events events) throws Exception {
-		Timestamp castStart = new Timestamp(events.getStart().getTime());
-		Timestamp castEnd = new Timestamp(events.getEnd().getTime());
+	public boolean insert(Events events) throws Exception {
+		Timestamp castStart=null;
+		Timestamp castEnd=null;
+		try{castStart = new Timestamp(events.getStart().getTime());
+		}catch(NullPointerException e) {
+			return false;
+		}
+		try{castEnd = new Timestamp(events.getEnd().getTime());
+		}catch(NullPointerException e) {
+
+		}
 		try (Connection con = ds.getConnection()) {
 			String sql = "INSERT INTO events"
 					+ " 	(event_id, title, start, end, place_id, dep_id, detail, registered_id, created)"
@@ -232,7 +240,9 @@ public class EventsDaoImpl implements EventsDao {
 			stmt.setString(6, events.getDetail());
 			stmt.setString(7, events.getRegistered_id());
 			stmt.executeUpdate();
-		}
+
+
+		}return true;
 	}
 
 

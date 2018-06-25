@@ -156,7 +156,7 @@ public class EventServlet extends HttpServlet {
 						request.getRequestDispatcher("view/405.jsp").forward(request, response);
 					}else {
 
-					request.setAttribute("placeList", placeList);
+					request.getSession().setAttribute("placeList", placeList);
 				request.getRequestDispatcher("view/eventinsert.jsp").forward(request, response);
 					}
 
@@ -280,8 +280,13 @@ public class EventServlet extends HttpServlet {
 
 			try {
 				EventsDao eventsDao = DaoFactory.createEventsDao();
-				eventsDao.insert(event2);
-				request.getRequestDispatcher("view/eventinsertDone.jsp").forward(request, response);
+				if(eventsDao.insert(event2)) {
+					request.getRequestDispatcher("view/eventinsertDone.jsp").forward(request, response);
+				}else {
+					request.setAttribute("invalid_data", "1");
+					request.getRequestDispatcher("view/eventinsert.jsp").forward(request, response);
+				}
+
 			} catch (Exception e) {
 				throw new ServletException(e);
 			}

@@ -7,7 +7,7 @@ import domain.Events;
 public interface EventsDao {
 
 	Events findById(Integer event_id) throws Exception;
-	void insert(Events events) throws Exception;
+	boolean insert(Events events) throws Exception;
 	void update(Events events) throws Exception;
 	void delete(Events events) throws Exception;
 	List<Events> findAll(int event_page) throws Exception;
