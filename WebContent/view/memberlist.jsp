@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>ユーザ一覧</title>
+<title>メンバー一覧</title>
 </head>
 <body>
 	<%@ include file="navbar.jsp"%>
 	<div class="col-md-10 col-md-offset-1">
-		<h1>ユーザ一覧</h1>
+		<h1>メンバー一覧</h1>
 
 
 		<%
@@ -63,7 +63,7 @@
 			<tr>
 				<th>ID</th>
 				<th>氏名</th>
-				<th>所属グループ</th>
+				<th>所属部署</th>
 				<th>詳細</th>
 
 			</tr>
@@ -87,7 +87,7 @@
 		<form action="Member" method="get">
 			<!--  view/addMember.jsp-->
 			<input type="hidden" name="servletName" value="memberInsert">
-			<input type="submit" class="btn btn-primary" value="ユーザの登録" />
+			<input type="submit" class="btn btn-primary" value="メンバーの登録" />
 		</form>
 	</div>
 </body>

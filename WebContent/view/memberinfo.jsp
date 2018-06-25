@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>ユーザ詳細</title>
+<title>メンバー詳細</title>
 </head>
 <body>
 	<%@ include file="navbar.jsp"%>
 	<div class="col-md-10 col-md-offset-1">
-		<h1>ユーザ詳細</h1>
+		<h1>メンバー詳細</h1>
 
 		<table class="table">
 
@@ -43,7 +43,7 @@
 				<td><c:out value="${member.hired}" /></td>
 			</tr>
 			<tr>
-				<th>所属グループ</th>
+				<th>所属部署</th>
 				<td><c:out value="${member.department}" /></td>
 			</tr>
 			<tr>

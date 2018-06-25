@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>ユーザ登録</title>
+<title>メンバー登録</title>
 </head>
 <body>
 <%@ include file="navbar.jsp"%>
@@ -11,7 +11,7 @@
 	<section>
 		<div class="row">
 			<div class="container col-md-10 col-md-offset-1">
-				<h1>ユーザ登録</h1>
+				<h1>メンバー登録</h1>
 				<!-- 入力画面-->
 				 	<c:if test="${!empty errorchar}">
 						<div class="alert alert-warning" role="alert">ログインID、パスワードは半角英数字のみ入力できます</div>
@@ -67,7 +67,7 @@
 					<input type="text" name="login_pass" placeholder="パスワード" class="form-control" maxlength="60" required>
 
 
-					<p class="bold">所属グループ（必須）</p>
+					<p class="bold">所属部署（必須）</p>
 					<p><select name="dep_id" class="form-control">
 							<option value="1">人事部</option>
 							<option value="2">経理部</option>

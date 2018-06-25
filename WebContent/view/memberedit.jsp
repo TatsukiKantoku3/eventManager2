@@ -4,7 +4,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>ユーザ編集</title>
+<title>メンバー編集</title>
 </head>
 <body>
 <%@ include file="navbar.jsp"%>
@@ -12,7 +12,7 @@
 	<section>
 		<div class="row">
 			<div class="container col-md-10 col-md-offset-1">
-				<h1>ユーザ編集</h1>
+				<h1>メンバー編集</h1>
 				<!-- 入力画面-->
 				<c:if test="${!empty errorchar}">
 						<div class="alert alert-warning" role="alert">ログインID、パスワードは半角英数字のみ入力できます</div>
@@ -61,7 +61,7 @@
 					<p class="bold">パスワード（変更の場合のみ)</p>
 					<input type="text" name="login_pass" placeholder="パスワード" class="form-control" maxlength="60"  placeholder="パスワード">
 
-					<p class="bold">所属グループ</p>
+					<p class="bold">所属部署</p>
 					<p><select name="dep_id" class="form-control" >
 							<option value="1">人事部</option>
 							<option value="2">経理部</option>
