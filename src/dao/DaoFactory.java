@@ -31,6 +31,7 @@ public class DaoFactory {
 		try {
 			ctx=new InitialContext();
 			ds=(DataSource)ctx.lookup("java:comp/env/jdbc/eventdb2");
+			//ds=(DataSource)ctx.lookup("java:comp/env/jdbc/servereventdb2");
 		} catch (NamingException e) {
 			if (ctx != null) {
 				try {
