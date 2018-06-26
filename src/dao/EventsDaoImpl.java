@@ -176,6 +176,7 @@ public class EventsDaoImpl implements EventsDao {
 		events.setDetail(rs.getString("detail"));
 		events.setMember_name(rs.getString("registered"));
 		events.setCreated(rs.getTimestamp("created"));
+		events.setPlace_id((Integer) rs.getObject("place_id"));
 		return events;
 	}
 
@@ -194,7 +195,7 @@ public class EventsDaoImpl implements EventsDao {
 					+ " 	EVENTS.dep_id,"
 					+ " 	EVENTS.detail,"
 					+ " 	MEMBERS.name AS registered,"
-					+ " 	EVENTS.created"
+					+ " 	EVENTS.created, EVENTS.place_id"
 					+ " FROM"
 					+ " 	EVENTS"
 					+ " 		left JOIN"
