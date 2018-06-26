@@ -492,7 +492,7 @@ public class MembersDaoImpl implements MembersDao {
 			String sql="update account set login_pass=? where login_id=?";
 			PreparedStatement stmt=con.prepareStatement(sql);
 			stmt.setString(1, members.getLogin_pass());
-			stmt.setString(1, members.getLogin_id());
+			stmt.setString(2, members.getLogin_id());
 			stmt.executeUpdate();
 		}
 	}

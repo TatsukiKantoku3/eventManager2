@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -262,9 +263,26 @@ public class MemberServlet extends HttpServlet {
 			}
 			break;
 
-
 		case MEMBER_EDIT:
+			int auth=(int)request.getSession().getAttribute("auth_id");
+			if(auth==2) {
+				String edit_login_id = request.getParameter("login_id");
+				String edit_login_pass = request.getParameter("login_pass");
+				if(DataValid.isAlphanum(edit_login_pass)) {
+					String hashedPass = BCrypt.hashpw(edit_login_pass, BCrypt.gensalt());
+					Members member = new Members();
+					member.setLogin_id(edit_login_id);
+					member.setLogin_pass(hashedPass);
 
+					MembersDao MembersDao = DaoFactory.createMembersDao();
+					try {
+						MembersDao.CheckLoginPass(member);
+						request.getRequestDispatcher("view/membereditDone.jsp").forward(request, response);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}else {
 			String edit_member_id=request.getParameter("member_id");
 			String edit_name = request.getParameter("name");
 			String edit_kana=request.getParameter("kana");
@@ -371,6 +389,7 @@ public class MemberServlet extends HttpServlet {
 
 				request.setAttribute("errorchar", true);
 				request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
+			}
 			}
 			break;
 

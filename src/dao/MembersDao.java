@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import domain.Members;
@@ -23,7 +24,7 @@ public interface MembersDao{
 	public int updateaccount(Members Members) throws Exception;
 	public int updateAccountWhithoutPass(Members Members) throws Exception;
 	int deleteAccount(Members Members) throws Exception;
-
+	public void CheckLoginPass(Members members) throws SQLException;
 
 }
 
