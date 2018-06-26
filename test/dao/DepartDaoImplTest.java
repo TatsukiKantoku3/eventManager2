@@ -39,6 +39,9 @@ public class DepartDaoImplTest extends TestDBAccess{
 	final String FAIL_DEPARTMENT="技術部";
 	final int FAIL_FLOOR=12;
 	final int FAIL_POSITIONTYPE=792310;
+
+	static DepartDao target=DaoFactory.createDepartDao();
+	static Depart dep;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		InitialContext ctx=null;
@@ -108,8 +111,8 @@ public class DepartDaoImplTest extends TestDBAccess{
 
 	@Test
 	public void testInsert正常() throws Exception {
-		DepartDao departDao=DaoFactory.createDepartDao();
-		Depart dep=new Depart();
+
+		dep=new Depart();
 		dep.setDepartment(DEPARTMENT);
 		dep.setFloor(FLOOR);
 		dep.setPosition_type(POSITIONTYPE);
@@ -121,7 +124,7 @@ public class DepartDaoImplTest extends TestDBAccess{
 		DepList.add(0, dep);
 
 		DepList.add(1, dep2);
-		String result=departDao.insert(DepList);
+		String result=target.insert(DepList);
 
 		//テーブルを整える
 		assertThat(result,is(CORRECT));
@@ -132,14 +135,14 @@ public class DepartDaoImplTest extends TestDBAccess{
 	@Test
 	public void testInsert異常1() throws Exception {
 		//UQであるdepartmentを二回格納
-		DepartDao departDao=DaoFactory.createDepartDao();
-		Depart dep=new Depart();
+
+	dep=new Depart();
 		dep.setDepartment(DEPARTMENT);
 		dep.setFloor(FLOOR);
 		dep.setPosition_type(POSITIONTYPE);
 		List<Depart> DepList=new ArrayList<>();
 		DepList.add(0, dep);
-		departDao.insert(DepList);
+		target.insert(DepList);
 
 
 		dep.setDepartment(FAIL_DEPARTMENT);
@@ -147,7 +150,7 @@ public class DepartDaoImplTest extends TestDBAccess{
 		dep.setPosition_type(FAIL_POSITIONTYPE);
 		DepList.add(0, dep);
 
-		String result=departDao.insert(DepList);
+		String result=target.insert(DepList);
 
 		assertThat(result,is(ERROR));
 	}
@@ -155,16 +158,30 @@ public class DepartDaoImplTest extends TestDBAccess{
 	@Test
 	public void testInsert異常2() throws Exception {
 		//存在しないmember_idをposition_typeに格納
-		DepartDao departDao=DaoFactory.createDepartDao();
-		Depart dep=new Depart();
+
+		dep=new Depart();
 		List<Depart> DepList=new ArrayList<>();
 		dep.setDepartment(DEPARTMENT2);
 		dep.setFloor(FAIL_FLOOR);
 		dep.setPosition_type(FAIL_POSITIONTYPE);
 		DepList.add(0, dep);
 
-		String result=departDao.insert(DepList);
+		String result=target.insert(DepList);
 		assertThat(result,is(ERROR2));
 	}
 
+	@Test
+	public void testDepList正常() throws Throwable {
+
+		dep=new Depart();
+		dep.setDepartment(DEPARTMENT);
+		dep.setFloor(FLOOR);
+		dep.setPosition_type(POSITIONTYPE);
+		List<Depart> DepList=new ArrayList<>();
+		DepList.add(0, dep);
+		target.insert(DepList);
+
+		List<Depart> dep=target.DepList();
+		assertThat(dep.get(0).getDepartment(),is(DEPARTMENT));
+	}
 }

@@ -25,7 +25,7 @@ import com.TestDBAccess;
 
 import domain.Members;
 
-public class MembersDaoImplTest2 extends TestDBAccess{
+public class MembersDaoImplTest extends TestDBAccess{
 
 
 	//前提条件
@@ -97,6 +97,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 	//	}
 
 	static DataSource  ds;
+	static Members member;
+	static MembersDao target=DaoFactory.createMembersDao();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -182,9 +184,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 	}
 	@Test
 	public void testFindAllInt正常1() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
 
-		List<Members> memall=membersDao.findAll(NUMBER0);
+		List<Members> memall=target.findAll(NUMBER0);
 		assertThat(memall.get(NUMBER0).getMember_id(),is(NORMAL_MEMBER_ID1));
 		assertThat(memall.get(NUMBER1).getMember_id(),is(NORMAL_MEMBER_ID2));
 		assertThat(memall.get(NUMBER2).getMember_id(),is(NORMAL_MEMBER_ID3));
@@ -196,10 +197,10 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testFindfive正常2() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		List<Members> memall=membersDao.findAll(NUMBER0);
 
-		List<Members> memfiv=membersDao.findfive(memall);
+		List<Members> memall=target.findAll(NUMBER0);
+
+		List<Members> memfiv=target.findfive(memall);
 
 		assertThat(memfiv.get(NUMBER0).getName(),is(NORMAL_MEMBER_NAME1));
 		assertThat(memfiv.get(NUMBER1).getName(),is(NORMAL_MEMBER_NAME2));
@@ -214,9 +215,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 	@Test
 	public void testFindById正常3() throws Exception {
 
-		MembersDao membersDao = DaoFactory.createMembersDao();
 
-		Members findmember=membersDao.findById(NORMAL_MEMBER_ID1);
+		Members findmember=target.findById(NORMAL_MEMBER_ID1);
 		Timestamp date = new Timestamp(new SimpleDateFormat("yyyy/MM/dd")
 				.parse(NORMAL_HIRE_DAY).getTime());
 		Timestamp birth = new Timestamp(new SimpleDateFormat("yyyy/MM/dd")
@@ -238,8 +238,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testInsert正常4() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member =new Members();
+
+		member =new Members();
 		try {
 			DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
 			Date date1 = dateTimeFormat.parse(INSERT_DATE);
@@ -253,9 +253,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			member.setPosition_type(NUMBER0);
 			member.setHired(date1);
 			member.setLogin_id(INSERT_LOGIN_ID);
-			membersDao.insert(member);
+			target.insert(member);
 
-			Members insertMember=membersDao.findById(INSERT_MEMBER_ID);
+			Members insertMember=target.findById(INSERT_MEMBER_ID);
 			String member_id=insertMember.getMember_id();
 			String name=insertMember.getName();
 			String kana=insertMember.getKana();
@@ -277,32 +277,29 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			assertThat(posi,is((Integer)NUMBER0));
 			assertThat(hired,is(date1));
 			assertThat(login_id,is(INSERT_LOGIN_ID));
-			membersDao.delete(member);
+			target.delete(member);
 
 		}catch(Exception e) {
 
-			membersDao.delete(member);
+			target.delete(member);
 		}
 	}
 
 
-
-
-
 	@Test
 	public void testInsertacount正常5() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		 member=new Members();
 
 		member.setLogin_id(INSERT_ACCOUNT_LOGIN_ID);
 		member.setLogin_pass(INSERT_ACCOUNT_LOGIN_PASS);
 		member.setAuth_id(INSERT_ACCOUNT_AUTH_ID);
 
-		int line=membersDao.insertacount(member);
+		int line=target.insertacount(member);
 
 		assertThat(line,equalTo(NUMBER1));
 
-		membersDao.deleteAccount(member);
+		target.deleteAccount(member);
 	}
 
 
@@ -311,8 +308,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 	@Test
 	public void testFindByLoginIdAndLoginPass正常6() throws Exception {
 
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member =new Members();
+
+		member =new Members();
 
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date1 = dateTimeFormat.parse(INSERT_DATE);
@@ -326,15 +323,15 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		//member.setPosition_type(NUMBER0);
 		member.setHired(date1);
 		member.setLogin_id(INSERT_LOGIN_ID);
-		membersDao.insert(member);
+		target.insert(member);
 
 
 
-		Members checkmem= membersDao.findByLoginIdAndLoginPass(INSERT_LOGIN_ID, "");
+		Members checkmem= target.findByLoginIdAndLoginPass(INSERT_LOGIN_ID, "");
 		assertThat(checkmem.getMember_id(),is(INSERT_MEMBER_ID));
 		assertThat(checkmem.getName(),is(INSERT_MEMBER_NAME));
 
-		membersDao.delete(member);
+		target.delete(member);
 
 	}
 
@@ -343,22 +340,21 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testLogin正常7() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
 
-		Members member=new Members();
+		 member=new Members();
 
 		member.setLogin_id(INSERT_ACCOUNT_LOGIN_ID);
 		member.setLogin_pass(NORMAL_HASH_PASS);
 		member.setAuth_id(INSERT_ACCOUNT_AUTH_ID);
 
-		membersDao.insertacount(member);
+		target.insertacount(member);
 
-		Members account= membersDao.login(INSERT_ACCOUNT_LOGIN_ID, INSERT_ACCOUNT_LOGIN_PASS);
+		Members account= target.login(INSERT_ACCOUNT_LOGIN_ID, INSERT_ACCOUNT_LOGIN_PASS);
 		assertThat(account.getLogin_id(),is(INSERT_ACCOUNT_LOGIN_ID));
 		assertThat(account.getLogin_pass(),is(NORMAL_HASH_PASS));
 		assertThat(account.getAuth_id(),is((Integer)INSERT_ACCOUNT_AUTH_ID));
 
-		membersDao.deleteAccount(member);
+		target.deleteAccount(member);
 	}
 
 
@@ -366,8 +362,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testUpdate正常8() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		 member=new Members();
 
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date1 = dateTimeFormat.parse(INSERT_DATE);
@@ -381,7 +377,7 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		member.setPosition_type(NUMBER0);
 		member.setHired(date1);
 		member.setLogin_id(INSERT_LOGIN_ID);
-		membersDao.insert(member);
+		target.insert(member);
 
 
 		member.setMember_id(UP_MEMBER_ID);
@@ -395,9 +391,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		member.setLogin_id(UP_LOGIN_ID);
 		member.setOldmember_id(INSERT_MEMBER_ID);
 
-		membersDao.update(member);
+		target.update(member);
 
-		Members upMem= membersDao.findById(UP_MEMBER_ID);
+		Members upMem= target.findById(UP_MEMBER_ID);
 
 		assertThat(upMem.getMember_id(),is(UP_MEMBER_ID));
 		assertThat(upMem.getName(),is(UP_MEMBER_NAME));
@@ -409,7 +405,7 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		assertThat(upMem.getPosition_type(),is((Integer)NUMBER0));
 		assertThat(upMem.getLogin_id(),is(UP_LOGIN_ID));
 
-		membersDao.delete(member);
+		target.delete(member);
 
 	}
 
@@ -418,26 +414,26 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testUpdateaccount正常9() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		 member=new Members();
 
 
 		member.setLogin_id(INSERT_ACCOUNT_LOGIN_ID);
 		member.setLogin_pass(INSERT_ACCOUNT_LOGIN_PASS);
 		member.setAuth_id(INSERT_ACCOUNT_AUTH_ID);
 
-		membersDao.insertacount(member);
+		target.insertacount(member);
 
 		member.setLogin_id(UP_LOGIN_ID);
 		member.setLogin_pass(UP_LOGIN_PASS);
 		member.setAuth_id(NUMBER1);
 		member.setOldlogin_id(INSERT_ACCOUNT_LOGIN_ID);
 
-		int line=membersDao.updateaccount(member);
+		int line=target.updateaccount(member);
 
 		assertThat(line, is(NUMBER1));
 
-		membersDao.deleteAccount(member);
+		target.deleteAccount(member);
 	}
 
 
@@ -445,8 +441,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testUpdateWhithoutPass正常10() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		 member=new Members();
 
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date1 = dateTimeFormat.parse(INSERT_DATE);
@@ -460,7 +456,7 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		member.setPosition_type(NUMBER0);
 		member.setHired(date1);
 		member.setLogin_id(INSERT_LOGIN_ID);
-		membersDao.insert(member);
+		target.insert(member);
 
 
 		member.setMember_id(UP_MEMBER_ID);
@@ -474,9 +470,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		member.setLogin_id(UP_LOGIN_ID);
 		member.setOldmember_id(INSERT_MEMBER_ID);
 
-		membersDao.updateWhithoutPass(member);
+		target.updateWhithoutPass(member);
 
-		Members upMem= membersDao.findById(UP_MEMBER_ID);
+		Members upMem= target.findById(UP_MEMBER_ID);
 
 		assertThat(upMem.getMember_id(),is(UP_MEMBER_ID));
 		assertThat(upMem.getName(),is(UP_MEMBER_NAME));
@@ -488,7 +484,7 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		assertThat(upMem.getPosition_type(),is((Integer)NUMBER0));
 		assertThat(upMem.getLogin_id(),is(UP_LOGIN_ID));
 
-		membersDao.delete(member);
+		target.delete(member);
 	}
 
 
@@ -497,25 +493,25 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testUpdateAccountWhithoutPass正常11() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		 member=new Members();
 
 
 		member.setLogin_id(INSERT_ACCOUNT_LOGIN_ID);
 		member.setLogin_pass(INSERT_ACCOUNT_LOGIN_PASS);
 		member.setAuth_id(INSERT_ACCOUNT_AUTH_ID);
 
-		membersDao.insertacount(member);
+		target.insertacount(member);
 
 		member.setLogin_id(UP_LOGIN_ID);
 		member.setAuth_id(NUMBER1);
 		member.setOldlogin_id(INSERT_ACCOUNT_LOGIN_ID);
 
-		int line=membersDao.updateAccountWhithoutPass(member);
+		int line=target.updateAccountWhithoutPass(member);
 		assertThat(line, is(NUMBER1));
 
 
-		membersDao.deleteAccount(member);
+		target.deleteAccount(member);
 	}
 
 
@@ -523,8 +519,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testDelete正常12() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member =new Members();
+
+		member =new Members();
 
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date1 = dateTimeFormat.parse(INSERT_DATE);
@@ -538,9 +534,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		member.setPosition_type(NUMBER0);
 		member.setHired(date1);
 		member.setLogin_id(INSERT_LOGIN_ID);
-		membersDao.insert(member);
+		target.insert(member);
 
-		int line=membersDao.delete(member);
+		int line=target.delete(member);
 
 		assertThat(line, is(NUMBER1));
 
@@ -552,16 +548,16 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testDeleteAccount正常13() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		 member=new Members();
 
 		member.setLogin_id(INSERT_ACCOUNT_LOGIN_ID);
 		member.setLogin_pass(INSERT_ACCOUNT_LOGIN_PASS);
 		member.setAuth_id(INSERT_ACCOUNT_AUTH_ID);
 
-		membersDao.insertacount(member);
+		target.insertacount(member);
 
-		int line=membersDao.deleteAccount(member);
+		int line=target.deleteAccount(member);
 
 		assertThat(line, is(NUMBER1));
 	}
@@ -569,26 +565,26 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testCountAll正常14() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		int result=membersDao.countAll();
+
+		int result=target.countAll();
 		assertThat(result, is(5));
 	}
 
 	@Test
 	public void testCheckLoginId正常15() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		boolean  result=membersDao.CheckLoginId(NORMAL_LOGIN_ID1);
+
+		boolean  result=target.CheckLoginId(NORMAL_LOGIN_ID1);
 
 		assertThat(result,is(false));
 	}
 
 	@Test
 	public void testFindfive異常1() {
-		MembersDao membersDao = DaoFactory.createMembersDao();
+
 		List<Members> memall;
 		try {
-			memall = membersDao.findAll(FAULT_NUMBER);
-			List<Members> memfiv=membersDao.findfive(memall);
+			memall = target.findAll(FAULT_NUMBER);
+			List<Members> memfiv=target.findfive(memall);
 
 			assertThat(memfiv.get(NUMBER0).getName(),is(NORMAL_MEMBER_NAME1));
 
@@ -603,9 +599,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 	@Test
 	public void testFindById異常2()  {
 
-		MembersDao membersDao = DaoFactory.createMembersDao();
+
 		try {
-			Members findmember=membersDao.findById(FAULT_MEMBER_ID1);
+			Members findmember=target.findById(FAULT_MEMBER_ID1);
 			assertThat(findmember.getName(),is(NORMAL_MEMBER_NAME1));
 
 		} catch (Exception e) {
@@ -617,8 +613,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testInsert異常3() {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member =new Members();
+
+		 member =new Members();
 
 
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -635,9 +631,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			member.setPosition_type(NUMBER0);
 			member.setHired(date1);
 			member.setLogin_id(NORMAL_LOGIN_ID1);
-			membersDao.insert(member);
+			target.insert(member);
 
-			Members insertMember=membersDao.findById(INSERT_MEMBER_ID);
+			Members insertMember=target.findById(INSERT_MEMBER_ID);
 
 
 			assertThat(insertMember.getMember_id(),is(INSERT_MEMBER_ID));
@@ -650,7 +646,7 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			assertThat(insertMember.getPosition_type(),is((Integer)NUMBER0));
 			assertThat(insertMember.getHired(),is(date1));
 			assertThat(insertMember.getLogin_id(),is(NORMAL_LOGIN_ID1));
-			membersDao.delete(member);
+			target.delete(member);
 
 		} catch (Exception e) {
 
@@ -664,15 +660,15 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 	@Test
 	public void testInsertacount異常4() {
 
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		member=new Members();
 
 		member.setLogin_id(NORMAL_LOGIN_ID1);
 		member.setLogin_pass(INSERT_ACCOUNT_LOGIN_PASS);
 		member.setAuth_id(INSERT_ACCOUNT_AUTH_ID);
 
 		try {
-			membersDao.insertacount(member);
+			target.insertacount(member);
 		} catch (Exception e) {
 
 			assertThat(e.getMessage(), equalTo("Duplicate entry 'aoi' for key 'login_id'"));
@@ -683,9 +679,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testFindByLoginIdAndLoginPass異常5() {
-		MembersDao membersDao = DaoFactory.createMembersDao();
+
 		try {
-			Members checkmem= membersDao.findByLoginIdAndLoginPass(INSERT_ACCOUNT_LOGIN_ID, "");
+			Members checkmem= target.findByLoginIdAndLoginPass(INSERT_ACCOUNT_LOGIN_ID, "");
 			assertThat(checkmem.getMember_id(),is(NORMAL_MEMBER_ID1));
 		} catch (Exception e) {
 			assertThat(e.getMessage(),equalTo(null));
@@ -696,9 +692,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testLogin異常6() {
-		MembersDao membersDao = DaoFactory.createMembersDao();
+
 		try {
-			Members account= membersDao.login(FSULT_LOGIN_ID, FSULT_LOGIN_PASS);
+			Members account= target.login(FSULT_LOGIN_ID, FSULT_LOGIN_PASS);
 			assertThat(account.getLogin_id(),is(FSULT_LOGIN_ID));
 		} catch (Exception e) {
 			assertThat(e.getMessage(),equalTo(null));
@@ -708,8 +704,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testUpdate異常7() {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		member=new Members();
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			Date date1 = dateTimeFormat.parse(INSERT_DATE);
@@ -724,7 +720,7 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			member.setLogin_id(UP_LOGIN_ID);
 			member.setOldmember_id(INSERT_MEMBER_ID);
 
-			membersDao.update(member);
+			target.update(member);
 		}catch(Exception e) {
 			assertThat(e.getMessage(),equalTo(null));
 
@@ -734,26 +730,26 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testUpdateaccount異常8() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		member=new Members();
 
 		member.setLogin_id(UP_LOGIN_ID);
 		member.setLogin_pass(UP_LOGIN_PASS);
 		member.setAuth_id(NUMBER1);
 		member.setOldlogin_id(INSERT_ACCOUNT_LOGIN_ID);
 
-		int line=membersDao.updateaccount(member);
+		int line=target.updateaccount(member);
 
 		assertThat(line, is(NUMBER0));
 
-		membersDao.deleteAccount(member);
+		target.deleteAccount(member);
 	}
 
 
 	@Test
 	public void testUpdateWhithoutPass異常9() {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		member=new Members();
 
 		try {
 			DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -769,9 +765,9 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 			member.setLogin_id(UP_LOGIN_ID);
 			member.setOldmember_id(INSERT_MEMBER_ID);
 
-			membersDao.updateWhithoutPass(member);
+			target.updateWhithoutPass(member);
 
-			Members upMem= membersDao.findById(UP_MEMBER_ID);
+			Members upMem= target.findById(UP_MEMBER_ID);
 			assertThat(upMem.getMember_id(),is(UP_MEMBER_ID));
 		}catch(Exception e) {
 
@@ -781,26 +777,26 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testUpdateAccountWhithoutPass異常10() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		member=new Members();
 
 		member.setLogin_id(UP_LOGIN_ID);
 		member.setAuth_id(NUMBER1);
 		member.setOldlogin_id(INSERT_ACCOUNT_LOGIN_ID);
 
-		int line=membersDao.updateAccountWhithoutPass(member);
+		int line=target.updateAccountWhithoutPass(member);
 		assertThat(line, is(NUMBER0));
 
 
-		membersDao.deleteAccount(member);
+		target.deleteAccount(member);
 	}
 
 
 	@Test
 	public void testDelete異常11() throws Exception{
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member =new Members();
-		int line=membersDao.delete(member);
+
+		member =new Members();
+		int line=target.delete(member);
 		assertThat(line, is(NUMBER0));
 
 	}
@@ -809,10 +805,10 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testDeleteAccount異常12() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
 
-		int line=membersDao.deleteAccount(member);
+	member=new Members();
+
+		int line=target.deleteAccount(member);
 
 		assertThat(line, is(NUMBER0));
 	}
@@ -821,8 +817,8 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 
 	@Test
 	public void testinsertMast正常() throws Exception {
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		member=new Members();
 		List<Members> MemList=new ArrayList<>();
 
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -839,17 +835,17 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		member.setLogin_id(INSERT_LOGIN_ID);
 		MemList.add(0,member);
 
-		String result=membersDao.insertMast(MemList);
+		String result=target.insertMast(MemList);
 		assertThat(result,is("100"));
 
-		membersDao.delete(member);
+		target.delete(member);
 	}
 
 	@Test
 	public void testinsertMast異常() throws Exception{
 
-		MembersDao membersDao = DaoFactory.createMembersDao();
-		Members member=new Members();
+
+		 member=new Members();
 		List<Members> MemList=new ArrayList<>();
 
 		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -866,10 +862,10 @@ public class MembersDaoImplTest2 extends TestDBAccess{
 		member.setLogin_id(INSERT_LOGIN_ID);
 		MemList.add(0,member);
 		MemList.add(1,member);
-		String result=membersDao.insertMast(MemList);
+		String result=target.insertMast(MemList);
 		assertThat(result,is("300"));
 
-		membersDao.delete(member);
+		target.delete(member);
 	}
 
 }
