@@ -24,43 +24,44 @@
 
 					<p class="bold">社員番号（必須）</p>
 					<p>
-						<input type="text" name="member_id" placeholder="社員番号" class="form-control" maxlength="50" required>
+						<input type="text" name="member_id" placeholder="社員番号" class="form-control" value="${member.member_id}" maxlength="8" required>
 					</p>
 
 					<p class="bold">氏名（必須）</p>
 					<p>
-						<input type="text" name="name" placeholder="氏名" class="form-control" maxlength="50" required>
+						<input type="text" name="name" placeholder="氏名" class="form-control" value="${member.name}" maxlength="50" required>
 					</p>
 
 					<p class="bold">フリガナ</p>
 					<p>
-						<input type="text" name="kana" placeholder="フリガナ" class="form-control" maxlength="100" >
+						<input type="text" name="kana" placeholder="フリガナ" class="form-control" value="${member.kana}" maxlength="100" >
 					</p>
 
 					<p class="bold">住所（必須）</p>
 					<p>
-						<input type="text" name="address" placeholder="(例)東京都新宿区○○△△-□□" class="form-control" maxlength="255" required>
+						<input type="text" name="address" placeholder="(例)東京都新宿区○○△△-□□" class="form-control" value="${member.address}" maxlength="255" required>
 					</p>
 
 					<p class="bold">電話番号（必須）</p>
 					<p>
-						<input type="text" name="tel" placeholder="(例)090-1234-5678" class="form-control" maxlength="13" required>
+						<input type="text" name="tel" placeholder="(例)090-1234-5678" class="form-control" value="${member.tel}" maxlength="13" required>
 					</p>
 
 
 					<p class="bold">誕生日（必須）</p>
 					<p>
-						<input type="date" name="birthday" placeholder="yyyy-mm-dd" class="form-control" required>
+						<input type="date" name="birthday" placeholder="yyyy-mm-dd" class="form-control" value="${member.birthday}" required>
 					</p>
 
 					<p class="bold">入社日（必須）</p>
 					<p>
-						<input type="date" name="hired" placeholder="yyyy-mm-dd" class="form-control" required>
+						<input type="date" name="hired" placeholder="yyyy-mm-dd" class="form-control" value="${member.hired}" required>
 					</p>
 
 					<p class="bold">ログインID（必須）</p>
 					<p>
-						<input type="text" name="login_id" placeholder="ログインID" class="form-control" maxlength="20" required>
+
+						<input type="text" name="login_id" placeholder="ログインID" class="form-control" value="${member.login_id}" maxlength="20" required>
 					</p>
 
 					<p class="bold">パスワード（必須)</p>

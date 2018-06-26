@@ -228,39 +228,41 @@ public class MemberServlet extends HttpServlet {
 			int auth_id= Integer.parseInt(request.getParameter("auth_id"));
 
 
+			// データの追加
+			Members memberI = new Members();
+			memberI.setMember_id(member_id);
+			memberI.setName(name);
+			memberI.setKana(kana);
+			memberI.setAddress(address);
+			memberI.setTel(tel);
+			memberI.setBirthday(birthday);
+			memberI.setHired(hired);
+			memberI.setLogin_id(login_id);
+			memberI.setLogin_pass(login_pass);
+			memberI.setDep_id(dep_id);
+			memberI.setAuth_id(auth_id);
 
+// DataValidを使って値をチェックする　クラスメソッドを追加してもよい
+//			if (insDataCheck(memberI).equals(100){
 
 			// loginIdとloginPassの正規化チェック 半角英数字、ハイフン、アンダースコアのみ許可
 			if (DataValid.isAlphanum(login_id) && DataValid.isAlphanum(login_pass)) {
+
 				// パスワードのハッシュ化
 				String hashedPass = BCrypt.hashpw(login_pass, BCrypt.gensalt());
-
-				// データの追加
-				Members member = new Members();
-				member.setMember_id(member_id);
-				member.setName(name);
-				member.setKana(kana);
-				member.setAddress(address);
-				member.setTel(tel);
-				member.setBirthday(birthday);
-				member.setHired(hired);
-				member.setLogin_id(login_id);
-				member.setLogin_pass(hashedPass);
-				member.setDep_id(dep_id);
-				member.setAuth_id(auth_id);
-
-
+				memberI.setLogin_pass(hashedPass);
 
 				try {
 					MembersDao MembersDao = DaoFactory.createMembersDao();
 					// login_idが使われているかチェックする
 					if (MembersDao.CheckLoginId(login_id)) {
-						MembersDao.insert(member);
-						MembersDao.insertacount(member);
+						MembersDao.insert(memberI);
+						MembersDao.insertacount(memberI);
 						request.getRequestDispatcher("view/memberinsertDone.jsp").forward(request, response);
 					} else {
 						// login_idが他のユーザーのlogin_idとかぶった場合の処理内容
 						request.setAttribute("error", true);
+						request.setAttribute("member", memberI);
 						request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
 					}
 				} catch (Exception e) {
@@ -269,9 +271,12 @@ public class MemberServlet extends HttpServlet {
 			} else {
 				// if文、文字列が半角英数字、ハイフン、アンダースコア以外の場合は以下の処理
 				request.setAttribute("errorchar", true);
+				request.setAttribute("member", memberI);
 				request.getRequestDispatcher("view/memberinsert.jsp").forward(request, response);
 			}
 			break;
+
+// ----------------------------------------------------------------------------------------------------------
 
 		case MEMBER_EDIT:
 			int auth=(int)request.getSession().getAttribute("auth_id");
