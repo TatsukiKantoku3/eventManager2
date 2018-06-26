@@ -18,7 +18,7 @@
 </form>
 </c:if>
 <c:if test="${auth_id == 2}">
-<a href="Event?servletName=eventToday" type="button" class="btn btn-default">戻る</a>
+<a href="EventServlet?servletName=eventToday" type="button" class="btn btn-default">戻る</a>
 </c:if>
 
 </div>
