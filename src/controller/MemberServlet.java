@@ -123,15 +123,15 @@ public class MemberServlet extends HttpServlet {
 			MembersDao MembersDao = DaoFactory.createMembersDao();
 			int auth_id=(Integer)request.getSession().getAttribute("auth_id");
 			if(auth_id==2) {
-				String login_id=(String)request.getAttribute("login_id");
-				System.out.println(login_id);
+				String member_id=(String)request.getSession().getAttribute("member_id");
+				String login_id=(String)request.getSession().getAttribute("login_id");
 				try {
-					Members member = MembersDao.findById(login_id);
+					Members member = MembersDao.findById(member_id);
 					member.setLogin_id(login_id);
 					this.loginId = member.getLogin_id();
 
 					request.setAttribute("member", member);
-					request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
+					request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
 				} catch (Exception e) {
 					throw new ServletException(e);
 				}

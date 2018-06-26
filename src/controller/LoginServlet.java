@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 				if(member2 != null) {
 					// セッションにユーザー情報"id,loginId,name,type_id"を登録
 					request.getSession().setAttribute("member_id", member.getMember_id());
-					request.getSession().setAttribute("login_id", member.getLogin_id());
+					request.getSession().setAttribute("login_id", member2.getLogin_id());
 					request.getSession().setAttribute("name", member.getName());
 					request.getSession().setAttribute("auth_id", member2.getAuth_id());
 					request.setAttribute("servletName", pageName);

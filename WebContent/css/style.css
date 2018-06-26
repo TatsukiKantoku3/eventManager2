@@ -29,4 +29,8 @@ div.login_top{
 /* 表示するデータが0のときのページネーションボタン非表示 */
 .invisible{visility:hidden}
 
+.display {
+    display:none
+}
+
 #hh2 {text-align:center}
