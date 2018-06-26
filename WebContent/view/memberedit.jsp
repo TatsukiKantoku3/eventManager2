@@ -30,9 +30,9 @@
 						<input type="text" name="name" placeholder="氏名" class="form-control" value="${member.name}" maxlength="50" required >
 					</p>
 
-					<p class="bold">フリガナ（必須）</p>
+					<p class="bold">フリガナ</p>
 					<p>
-						<input type="text" name="kana" placeholder="フリガナ" class="form-control" value="${member.kana}" maxlength="100" required >
+						<input type="text" name="kana" placeholder="フリガナ" class="form-control" value="${member.kana}" maxlength="100" >
 					</p>
 
 					<p class="bold">住所（必須）</p>
