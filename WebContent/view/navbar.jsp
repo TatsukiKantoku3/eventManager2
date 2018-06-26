@@ -46,7 +46,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="logout">ログアウト</a></li>
 						<c:if test="${auth_id == 1}"><li><a href="FileIOServlet">マスタ登録</a></li></c:if>
-						<c:if test="${auth_id == 2}"><li><a href="Member?login_id=<%=request.getSession().getAttribute("login_id") %>&servletName=memberEdit">パスワード変更</a></li></c:if>
+						<c:if test="${auth_id == 2}"><li><a href="Member?&servletName=memberEdit">パスワード変更</a></li></c:if>
 					</ul>
 				</li>
 			</ul>

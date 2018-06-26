@@ -27,7 +27,7 @@
 		<br><br>
 
 					<p>
-						<a href="Event?servletName=eventToday" type="button" class="btn btn-default">キャンセル</a>
+						<a href="EventServlet?servletName=eventToday" type="button" class="btn btn-default">キャンセル</a>
 						<input type="hidden" name="login_id" value="${member.login_id}" >
 						<input type="hidden" name="servletName" value="memberEdit"/>
 						<input type="submit" class="btn btn-primary" value="登録" />
