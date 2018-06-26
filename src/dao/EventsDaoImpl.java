@@ -223,9 +223,12 @@ public class EventsDaoImpl implements EventsDao {
 		}catch(NullPointerException e) {
 			return false;
 		}
+
 		try{castEnd = new Timestamp(events.getEnd().getTime());
 		}catch(NullPointerException e) {
-
+			if(!events.isEdit_pass()) {
+				return false;
+				}
 		}
 		try (Connection con = ds.getConnection()) {
 			String sql = "INSERT INTO events"
@@ -256,7 +259,9 @@ public class EventsDaoImpl implements EventsDao {
 		}
 		try{castEnd = new Timestamp(events.getEnd().getTime());
 		}catch(NullPointerException e) {
-
+			if(!events.isEdit_pass()) {
+			return false;
+			}
 		}
 		try (Connection con = ds.getConnection()) {
 			String sql = "UPDATE"

@@ -226,6 +226,7 @@ public class EventServlet extends HttpServlet {
 			break;
 
 		case EVENT_EDIT:
+			Events event = new Events();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			int event_id = Integer.parseInt(request.getParameter("event_id"));
 			String title = request.getParameter("title");
@@ -233,6 +234,12 @@ public class EventServlet extends HttpServlet {
 			Date end = null;
 			try {
 				start = sdf.parse(request.getParameter("start"));
+				String endparam=request.getParameter("end");
+				if(endparam.equals("")) {
+					event.setEdit_pass(true);
+				}else {
+					event.setEdit_pass(false);
+				}
 				end = sdf.parse(request.getParameter("end"));
 			} catch (ParseException e1) {
 				e1.printStackTrace();
@@ -242,7 +249,7 @@ public class EventServlet extends HttpServlet {
 			int dep_id = Integer.parseInt(request.getParameter("dep_id"));
 			String detail = request.getParameter("detail");
 
-			Events event = new Events();
+
 			event.setEvent_id(event_id);
 			event.setTitle(title);
 			event.setStart(start);
@@ -268,6 +275,7 @@ public class EventServlet extends HttpServlet {
 			break;
 
 		case EVENT_INSERT:
+			Events event2 = new Events();
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			String title2 = request.getParameter("title");
@@ -275,6 +283,12 @@ public class EventServlet extends HttpServlet {
 			Date end2 = null;
 			try {
 				start2 = sdf2.parse(request.getParameter("start"));
+				String endparam=request.getParameter("end");
+				if(endparam.equals("")) {
+					event2.setEdit_pass(true);
+				}else {
+					event2.setEdit_pass(false);
+				}
 				end2 = sdf2.parse(request.getParameter("end"));
 			} catch (ParseException e1) {
 				e1.printStackTrace();
@@ -283,7 +297,7 @@ public class EventServlet extends HttpServlet {
 			int dep_id2 = Integer.parseInt(request.getParameter("dep_id"));
 			String detail2 = request.getParameter("detail");
 
-			Events event2 = new Events();
+
 			event2.setTitle(title2);
 			event2.setStart(start2);
 			event2.setEnd(end2);

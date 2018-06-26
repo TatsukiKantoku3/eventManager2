@@ -17,7 +17,7 @@ public class Events {
 	private String member_id;
 	private String member_name;
 	private Date created;
-
+	private boolean edit_pass;
 	/**
 	 * @return registered_id
 	 */
@@ -173,6 +173,12 @@ public class Events {
 	 */
 	public void setPlace_name(String place_name) {
 		this.place_name = place_name;
+	}
+	public boolean isEdit_pass() {
+		return edit_pass;
+	}
+	public void setEdit_pass(boolean edit_pass) {
+		this.edit_pass = edit_pass;
 	}
 
 }
