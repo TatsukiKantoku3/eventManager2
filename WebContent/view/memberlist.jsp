@@ -6,7 +6,10 @@
 <title>メンバー一覧</title>
 </head>
 <body>
-	<%@ include file="navbar.jsp"%>
+	<c:import url="navbar.jsp">
+
+		<c:param name="page" value="3" />
+	</c:import>
 	<div class="col-md-10 col-md-offset-1">
 		<h1>メンバー一覧</h1>
 

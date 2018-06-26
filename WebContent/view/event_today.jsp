@@ -6,7 +6,10 @@
 <title>本日のイベント</title>
 </head>
 <body>
-<%@ include file="navbar.jsp"%>
+<c:import url="navbar.jsp">
+
+		<c:param name="page" value="1" />
+	</c:import>
 	<!-- Header -->
 	<header> </header>
 <div class="col-md-10 col-md-offset-1">

@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html lang="ja">
@@ -13,7 +14,11 @@ int numC = new Integer(objStr);
 %>
 </head>
 <body>
-	<%@ include file="navbar.jsp"%>
+	<c:import url="navbar.jsp">
+
+		<c:param name="page" value="2" />
+	</c:import>
+
 	<div class="col-md-10 col-md-offset-1">
 		<h1>イベント一覧</h1>
 <!-- pagenation -->

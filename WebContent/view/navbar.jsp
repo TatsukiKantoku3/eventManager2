@@ -35,9 +35,11 @@
 
 		<div class="collapse navbar-collapse" id="navbarEexample">
 			<ul class="nav navbar-nav">
-				<li><a href="EventServlet?servletName=eventToday">本日のイベント</a></li>
-				<li><a href="EventServlet?servletName=eventList">イベント管理</a></li>
-				<c:if test="${auth_id == 1}"><li><a href="Member?servletName=memberList">メンバー管理</a></li></c:if>
+				<li <c:if test="${param.page==1}">class="active"</c:if>><a href="EventServlet?servletName=eventToday">本日のイベント</a></li>
+
+				<li <c:if test="${param.page==2}">class="active"</c:if>><a href="EventServlet?servletName=eventList">イベント管理</a></li>
+
+				<c:if test="${auth_id == 1}"><li <c:if test="${param.page==3}">class="active"</c:if>><a href="Member?servletName=memberList">メンバー管理</a></li></c:if>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
