@@ -288,7 +288,11 @@ public class MemberServlet extends HttpServlet {
 					Members member = new Members();
 					member.setLogin_id(edit_login_id);
 					member.setLogin_pass(hashedPass);
-
+					String edit_check_login_pass = request.getParameter("check_login_pass");
+					if(!edit_login_pass.equals(edit_check_login_pass)) {
+						request.setAttribute("errorchar", true);
+						request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
+					}
 					MembersDao MembersDao = DaoFactory.createMembersDao();
 					try {
 						MembersDao.CheckLoginPass(member);

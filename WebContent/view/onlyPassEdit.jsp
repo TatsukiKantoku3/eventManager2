@@ -20,10 +20,13 @@
 					<div class="form-group">
 				<form action="Member" method="post">
 					<p class="bold">パスワード</p>
+
+					<input type="password" name="login_pass" placeholder="パスワード" class="form-control" maxlength="60" placeholder="パスワード" required>
+					<p class="bold">パスワード(確認用)</p>
 					<c:if test="${!empty errorchar}">
-						<div class="alert alert-warning" role="alert">パスワードは半角英数字のみ入力できます</div>
+						<div class="alert alert-warning" role="alert">パスワードが異なっています</div>
 					</c:if>
-					<input type="text" name="login_pass" placeholder="パスワード" class="form-control" maxlength="60"  placeholder="パスワード" required>
+					<input type="password" name="check_login_pass" placeholder="パスワード" class="form-control" maxlength="60" placeholder="パスワード" required>
 		<br><br>
 
 					<p>
