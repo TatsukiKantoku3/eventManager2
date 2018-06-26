@@ -45,13 +45,11 @@ try{ invalid_data = request.getAttribute("invalid_data").toString(); }catch(Null
 
 						<p class="bold">場所</p>
 
-						<%
-							int i = 1;
-						%>
+
 						<p>
 							<select name="place_id" class="form-control">
-								<c:forEach items="${placeList}" var="place">
-									<option value="<%=i++%>"><c:out
+								<c:forEach items="${placeList}" var="place" varStatus="status">
+									<option value="${status.count}"><c:out
 											value="${place.place}" /></option>
 
 								</c:forEach>
@@ -62,11 +60,10 @@ try{ invalid_data = request.getAttribute("invalid_data").toString(); }catch(Null
 						<p>
 							<select name="dep_id" class="form-control" id="dep_id">
 								<option value="6">全員</option>
-								<option value="1">人事部</option>
-								<option value="2">経理部</option>
-								<option value="3">総務部</option>
-								<option value="4">営業部</option>
-								<option value="5">開発部</option>
+								<c:forEach items="${DepList}" var="DepList" varStatus="status">
+									<option value="${status.count}">
+									<c:out	value="${DepList.department}" /></option>
+								</c:forEach>
 							</select>
 						</p>
 						<p class="bold">詳細</p>

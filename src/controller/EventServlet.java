@@ -16,9 +16,11 @@ import com.DataValid;
 
 import dao.AttendDao;
 import dao.DaoFactory;
+import dao.DepartDao;
 import dao.EventsDao;
 import dao.PlaceDao;
 import domain.Attend;
+import domain.Depart;
 import domain.Events;
 import domain.Place;
 
@@ -130,14 +132,17 @@ public class EventServlet extends HttpServlet {
 				try {
 					EventsDao eventsDao = DaoFactory.createEventsDao();
 					PlaceDao placeDao = DaoFactory.createPlaceDao();
+					DepartDao departDao =DaoFactory.createDepartDao();
 					Events event = eventsDao.findById(event_id);
 					List<Place> placeList= placeDao.placeList();
+					List<Depart> DepList=departDao.DepList();
 
-					if(placeList.isEmpty()) {
+					if(placeList.isEmpty()||DepList.isEmpty()) {
 						request.getRequestDispatcher("view/405.jsp").forward(request, response);
 					}else {
 
 					request.getSession().setAttribute("placeList", placeList);
+					request.getSession().setAttribute("DepList", DepList);
 					request.getSession().setAttribute("event",event);
 		            request.getRequestDispatcher("view/eventedit.jsp").forward(request, response);
 					}
@@ -151,12 +156,16 @@ public class EventServlet extends HttpServlet {
 				try {
 					PlaceDao placeDao = DaoFactory.createPlaceDao();
 					List<Place> placeList= placeDao.placeList();
-					if(placeList.isEmpty()) {
+					DepartDao departDao =DaoFactory.createDepartDao();
+					List<Depart> DepList=departDao.DepList();
+
+					if(placeList.isEmpty()||DepList.isEmpty()) {
 
 						request.getRequestDispatcher("view/405.jsp").forward(request, response);
 					}else {
 
 					request.getSession().setAttribute("placeList", placeList);
+					request.getSession().setAttribute("DepList", DepList);
 				request.getRequestDispatcher("view/eventinsert.jsp").forward(request, response);
 					}
 

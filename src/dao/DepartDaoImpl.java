@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -88,5 +89,28 @@ public class DepartDaoImpl implements DepartDao {
 	}
 
 
+	@Override
+	public List<Depart> DepList() throws SQLException {
+		List<Depart> DepList=new ArrayList<>();
+
+		try(Connection con=ds.getConnection()){
+			String sql=" SELECT department FROM department ORDER BY dep_id;";
+			PreparedStatement stms = con.prepareStatement(sql);
+			ResultSet rs = stms.executeQuery();
+			while(rs.next()){
+				DepList.add(mapToDepart(rs));
+			}
+		}
+
+		return DepList;
+
+	}
+
+	private Depart mapToDepart(ResultSet rs) throws SQLException {
+		Depart dep=new Depart();
+		dep.setDepartment(rs.getString("department"));
+		return dep;
+
+	}
 
 }

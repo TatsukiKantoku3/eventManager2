@@ -97,7 +97,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		List<Place> placeList=new ArrayList<>();
 
 		try(Connection con=ds.getConnection()){
-			String sql="SELECT place FROM place";
+			String sql=" SELECT place FROM place ORDER BY place_id;";
 			PreparedStatement stms = con.prepareStatement(sql);
 			ResultSet rs = stms.executeQuery();
 			while(rs.next()){
