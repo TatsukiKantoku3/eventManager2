@@ -13,18 +13,13 @@
 			<div class="container col-md-10 col-md-offset-1">
 				<h1>メンバー登録</h1>
 				<!-- 入力画面-->
-				 	<c:if test="${!empty errorchar}">
-						<div class="alert alert-warning" role="alert">ログインID、パスワードは半角英数字のみ入力できます</div>
-					</c:if>
-					<c:if test="${!empty error}">
-						<div class="alert alert-warning" role="alert">ログインIDが既に使用されています</div>
-					</c:if>
+
 					<div class="form-group">
 				<form action="Member" method="post">
 
-					<p class="bold">社員番号（必須）</p>
+					<p class="bold">社員ID（必須）</p>
 					<p>
-						<input type="text" name="member_id" placeholder="社員番号" class="form-control" value="${member.member_id}" maxlength="8" required>
+						<input type="text" name="member_id" placeholder="社員ID" class="form-control" value="${member.member_id}" maxlength="8" required>
 					</p>
 
 					<p class="bold">氏名（必須）</p>
@@ -32,7 +27,10 @@
 						<input type="text" name="name" placeholder="氏名" class="form-control" value="${member.name}" maxlength="50" required>
 					</p>
 
-					<p class="bold">フリガナ</p>
+					<p class="bold">フリガナ(全角カタカナ)</p>
+					<c:if test="${!empty error_kana}">
+						<div class="alert alert-warning" role="alert">カタカナ以外は入力できません</div>
+					</c:if>
 					<p>
 						<input type="text" name="kana" placeholder="フリガナ" class="form-control" value="${member.kana}" maxlength="100" >
 					</p>
@@ -43,30 +41,45 @@
 					</p>
 
 					<p class="bold">電話番号（必須）</p>
+					<c:if test="${!empty error_tel}">
+						<div class="alert alert-warning" role="alert">不正な電話番号です</div>
+					</c:if>
 					<p>
 						<input type="text" name="tel" placeholder="(例)090-1234-5678" class="form-control" value="${member.tel}" maxlength="13" required>
 					</p>
 
-
 					<p class="bold">誕生日（必須）</p>
+					<c:if test="${!empty error_birthday}">
+						<div class="alert alert-warning" role="alert">不正な日付です</div>
+					</c:if>
 					<p>
-						<input type="date" name="birthday" placeholder="yyyy-mm-dd" class="form-control" value="${member.birthday}" required>
+						<input type="date" name="birthday" placeholder="1990-12-12" class="form-control" value="${member.birthday}" required>
 					</p>
 
 					<p class="bold">入社日（必須）</p>
+					<c:if test="${!empty error_hired}">
+						<div class="alert alert-warning" role="alert">不正な日付です</div>
+					</c:if>
 					<p>
-						<input type="date" name="hired" placeholder="yyyy-mm-dd" class="form-control" value="${member.hired}" required>
+						<input type="date" name="hired" placeholder="2018-4-1" class="form-control" value="${member.hired}" required>
 					</p>
 
 					<p class="bold">ログインID（必須）</p>
+					<c:if test="${!empty error_login_id}">
+						<div class="alert alert-warning" role="alert">ログインIDにはハイフン(-)と半角英数字のみ使用可能です</div>
+					</c:if>
+					<c:if test="${!empty error}">
+						<div class="alert alert-warning" role="alert">ログインIDが既に使用されています</div>
+					</c:if>
 					<p>
-
 						<input type="text" name="login_id" placeholder="ログインID" class="form-control" value="${member.login_id}" maxlength="20" required>
 					</p>
 
 					<p class="bold">パスワード（必須)</p>
-					<input type="text" name="login_pass" placeholder="パスワード" class="form-control" maxlength="60" required>
-
+					<c:if test="${!empty error_login_pass}">
+						<div class="alert alert-warning" role="alert">パスワードには半角英数字のみ使用可能です</div>
+					</c:if>
+					<input type="text" name="login_pass" placeholder="パスワード" class="form-control"  maxlength="60" required>
 
 					<p class="bold">所属部署（必須）</p>
 					<p><select name="dep_id" class="form-control">
