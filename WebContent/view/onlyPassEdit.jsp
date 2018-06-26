@@ -15,6 +15,8 @@
 				<h1>パスワード編集</h1>
 				<!-- 入力画面-->
 
+					<p>社員ID:<c:out value="${member.member_id}"></c:out><p>
+					<p>氏名:<c:out value="${member.name}"></c:out></p>
 					<div class="form-group">
 				<form action="Member" method="post">
 
