@@ -19,7 +19,9 @@ import com.DataValid;
 
 import dao.AttendDao;
 import dao.DaoFactory;
+import dao.DepartDao;
 import dao.MembersDao;
+import domain.Depart;
 import domain.Members;
 
 
@@ -117,11 +119,18 @@ public class MemberServlet extends HttpServlet {
 			break;
 
 		case MEMBER_INSERT:
-			request.getRequestDispatcher("view/memberinsert.jsp").forward(request, response);
-
+			try {
+				DepartDao departDao =DaoFactory.createDepartDao();
+				List<Depart> DepList=departDao.DepList();
+				request.getSession().setAttribute("DepList", DepList);
+				request.getRequestDispatcher("view/memberinsert.jsp").forward(request, response);
+			} catch (Exception e) {
+				throw new ServletException(e);
+			}
 			break;
 		case MEMBER_EDIT:
 			MembersDao MembersDao = DaoFactory.createMembersDao();
+			DepartDao departDao =DaoFactory.createDepartDao();
 			int auth_id=(Integer)request.getSession().getAttribute("auth_id");
 			if(auth_id==2) {
 				String member_id=(String)request.getSession().getAttribute("member_id");
@@ -130,7 +139,8 @@ public class MemberServlet extends HttpServlet {
 					Members member = MembersDao.findById(member_id);
 					member.setLogin_id(login_id);
 					this.loginId = member.getLogin_id();
-
+					List<Depart> DepList=departDao.DepList();
+					request.getSession().setAttribute("DepList", DepList);
 					request.setAttribute("member", member);
 					request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
 				} catch (Exception e) {

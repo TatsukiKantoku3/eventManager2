@@ -69,12 +69,11 @@
 
 					<p class="bold">所属部署（必須）</p>
 					<p><select name="dep_id" class="form-control">
-							<option value="1">人事部</option>
-							<option value="2">経理部</option>
-							<option value="3">総務部</option>
-							<option value="4">営業部</option>
-							<option value="5">開発部</option>
-							</select>
+							<c:forEach items="${DepList}" var="DepList" varStatus="status">
+								<option value="${status.count}">
+								<c:out	value="${DepList.department}" /></option>
+							</c:forEach>
+						</select>
 					</p>
 					<p class="bold">権限（必須）</p>
 					<p><select name="auth_id" class="form-control">
