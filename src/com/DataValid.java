@@ -20,6 +20,9 @@ import java.util.regex.Pattern;
  */
 public class DataValid {
 
+	private DataValid() {
+	}
+
 	//※intだと実際にnullだった場合にfalseを返す前にnull point exceptionで止まってしまう
 	//	ため、引数の型をIntegerに変更しました
 	/**
