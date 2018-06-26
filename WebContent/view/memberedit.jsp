@@ -96,7 +96,7 @@
 						<input type="hidden" name="oldlogin_id" value="${member.login_id}"/>
 						<input type="hidden" name="oldmember_id" value="${member.member_id}"/>
 						<input type="hidden" name="servletName" value="memberEdit"/>
-						<input type="submit" class="btn btn-primary" value="登録" />
+						<input type="submit" class="btn btn-primary" value="保存" />
 					</p>
 				</form>
 				</div>
