@@ -32,8 +32,8 @@
 						<div class="alert alert-warning" role="alert">ログインID,パスワードは半角英数字のみ使用できます</div>
 					</c:if>
 					<form action="login" method="post">
-						<br> <input type="text" placeholder="ログインID" name="login_id" style="ime-disabled"
-						id="loginId" class="form-control" maxlength="20" required> <br> <br>
+						<br> <input type="tel" placeholder="ログインID" name="login_id"
+						id="loginId" class="form-control" maxlength="20" required style="ime-mode:disabled"> <br> <br>
 						<input type="password" placeholder="パスワード" name="login_pass"
 							id="loginPass" class="form-control" maxlength="60" required> <br> <br>
 						<input type="submit" value="ログイン" class="btn btn-primary form-control" />
