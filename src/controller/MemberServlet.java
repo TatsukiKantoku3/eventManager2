@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -204,50 +205,50 @@ public class MemberServlet extends HttpServlet {
 		case MEMBER_INSERT:
 
 
-			boolean Check=true;
+//			boolean Check=true;
+//
+//			//DataValidcheck
+//			if(request.getParameter("kana")!=null) {
+//			if(!DataValid.isKana(request.getParameter("kana"))){
+//				request.setAttribute("error_kana", true);
+//				Check=false;
+//			}
+//			}
+//			if(!DataValid.isTelFormat(request.getParameter("tel"))) {
+//				request.setAttribute("error_tel", true);
+//				Check=false;
+//
+//			}
+//			//日付のM Dを1つにしている
+//			if(!DataValid.isDateFormat(request.getParameter("birthday"), "yyyy-M-d")) {
+//				request.setAttribute("error_birthday", true);
+//				Check=false;
+//
+//			}
+//
+//			if(!DataValid.isDateFormat(request.getParameter("hired"), "yyyy-M-d")) {
+//				request.setAttribute("error_hired", true);
+//				Check=false;
+//
+//			}
+//
+//			if(!DataValid.isAlphanum(request.getParameter("login_id"))||
+//					DataValid.limitChar(request.getParameter("login_id"), 8)) {
+//				request.setAttribute("error_login_id", true);
+//				Check=false;
+//							}
+//
+//			if(!DataValid.inNotNum(request.getParameter("login_pass"))) {
+//				request.setAttribute("error_login_pass", true);
+//
+//				Check=false;
+//
+//			}
 
-			//DataValidcheck
-			if(request.getParameter("kana")!=null) {
-			if(!DataValid.isKana(request.getParameter("kana"))){
-				request.setAttribute("error_kana", true);
-				Check=false;
-			}
-			}
-			if(!DataValid.isTelFormat(request.getParameter("tel"))) {
-				request.setAttribute("error_tel", true);
-				Check=false;
-
-			}
-			//日付のM Dを1つにしている
-			if(!DataValid.isDateFormat(request.getParameter("birthday"), "yyyy-M-d")) {
-				request.setAttribute("error_birthday", true);
-				Check=false;
-
-			}
-
-			if(!DataValid.isDateFormat(request.getParameter("hired"), "yyyy-M-d")) {
-				request.setAttribute("error_hired", true);
-				Check=false;
-
-			}
-
-			if(!DataValid.isAlphanum(request.getParameter("login_id"))||
-					DataValid.limitChar(request.getParameter("login_id"), 8)) {
-				request.setAttribute("error_login_id", true);
-				Check=false;
-							}
-
-			if(!DataValid.inNotNum(request.getParameter("login_pass"))) {
-				request.setAttribute("error_login_pass", true);
-
-				Check=false;
-
-			}
-
-			if(Check==false) {
-
-				request.getRequestDispatcher("view/memberinsertDone.jsp").forward(request, response);
-			}
+//			if(Check==false) {
+//
+//				request.getRequestDispatcher("view/memberinsertDone.jsp").forward(request, response);
+//			}
 
 			String member_id=request.getParameter("member_id");
 			String name = request.getParameter("name");
@@ -272,8 +273,8 @@ public class MemberServlet extends HttpServlet {
 			int dep_id = Integer.parseInt(request.getParameter("dep_id"));
 			//int position_type=Integer.parseInt(request.getParameter("position_type"));
 			int auth_id= Integer.parseInt(request.getParameter("auth_id"));
-
-
+			//String birth_str = request.getParameter("birthday");
+			//String hired_str = request.getParameter("hired");
 
 
 			// データの追加
@@ -291,10 +292,11 @@ public class MemberServlet extends HttpServlet {
 			memberI.setAuth_id(auth_id);
 
 // DataValidを使って値をチェックする　クラスメソッドを追加してもよい
-//			if (insDataCheck(memberI).equals(100){
-
 			// loginIdとloginPassの正規化チェック 半角英数字、ハイフン、アンダースコアのみ許可
-			if (DataValid.isAlphanum(login_id) && DataValid.isAlphanum(login_pass)) {
+			List<String> errorList = memberDataValid(memberI, "memberInsert");
+		//	String error_messages = errorList.get(0);
+		//	if( error_messages.equals(null)  ){
+			if(errorList == null) {
 
 				// パスワードのハッシュ化
 				String hashedPass = BCrypt.hashpw(login_pass, BCrypt.gensalt());
@@ -309,7 +311,7 @@ public class MemberServlet extends HttpServlet {
 						request.getRequestDispatcher("view/memberinsertDone.jsp").forward(request, response);
 					} else {
 						// login_idが他のユーザーのlogin_idとかぶった場合の処理内容
-						request.setAttribute("error", true);
+						request.setAttribute("error_used_loginid", true);
 						request.setAttribute("member", memberI);
 						request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
 					}
@@ -317,8 +319,10 @@ public class MemberServlet extends HttpServlet {
 					throw new ServletException(e);
 				}
 			} else {
-				// if文、文字列が半角英数字、ハイフン、アンダースコア以外の場合は以下の処理
-//				request.setAttribute("errorchar", true);
+				for(String error_message:errorList) {
+					request.setAttribute(error_message, true);
+				}
+				//request.setAttribute(error_message, true);
 				request.setAttribute("member", memberI);
 				request.getRequestDispatcher("view/memberinsert.jsp").forward(request, response);
 			}
@@ -483,5 +487,35 @@ public class MemberServlet extends HttpServlet {
 
 	}
 
+	// メンバー登録、編集時のデータチェックメソッド、戻り値をList<String>のエラー名に変える予定
+	private List<String> memberDataValid(Members member, String servname) {
+		List<String> validList = new ArrayList<String>();
+		if(member.getKana()!=null) {
+			if(!DataValid.isKana(member.getKana())){
+				validList.add("error_kana");
+			}
+		}
+		if(!DataValid.isTelFormat(member.getTel())) {
+			validList.add("error_tel");
+		}
+		//日付のM Dを1つにしている //そもそもData型の時点でチェックできてるのでこのチェックは必要無い可能性あり
+//		if(!DataValid.isDateFormat(member.getBirthday(), "yyyy-M-d")) {
+//			return "error_birthday";
+//		}
+		//このチェックは必要無い可能性あり
+//		if(servname.equals("memberInsert")) {
+//			if(!DataValid.isDateFormat(member.getHired(), "yyyy-M-d")) {
+//				return "error_hired";
+//			}
+//		}
+		if(!DataValid.isAlphanum(member.getLogin_id())||
+				DataValid.limitChar(member.getLogin_id(), 8)) {
+			validList.add("error_login_id");
+		}
+		if(!DataValid.inNotNum(member.getLogin_pass())) {
+			validList.add("error_login_pass");
+		}
+		return validList;
+	}
 
 }
