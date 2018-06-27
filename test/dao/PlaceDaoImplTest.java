@@ -16,14 +16,21 @@ import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runners.MethodSorters;
 
 import com.TestDBAccess;
 
 import domain.Place;
-
+//メソッド名順で実行する
+@FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class PlaceDaoImplTest extends TestDBAccess {
+
+	 @Rule
+	 public ExpectedException thrown = ExpectedException.none();
 
 	private static DataSource testds;
 	static final Date DATE = new Date();
@@ -231,10 +238,11 @@ public class PlaceDaoImplTest extends TestDBAccess {
 	public void 異常系testInsert4() throws Exception {
 
 		//privateな変数dsにnullをセットする
-		Class c=target.getClass();
+		PlaceDao target2= DaoFactory.createPlaceDao();
+		Class c=target2.getClass();
 		Field fld=c.getDeclaredField("ds");
 		fld.setAccessible(true);
-		fld.set(target, null);
+		fld.set(target2, null);
 
 
 		//インサート用のサンプルデータをセットしリストに格納
@@ -251,19 +259,32 @@ public class PlaceDaoImplTest extends TestDBAccess {
 				testList.add(place);
 
 
-				ExpectedException exex = ExpectedException.none();
-
-				exex.expect(NullPointerException.class);
+				thrown.expect(NullPointerException.class);
 
 				//インサート実行
-				target.insert(testList);
+				target2.insert(testList);
 	}
 
 	@Test
-	public void 異常系testPlaceList() throws Exception {
+	public void 異常系testPlaceList1() throws Exception {
 		List<Place> test = target.placeList();
 
 		assertThat(test.isEmpty(), is(true));
+	}
+
+	@Test
+	public void 異常系testPlaceList2() throws Exception {
+		//privateな変数dsにnullをセットする
+		PlaceDao target2= DaoFactory.createPlaceDao();
+				Class c=target2.getClass();
+				Field fld=c.getDeclaredField("ds");
+				fld.setAccessible(true);
+				fld.set(target2, null);
+
+				thrown.expect(NullPointerException.class);
+
+				List<Place> test = target2.placeList();
+
 	}
 
 	@Before

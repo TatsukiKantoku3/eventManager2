@@ -19,7 +19,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		this.ds = ds;
 	}
 
-	public String insert(List<Place> placeList) throws Exception {
+	public String insert(List<Place> placeList) throws SQLException {
 		try (Connection con = ds.getConnection()) {
 
 			try {
@@ -75,8 +75,6 @@ public class PlaceDaoImpl implements PlaceDao {
 				return "100";
 
 			} catch (Exception e) {
-
-				e.printStackTrace();
 				con.rollback();
 				return "300";
 			}
