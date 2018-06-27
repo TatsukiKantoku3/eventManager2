@@ -66,7 +66,7 @@
 
 					<p class="bold">ログインID（必須）</p>
 					<c:if test="${!empty error_login_id}">
-						<div class="alert alert-warning" role="alert">ログインIDにはハイフン(-)と半角英数字のみ使用可能です</div>
+						<div class="alert alert-warning" role="alert">ログインIDにはハイフン(-)と半角英数字のみ8文字以上で指定されています</div>
 					</c:if>
 					<c:if test="${!empty error}">
 						<div class="alert alert-warning" role="alert">ログインIDが既に使用されています</div>

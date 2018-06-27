@@ -203,6 +203,52 @@ public class MemberServlet extends HttpServlet {
 			break;
 		case MEMBER_INSERT:
 
+
+			boolean Check=true;
+
+			//DataValidcheck
+			if(request.getParameter("kana")!=null) {
+			if(!DataValid.isKana(request.getParameter("kana"))){
+				request.setAttribute("error_kana", true);
+				Check=false;
+			}
+			}
+			if(!DataValid.isTelFormat(request.getParameter("tel"))) {
+				request.setAttribute("error_tel", true);
+				Check=false;
+
+			}
+			//日付のM Dを1つにしている
+			if(!DataValid.isDateFormat(request.getParameter("birthday"), "yyyy-M-d")) {
+				request.setAttribute("error_birthday", true);
+				Check=false;
+
+			}
+
+			if(!DataValid.isDateFormat(request.getParameter("hired"), "yyyy-M-d")) {
+				request.setAttribute("error_hired", true);
+				Check=false;
+
+			}
+
+			if(!DataValid.isAlphanum(request.getParameter("login_id"))||
+					DataValid.limitChar(request.getParameter("login_id"), 8)) {
+				request.setAttribute("error_login_id", true);
+				Check=false;
+							}
+
+			if(!DataValid.inNotNum(request.getParameter("login_pass"))) {
+				request.setAttribute("error_login_pass", true);
+
+				Check=false;
+
+			}
+
+			if(Check==false) {
+
+				request.getRequestDispatcher("view/memberinsertDone.jsp").forward(request, response);
+			}
+
 			String member_id=request.getParameter("member_id");
 			String name = request.getParameter("name");
 			String kana=request.getParameter("kana");
@@ -226,6 +272,8 @@ public class MemberServlet extends HttpServlet {
 			int dep_id = Integer.parseInt(request.getParameter("dep_id"));
 			//int position_type=Integer.parseInt(request.getParameter("position_type"));
 			int auth_id= Integer.parseInt(request.getParameter("auth_id"));
+
+
 
 
 			// データの追加
@@ -270,7 +318,7 @@ public class MemberServlet extends HttpServlet {
 				}
 			} else {
 				// if文、文字列が半角英数字、ハイフン、アンダースコア以外の場合は以下の処理
-				request.setAttribute("errorchar", true);
+//				request.setAttribute("errorchar", true);
 				request.setAttribute("member", memberI);
 				request.getRequestDispatcher("view/memberinsert.jsp").forward(request, response);
 			}
