@@ -800,7 +800,15 @@ public class MembersDaoImplTest extends TestDBAccess{
 		assertThat(line, is(NUMBER0));
 
 	}
+	@Test
+	public void testDelete異常13() throws Exception{
 
+		member =new Members();
+		member.setLogin_id("falutid");
+		int line=target.delete(member);
+		assertThat(line, is(NUMBER0));
+
+	}
 
 
 	@Test
@@ -868,4 +876,34 @@ public class MembersDaoImplTest extends TestDBAccess{
 		target.delete(member);
 	}
 
+	@Test
+	public void testCheckLoginPass正常() throws Exception {
+		member =new Members();
+
+			member.setLogin_pass(UP_LOGIN_PASS);
+			member.setLogin_id(INSERT_LOGIN_ID);
+			member.setAuth_id(INSERT_ACCOUNT_AUTH_ID);
+			target.insertacount(member);
+
+			member =new Members();
+			member.setLogin_id(INSERT_LOGIN_ID);
+			member.setLogin_pass(UP_LOGIN_PASS);
+			String result=target.CheckLoginPass(member);
+			assertThat(result,is("100"));
+
+			target.deleteAccount(member);
+
+	}
+
+	@Test
+	public void testCheckLoginPass異常() throws Exception {
+			member =new Members();
+			member.setLogin_id(FSULT_LOGIN_ID);
+			member.setLogin_pass(UP_LOGIN_PASS);
+			String result=target.CheckLoginPass(member);
+			assertThat(result,is("300"));
+
+			target.deleteAccount(member);
+
+	}
 }

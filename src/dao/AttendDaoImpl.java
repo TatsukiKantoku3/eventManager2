@@ -238,7 +238,8 @@ public class AttendDaoImpl implements MembersDao, AttendDao {
 	}
 
 	@Override
-	public void CheckLoginPass(Members members) throws SQLException {
+	public String CheckLoginPass(Members members) throws SQLException {
+		return null;
 		// TODO 自動生成されたメソッド・スタブ
 
 	}

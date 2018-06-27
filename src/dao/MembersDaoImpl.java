@@ -69,7 +69,6 @@ public class MembersDaoImpl implements MembersDao {
 						+ "ON members.dep_id = department.dep_id "
 						+ "WHERE members.member_id = ?;";
 
-
 				PreparedStatement stms = con.prepareStatement(sql);
 				stms.setObject(1, fuga.getMember_id());
 				ResultSet rs = stms.executeQuery();
@@ -126,15 +125,11 @@ public class MembersDaoImpl implements MembersDao {
 		users.setAddress(rs.getString("address"));
 		users.setTel(rs.getString("tel"));
 		users.setBirthday(rs.getDate("birthday"));
-		users.setPosition_type((Integer)rs.getInt("position_type"));
+		users.setPosition_type((Integer) rs.getInt("position_type"));
 		users.setHired(rs.getDate("hired"));
 
 		return users;
 	}
-
-
-
-
 
 	/**
 	 * ユーザー詳細時に処理
@@ -180,18 +175,18 @@ public class MembersDaoImpl implements MembersDao {
 			//accountも編集
 
 			Timestamp Birth = new Timestamp(member.getBirthday().getTime());
-			Timestamp  Hire= new Timestamp(member.getHired().getTime());
+			Timestamp Hire = new Timestamp(member.getHired().getTime());
 
 			PreparedStatement stmt = con.prepareStatement(sql);
 
 			stmt.setString(1, member.getMember_id());
 			stmt.setString(2, member.getName());
 			stmt.setString(3, member.getKana());
-			stmt.setTimestamp(4,Birth);
+			stmt.setTimestamp(4, Birth);
 			stmt.setString(5, member.getAddress());
 			stmt.setString(6, member.getTel());
 			stmt.setTimestamp(7, Hire);
-			stmt.setObject(8, member.getDep_id(),Types.INTEGER);
+			stmt.setObject(8, member.getDep_id(), Types.INTEGER);
 			stmt.setObject(9, 0);
 			stmt.setString(10, member.getLogin_id());
 			stmt.executeUpdate();
@@ -200,20 +195,20 @@ public class MembersDaoImpl implements MembersDao {
 
 	@Override
 	public int insertacount(Members member) throws Exception {
-		int line=0;
+		int line = 0;
 		try (Connection con = ds.getConnection()) {
 			String sql = "INSERT INTO account(login_id,login_pass,auth_id)VALUES(?,?,?)";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			//account
 			stmt.setString(1, member.getLogin_id());
 			stmt.setString(2, member.getLogin_pass());
-			stmt.setObject(3, member.getAuth_id(),Types.INTEGER);
+			stmt.setObject(3, member.getAuth_id(), Types.INTEGER);
 
-			line= stmt.executeUpdate();
+			line = stmt.executeUpdate();
 
 		}
 		return line;
-		}
+	}
 
 	@Override
 	public String insertMast(List<Members> memberList) throws Exception {
@@ -242,13 +237,11 @@ public class MembersDaoImpl implements MembersDao {
 
 			con.commit();
 		} catch (Exception e) {
-			System.out.println(e);
+
 			return "300";
 		}
 		return "100";
 	}
-
-
 
 	/**
 	 * ログイン時に処理
@@ -271,10 +264,10 @@ public class MembersDaoImpl implements MembersDao {
 	}
 
 	@Override
-	public Members login(String loginId, String loginPass)throws Exception {
+	public Members login(String loginId, String loginPass) throws Exception {
 		Members member = null;
 		try (Connection con = ds.getConnection()) {
-			String sql2="SELECT*FROM account WHERE login_id=?";
+			String sql2 = "SELECT*FROM account WHERE login_id=?";
 			PreparedStatement stmt2 = con.prepareStatement(sql2);
 			stmt2.setString(1, loginId);
 			ResultSet rs2 = stmt2.executeQuery();
@@ -299,7 +292,6 @@ public class MembersDaoImpl implements MembersDao {
 		users.setMember_id(rs.getString("member_id"));
 		users.setName(rs.getString("name"));
 
-
 		return users;
 	}
 
@@ -320,7 +312,7 @@ public class MembersDaoImpl implements MembersDao {
 	public void update(Members Members) throws Exception {
 
 		try (Connection con = ds.getConnection()) {
-			String sql ="UPDATE members SET member_id=?,name =?,kana=?,dep_id=?,"
+			String sql = "UPDATE members SET member_id=?,name =?,kana=?,dep_id=?,"
 					+ "address=?,tel=?,birthday=?,position_type=?,login_id = ? WHERE member_id = ?;";
 
 			Timestamp Birth = new Timestamp(Members.getBirthday().getTime());
@@ -330,11 +322,11 @@ public class MembersDaoImpl implements MembersDao {
 			stmt.setString(1, Members.getMember_id());
 			stmt.setString(2, Members.getName());
 			stmt.setString(3, Members.getKana());
-			stmt.setObject(4, Members.getDep_id(),Types.INTEGER);
+			stmt.setObject(4, Members.getDep_id(), Types.INTEGER);
 			stmt.setString(5, Members.getAddress());
 			stmt.setString(6, Members.getTel());
-			stmt.setTimestamp(7,Birth);
-			stmt.setObject(8, Members.getPosition_type(),Types.INTEGER);
+			stmt.setTimestamp(7, Birth);
+			stmt.setObject(8, Members.getPosition_type(), Types.INTEGER);
 			stmt.setString(9, Members.getLogin_id());
 			stmt.setString(10, Members.getOldmember_id());
 			stmt.executeUpdate();
@@ -343,17 +335,17 @@ public class MembersDaoImpl implements MembersDao {
 
 	public int updateaccount(Members Members) throws Exception {
 
-			int line=0;
+		int line = 0;
 		try (Connection con = ds.getConnection()) {
-			String sql= "UPDATE account SET login_id=?,login_pass=?,auth_id=? WHERE login_id=?;";
+			String sql = "UPDATE account SET login_id=?,login_pass=?,auth_id=? WHERE login_id=?;";
 
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, Members.getLogin_id());
 			stmt.setString(2, Members.getLogin_pass());
-			stmt.setObject(3, Members.getAuth_id(),Types.INTEGER);
+			stmt.setObject(3, Members.getAuth_id(), Types.INTEGER);
 			stmt.setString(4, Members.getOldlogin_id());
 
-			line=stmt.executeUpdate();
+			line = stmt.executeUpdate();
 		}
 		return line;
 	}
@@ -364,7 +356,7 @@ public class MembersDaoImpl implements MembersDao {
 	@Override
 	public int updateWhithoutPass(Members Members) throws Exception {
 
-		int line=0;
+		int line = 0;
 		try (Connection con = ds.getConnection()) {
 			String sql = "UPDATE members SET member_id=?,name = ?,kana=?,dep_id=?,"
 					+ "address=?,tel=?,birthday=?,position_type=?,login_id = ? WHERE member_id = ?;";
@@ -375,66 +367,63 @@ public class MembersDaoImpl implements MembersDao {
 			stmt.setString(1, Members.getMember_id());
 			stmt.setString(2, Members.getName());
 			stmt.setString(3, Members.getKana());
-			stmt.setObject(4, Members.getDep_id(),Types.INTEGER);
+			stmt.setObject(4, Members.getDep_id(), Types.INTEGER);
 			stmt.setString(5, Members.getAddress());
 			stmt.setString(6, Members.getTel());
-			stmt.setTimestamp(7,Birth);
-			stmt.setObject(8, Members.getPosition_type(),Types.INTEGER);
+			stmt.setTimestamp(7, Birth);
+			stmt.setObject(8, Members.getPosition_type(), Types.INTEGER);
 			stmt.setString(9, Members.getLogin_id());
 			stmt.setString(10, Members.getOldmember_id());
 
-			line=stmt.executeUpdate();
+			line = stmt.executeUpdate();
 		}
 		return line;
 	}
 
-	public int updateAccountWhithoutPass(Members Members) throws Exception{
+	public int updateAccountWhithoutPass(Members Members) throws Exception {
 
-		int line=0;
+		int line = 0;
 
 		try (Connection con = ds.getConnection()) {
-			String sql= "UPDATE account SET login_id=?,auth_id=? WHERE login_id=?;";
+			String sql = "UPDATE account SET login_id=?,auth_id=? WHERE login_id=?;";
 
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, Members.getLogin_id());
-			stmt.setObject(2, Members.getAuth_id(),Types.INTEGER);
+			stmt.setObject(2, Members.getAuth_id(), Types.INTEGER);
 			stmt.setString(3, Members.getOldlogin_id());
-			line=stmt.executeUpdate();
-	}
+			line = stmt.executeUpdate();
+		}
 		return line;
 	}
+
 	/**
 	 * ユーザー情報の削除
 	 * @return users
 	 */
 	@Override
 	public int delete(Members Members) throws Exception {
-		int line=0;
+		int line = 0;
 		try (Connection con = ds.getConnection()) {
-			String sql ="DELETE "
-					+ "FROM members "
-					+ "WHERE member_id = ?;";
+			String sql = "DELETE FROM members WHERE member_id = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, Members.getMember_id());
-			line=stmt.executeUpdate();
+			line = stmt.executeUpdate();
 		}
 		return line;
 	}
+
 	@Override
-	public int deleteAccount(Members Members) throws Exception{
-		int line=0;
+	public int deleteAccount(Members Members) throws Exception {
+		int line = 0;
 
 		try (Connection con = ds.getConnection()) {
-			String sql ="DELETE "
-					+ "FROM account "
-					+ "WHERE login_id = ?;";
+			String sql = "DELETE FROM account WHERE login_id = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, Members.getLogin_id());
-			line=stmt.executeUpdate();
+			line = stmt.executeUpdate();
 		}
 		return line;
 	}
-
 
 	/**
 	 * @return count
@@ -444,7 +433,7 @@ public class MembersDaoImpl implements MembersDao {
 
 		try (Connection con = ds.getConnection()) {
 
-			String sql ="SELECT "
+			String sql = "SELECT "
 					+ "members.member_id "
 					+ "FROM members;";
 
@@ -456,7 +445,7 @@ public class MembersDaoImpl implements MembersDao {
 			}
 		}
 		double count2 = userList.size();
-		int count=(int)count2;
+		int count = (int) count2;
 		return count;
 	}
 
@@ -469,31 +458,41 @@ public class MembersDaoImpl implements MembersDao {
 	public boolean CheckLoginId(String loginId) throws Exception {
 		boolean check = true;
 		int count = 0;
-		try(Connection con=ds.getConnection()) {
-			String sql=	"SELECT "
+		try (Connection con = ds.getConnection()) {
+			String sql = "SELECT "
 					+ "COUNT(*) FROM members "
 					+ "WHERE members.login_id = ?;";
-			PreparedStatement stmt=con.prepareStatement(sql);
+			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, loginId);
-			ResultSet rs =stmt.executeQuery();
-			while(rs.next()) {
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
 				count = Integer.parseInt(rs.getString("count(*)"));
 			}
-			if(count > 0) {
+			if (count > 0) {
 				check = false;
 			}
 			return check;
 		}
 	}
 
-	public void CheckLoginPass(Members members) throws SQLException {
-
-		try(Connection con=ds.getConnection()) {
-			String sql="update account set login_pass=? where login_id=?";
-			PreparedStatement stmt=con.prepareStatement(sql);
+	/**
+	 * login_pssのみ更新のメソッド
+	 */
+	public String CheckLoginPass(Members members) throws SQLException {
+		int line=0;
+		try (Connection con = ds.getConnection()) {
+			String sql = "update account set login_pass=? where login_id=?";
+			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, members.getLogin_pass());
 			stmt.setString(2, members.getLogin_id());
-			stmt.executeUpdate();
+
+			line=stmt.executeUpdate();
+
+			if(line==0) {
+				return "300";
+			}else {
+				return "100";
+			}
 		}
 	}
 

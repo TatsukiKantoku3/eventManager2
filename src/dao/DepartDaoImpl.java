@@ -18,25 +18,25 @@ public class DepartDaoImpl implements DepartDao {
 		this.ds = ds;
 	}
 
-
-
 	public String insert(List<Depart> department) throws Exception {
 
 		try (Connection con = ds.getConnection()) {
 			//必ず決まっているデータのスタート地点をセット（テーブルによって量、数値が変わります）
 			try {
+				if (department.isEmpty()) {
+					return "300";
+				}
 				//DB接続
 				//オートコミットを切る
 				con.setAutoCommit(false);
 				//departmentテーブルに部署名とフロア情報を挿入
 				//membersテーブルにpositionタイプ（役職情報）を挿入
-				for (Depart depart:department) {
+				for (Depart depart : department) {
 
 					String sql = "insert into department (dep_id,department,floor)  values (null,?,?)";
 					PreparedStatement stmt = con.prepareStatement(sql);
 					stmt.setObject(1, depart.getDepartment());
 					stmt.setObject(2, depart.getFloor());
-
 					stmt.executeUpdate();
 
 					//member_idを検索して結果をResultSetにセットする
@@ -71,33 +71,23 @@ public class DepartDaoImpl implements DepartDao {
 			}
 			//挿入時にエラーが発生したらロールバックしてエラー文を表示
 			catch (Exception e) {
-				e.printStackTrace();
 				con.rollback();
 				return "300";
 
-			} finally {
-				try {
-					if (con != null) {
-						con.close();
-
-					}
-				} catch (SQLException e) {
-					return "301";
-				}
 			}
+
 		}
 	}
 
-
 	@Override
 	public List<Depart> DepList() throws SQLException {
-		List<Depart> DepList=new ArrayList<>();
+		List<Depart> DepList = new ArrayList<>();
 
-		try(Connection con=ds.getConnection()){
-			String sql=" SELECT department FROM department ORDER BY dep_id;";
+		try (Connection con = ds.getConnection()) {
+			String sql = " SELECT department FROM department ORDER BY dep_id;";
 			PreparedStatement stms = con.prepareStatement(sql);
 			ResultSet rs = stms.executeQuery();
-			while(rs.next()){
+			while (rs.next()) {
 				DepList.add(mapToDepart(rs));
 			}
 		}
@@ -107,7 +97,7 @@ public class DepartDaoImpl implements DepartDao {
 	}
 
 	private Depart mapToDepart(ResultSet rs) throws SQLException {
-		Depart dep=new Depart();
+		Depart dep = new Depart();
 		dep.setDepartment(rs.getString("department"));
 		return dep;
 
