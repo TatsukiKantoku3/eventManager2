@@ -112,10 +112,19 @@ public class AccountDaoImplTest extends TestDBAccess {
 	public void setUp() throws Exception {
 		accountList=new ArrayList<Account>();
 		account=new Account();
+		//リフレクションでDataSourceをnullに設定したままであれば生成しなおします
+		Field fld = target.getClass().getDeclaredField("ds");
+	    fld.setAccessible(true);
+		if((DataSource)fld.get(target)==null) {
+			target = DaoFactory.createAccountDao();
+		}
 	}
 
 	@After
-	public void tearDown() throws Exception {}
+	public void tearDown() throws Exception {
+
+
+	}
 
 	/**
 	 *
@@ -178,9 +187,10 @@ public class AccountDaoImplTest extends TestDBAccess {
 
 	/**
 	 *
-	 * DataSourceをnullに設定してNullPointerExceptionを発生させます
-	 * このメソッドはターゲットのDataSourceをnullに設定するので
-	 * このクラスの一番最後に実行します
+	 * DataSourceに間違えたリソースを参照してNullPointerExceptionを発生させます
+	 * このメソッドはターゲットのDataSourceがnullになりますが
+	 * setUp()でnull判定後にDataSourceを生成し、
+	 * 後に実行されるメソッドには影響がないようにしています
 	 *
 	 * @throws Exception
 	 *
@@ -188,8 +198,35 @@ public class AccountDaoImplTest extends TestDBAccess {
 	@Test
 	public void testInsertAcount_4_NullPointerException() throws Exception {
 		//privateフィールドDataSource dsを操作可能にします
-		Class c = target.getClass();
-	    Field fld = c.getDeclaredField("ds");
+	    Field fld = target.getClass().getDeclaredField("ds");
+	    fld.setAccessible(true);
+	    InitialContext ctx=new InitialContext();
+	    //DataSource dsにをセットします
+		fld.set(target,(DataSource)ctx.lookup("java:comp/env/jdbc/eventdb"));
+
+		//正常値を引数で渡します
+		accountList.add(getNormalAccount());
+		// 検証するExceptionの内容を設定
+		thrown.expect(NullPointerException.class);
+
+		target.insertAcount(accountList);
+
+
+	}
+	/**
+	 *
+	 * DataSourceをnullに設定してNullPointerExceptionを発生させます
+	 * このメソッドはターゲットのDataSourceがnullになりますが
+	 * setUp()でnull判定後にDataSourceを生成し、
+	 * 後に実行されるメソッドには影響がないようにしています
+	 *
+	 * @throws Exception
+	 *
+	 * */
+	@Test
+	public void testInsertAcount_5_NullPointerException() throws Exception {
+		//privateフィールドDataSource dsを操作可能にします
+	    Field fld = target.getClass().getDeclaredField("ds");
 	    fld.setAccessible(true);
 
 	    //DataSource dsにnullをセットします
@@ -198,13 +235,12 @@ public class AccountDaoImplTest extends TestDBAccess {
 		//正常値を引数で渡します
 		accountList.add(getNormalAccount());
 		// 検証するExceptionの内容を設定
- 		thrown.expect(NullPointerException.class);
+		thrown.expect(NullPointerException.class);
 
 		target.insertAcount(accountList);
 
 
 	}
-
 
 
 }
