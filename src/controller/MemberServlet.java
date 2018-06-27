@@ -358,7 +358,7 @@ public class MemberServlet extends HttpServlet {
 			memberE.setBirthday_str(edit_birthday);
 
 			// memberDataValid()  DataValidを使って値をチェックする
-			List<String> errorListE = memberDataValid(memberE, "memberInsert");
+			List<String> errorListE = memberDataValid(memberE, "memberEdit");
 			if(errorListE.size() == 0) {
 
 				if(DataValid.isNotNull(edit_login_pass)) {
@@ -438,7 +438,7 @@ public class MemberServlet extends HttpServlet {
 			validList.add("error_tel");
 		}
 		//日付のM Dを1つにしている
-		if(!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-M-d")) {
+		if(!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-MM-dd")) {
 			validList.add("error_birthday");
 		}
 		if(servname.equals("memberInsert")) {
