@@ -20,9 +20,24 @@ public class Members {
 	private String auth_type;
 	private String oldlogin_id;
 	private String oldmember_id;
+	private String birthday_str;
+	private String hired_str;
 
 
 
+
+	public String getBirthday_str() {
+		return birthday_str;
+	}
+	public void setBirthday_str(String birthday_str) {
+		this.birthday_str = birthday_str;
+	}
+	public String getHired_str() {
+		return hired_str;
+	}
+	public void setHired_str(String hired_str) {
+		this.hired_str = hired_str;
+	}
 	public String getOldmember_id() {
 		return oldmember_id;
 	}

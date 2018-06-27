@@ -14,9 +14,7 @@
 			<div class="container col-md-10 col-md-offset-1">
 				<h1>メンバー編集</h1>
 				<!-- 入力画面-->
-				<c:if test="${!empty errorchar}">
-						<div class="alert alert-warning" role="alert">ログインID、パスワードは半角英数字のみ入力できます</div>
-					</c:if>
+
 					<div class="form-group">
 				<form action="Member" method="post">
 
@@ -31,6 +29,9 @@
 					</p>
 
 					<p class="bold">フリガナ</p>
+					<c:if test="${!empty error_kana}">
+						<div class="alert alert-warning" role="alert">カタカナ以外は入力できません</div>
+					</c:if>
 					<p>
 						<input type="text" name="kana" placeholder="フリガナ" class="form-control" value="${member.kana}" maxlength="100" >
 					</p>
@@ -41,28 +42,39 @@
 					</p>
 
 					<p class="bold">電話番号（必須）</p>
+					<c:if test="${!empty error_tel}">
+						<div class="alert alert-warning" role="alert">不正な電話番号です</div>
+					</c:if>
 					<p>
 						<input type="text" name="tel" placeholder="(例)090-1234-5678" class="form-control" value="${member.tel}" maxlength="13" required >
 					</p>
 
 					<p class="bold">誕生日（必須）</p>
+					<c:if test="${!empty error_birthday}">
+						<div class="alert alert-warning" role="alert">不正な日付です</div>
+					</c:if>
 					<p>
-						<input type="date" name="birthday" placeholder="yyyy-mm-dd" class="form-control"  value="${member.birthday}" required>
+						<input type="date" name="birthday" placeholder="yyyy-mm-dd" class="form-control"  value="${member.birthday_str}" required>
 					</p>
 
 					<p class="bold">ログインID（必須）</p>
-
-						<c:if test="${!empty error}">
+					<c:if test="${!empty error_login_id}">
+						<div class="alert alert-warning" role="alert">ログインIDにはハイフン(-)と半角英数字のみで指定されています</div>
+					</c:if>
+					<c:if test="${!empty error_used_loginid}">
 						<div class="alert alert-warning" role="alert">ログインIDが既に使用されています</div>
-						</c:if>
+					</c:if>
 					<p>
 						<input type="text" name="login_id" placeholder="ログインID" class="form-control" value="${member.login_id}" maxlength="20" required>
 					</p>
 					<p class="bold">パスワード（変更の場合のみ)</p>
+					<c:if test="${!empty error_login_pass}">
+						<div class="alert alert-warning" role="alert">パスワードには半角英数字のみ8文字以上で指定されています</div>
+					</c:if>
 					<input type="text" name="login_pass" placeholder="パスワード" class="form-control" maxlength="60"  placeholder="パスワード">
 
-					<p class="bold">所属部署(必須)</p>
-					<p><select name="dep_id" class="form-control" >
+					<p class="bold">所属部署（必須）</p>
+					<p><select name="dep_id" class="form-control">
 							<c:forEach items="${DepList}" var="DepList" varStatus="status">
 								<option value="${status.count}">
 								<c:out	value="${DepList.department}" /></option>

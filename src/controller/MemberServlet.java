@@ -140,8 +140,7 @@ public class MemberServlet extends HttpServlet {
 					Members member = MembersDao.findById(member_id);
 					member.setLogin_id(login_id);
 					this.loginId = member.getLogin_id();
-					List<Depart> DepList=departDao.DepList();
-					request.getSession().setAttribute("DepList", DepList);
+
 					request.setAttribute("member", member);
 					request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
 				} catch (Exception e) {
@@ -156,6 +155,8 @@ public class MemberServlet extends HttpServlet {
 				member.setLogin_id(login_id);
 				this.loginId = member.getLogin_id();
 
+				List<Depart> DepList=departDao.DepList();
+				request.getSession().setAttribute("DepList", DepList);
 				request.setAttribute("member", member);
 				request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
 			} catch (Exception e) {
@@ -204,57 +205,13 @@ public class MemberServlet extends HttpServlet {
 			break;
 		case MEMBER_INSERT:
 
-
-//			boolean Check=true;
-//
-//			//DataValidcheck
-//			if(request.getParameter("kana")!=null) {
-//			if(!DataValid.isKana(request.getParameter("kana"))){
-//				request.setAttribute("error_kana", true);
-//				Check=false;
-//			}
-//			}
-//			if(!DataValid.isTelFormat(request.getParameter("tel"))) {
-//				request.setAttribute("error_tel", true);
-//				Check=false;
-//
-//			}
-//			//日付のM Dを1つにしている
-//			if(!DataValid.isDateFormat(request.getParameter("birthday"), "yyyy-M-d")) {
-//				request.setAttribute("error_birthday", true);
-//				Check=false;
-//
-//			}
-//
-//			if(!DataValid.isDateFormat(request.getParameter("hired"), "yyyy-M-d")) {
-//				request.setAttribute("error_hired", true);
-//				Check=false;
-//
-//			}
-//
-//			if(!DataValid.isAlphanum(request.getParameter("login_id"))||
-//					DataValid.limitChar(request.getParameter("login_id"), 8)) {
-//				request.setAttribute("error_login_id", true);
-//				Check=false;
-//							}
-//
-//			if(!DataValid.inNotNum(request.getParameter("login_pass"))) {
-//				request.setAttribute("error_login_pass", true);
-//
-//				Check=false;
-//
-//			}
-
-//			if(Check==false) {
-//
-//				request.getRequestDispatcher("view/memberinsertDone.jsp").forward(request, response);
-//			}
-
 			String member_id=request.getParameter("member_id");
 			String name = request.getParameter("name");
 			String kana=request.getParameter("kana");
 			String address=request.getParameter("address");
 			String tel =request.getParameter("tel");
+			String birthday_str = request.getParameter("birthday");
+			String hired_str = request.getParameter("hired");
 
 			//birthdayの定義
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -262,8 +219,8 @@ public class MemberServlet extends HttpServlet {
 			Date hired=null;
 
 			try {
-				birthday = sdf.parse(request.getParameter("birthday"));
-				hired = sdf.parse(request.getParameter("hired"));
+				birthday = sdf.parse(birthday_str);
+				hired = sdf.parse(hired_str);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -290,13 +247,12 @@ public class MemberServlet extends HttpServlet {
 			memberI.setLogin_pass(login_pass);
 			memberI.setDep_id(dep_id);
 			memberI.setAuth_id(auth_id);
+			memberI.setBirthday_str(birthday_str);
+			memberI.setHired_str(hired_str);
 
-// DataValidを使って値をチェックする　クラスメソッドを追加してもよい
-			// loginIdとloginPassの正規化チェック 半角英数字、ハイフン、アンダースコアのみ許可
+			// memberDataValid()  DataValidを使って値をチェックする
 			List<String> errorList = memberDataValid(memberI, "memberInsert");
-		//	String error_messages = errorList.get(0);
-		//	if( error_messages.equals(null)  ){
-			if(errorList == null) {
+			if(errorList.size() == 0) {
 
 				// パスワードのハッシュ化
 				String hashedPass = BCrypt.hashpw(login_pass, BCrypt.gensalt());
@@ -331,17 +287,17 @@ public class MemberServlet extends HttpServlet {
 // ----------------------------------------------------------------------------------------------------------
 
 		case MEMBER_EDIT:
-			int auth=(int)request.getSession().getAttribute("auth_id");
-			if(auth==2) {
+			int auth = (int) request.getSession().getAttribute("auth_id");
+			if (auth == 2) {
 				String edit_login_id = request.getParameter("login_id");
 				String edit_login_pass = request.getParameter("login_pass");
-				if(DataValid.isAlphanum(edit_login_pass)) {
+				if (DataValid.isAlphanum(edit_login_pass)) {
 					String hashedPass = BCrypt.hashpw(edit_login_pass, BCrypt.gensalt());
 					Members member = new Members();
 					member.setLogin_id(edit_login_id);
 					member.setLogin_pass(hashedPass);
 					String edit_check_login_pass = request.getParameter("check_login_pass");
-					if(!edit_login_pass.equals(edit_check_login_pass)) {
+					if (!edit_login_pass.equals(edit_check_login_pass)) {
 						request.setAttribute("errorchar", true);
 						request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
 					}
@@ -352,118 +308,102 @@ public class MemberServlet extends HttpServlet {
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
+				} else {
+					// ここにパス変更失敗時の、一般会員のパス変更ページ遷移を記述
+					//request.setAttribute("errorchar", true);
+					//request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
 				}
-			}else {
-			String edit_member_id=request.getParameter("member_id");
-			String edit_name = request.getParameter("name");
-			String edit_kana=request.getParameter("kana");
-			String edit_address=request.getParameter("address");
-			String edit_tel=request.getParameter("tel");
-			SimpleDateFormat edit_sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date edit_birthday=null;
-			//Date edit_hired=null;
+			}
 
+			String edit_member_id = request.getParameter("member_id");
+			String edit_name = request.getParameter("name");
+			String edit_kana = request.getParameter("kana");
+			String edit_address = request.getParameter("address");
+			String edit_tel = request.getParameter("tel");
+			String edit_login_id = request.getParameter("login_id");
+			String edit_login_pass = request.getParameter("login_pass");
+			int edit_dep_id = Integer.parseInt(request.getParameter("dep_id"));
+			int edit_position_type = Integer.parseInt(request.getParameter("position_type"));
+			int edit_auth_id = Integer.parseInt(request.getParameter("auth_id"));
+
+			String oldlogin_id = request.getParameter("oldlogin_id");
+			String oldmember_id = request.getParameter("oldmember_id");
+			String edit_birthday = request.getParameter("birthday");
+
+			SimpleDateFormat edit_sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date birth_day = null;
 			try {
-				edit_birthday = edit_sdf.parse(request.getParameter("birthday"));
-				//edit_hired = edit_sdf.parse(request.getParameter("hired"));
+				birth_day = edit_sdf.parse(edit_birthday);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-			String edit_login_id = request.getParameter("login_id");
-			//System.out.println(edit_login_id);
-			String edit_login_pass = request.getParameter("login_pass");
-			int edit_dep_id = Integer.parseInt(request.getParameter("dep_id"));
-			int edit_position_type=Integer.parseInt(request.getParameter("position_type"));
-			int edit_auth_id= Integer.parseInt(request.getParameter("auth_id"));
-			//int group = Integer.parseInt(request.getParameter("group_id"));
 
-			String oldlogin_id=request.getParameter("oldlogin_id");
-			String oldmember_id=request.getParameter("oldmember_id");
+			Members memberE = new Members();
+			memberE.setMember_id(edit_member_id);
+			memberE.setName(edit_name);
+			memberE.setKana(edit_kana);
+			memberE.setAddress(edit_address);
+			memberE.setTel(edit_tel);
+			memberE.setBirthday(birth_day);
+			memberE.setLogin_id(edit_login_id);
 
-			// loginIdとloginPassの正規化チェック 半角英数字、ハイフン、アンダースコアのみ許可
-			if(DataValid.isAlphanum(edit_login_id) &&DataValid.isAlphanum(edit_login_pass)) {
+			if(DataValid.isNotNull(edit_login_pass))
+				memberE.setLogin_pass(edit_login_pass);
+
+			memberE.setDep_id(edit_dep_id);
+			memberE.setPosition_type(edit_position_type);
+			memberE.setAuth_id(edit_auth_id);
+			memberE.setOldlogin_id(oldlogin_id);
+			memberE.setOldmember_id(oldmember_id);
+			memberE.setBirthday_str(edit_birthday);
+
+			// memberDataValid()  DataValidを使って値をチェックする
+			List<String> errorListE = memberDataValid(memberE, "memberInsert");
+			if(errorListE.size() == 0) {
+
+				if(DataValid.isNotNull(edit_login_pass)) {
 				String hashedPass = BCrypt.hashpw(edit_login_pass, BCrypt.gensalt());
-				// メンバーからユーザーIdを取得しインスタンスにセット
-				Members member = new Members();
-
-				member.setMember_id(edit_member_id);
-				member.setName(edit_name);
-				member.setKana(edit_kana);
-				member.setAddress(edit_address);
-				member.setTel(edit_tel);
-				member.setBirthday(edit_birthday);
-				member.setLogin_id(edit_login_id);
-				member.setLogin_pass(hashedPass);
-				member.setDep_id(edit_dep_id);
-				member.setPosition_type(edit_position_type);
-				member.setAuth_id(edit_auth_id);
-				member.setOldlogin_id(oldlogin_id);
-				member.setOldmember_id(oldmember_id);
-
-
-
-				try {
-					MembersDao MembersDao = DaoFactory.createMembersDao();
-					// login_idが使われているかチェックする
-					if (MembersDao.CheckLoginId(edit_login_id) || this.loginId.equals(edit_login_id)) {
-						MembersDao.update(member);
-						MembersDao.updateaccount(member);
-
-						request.setAttribute("memberId", editId);
-						request.setAttribute("member", member);
-						request.getRequestDispatcher("view/membereditDone.jsp").forward(request, response);
-					} else {
-						// login_idが他のユーザーのlogin_idとかぶった場合の処理内容
-						request.setAttribute("member", member);
-						request.setAttribute("error", true);
-						request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
+				memberE.setLogin_pass(hashedPass);
+					try {
+						MembersDao MembersDao = DaoFactory.createMembersDao();
+						// login_idが使われているかチェックする
+						if (MembersDao.CheckLoginId(edit_login_id) || this.loginId.equals(edit_login_id)) {
+							MembersDao.update(memberE);
+							MembersDao.updateaccount(memberE);
+							request.setAttribute("memberId", editId);
+							request.setAttribute("member", memberE);
+							request.getRequestDispatcher("view/membereditDone.jsp").forward(request, response);
+						} else {
+							// login_idが他のユーザーのlogin_idと重複した場合の処理内容
+							request.setAttribute("member", memberE);
+							request.setAttribute("error_used_loginid", true);
+							request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
+						}
+					} catch (Exception e) {
+						throw new ServletException(e);
 					}
-				} catch (Exception e) {
-					throw new ServletException(e);
-				}
-			} else if(DataValid.isAlphanum(edit_login_id) && !DataValid.isNotNull(edit_login_pass)) {// パスワード無しの場合の更新処理
-				Members member = new Members();
-
-				member.setMember_id(edit_member_id);
-				member.setName(edit_name);
-				member.setKana(edit_kana);
-				member.setAddress(edit_address);
-				member.setTel(edit_tel);
-				member.setBirthday(edit_birthday);
-
-				member.setLogin_id(edit_login_id);
-				member.setDep_id(edit_dep_id);
-				member.setPosition_type(edit_position_type);
-				member.setAuth_id(edit_auth_id);
-				member.setOldlogin_id(oldlogin_id);
-				member.setOldmember_id(oldmember_id);
-
-
-				try {
-					MembersDao MembersDao = DaoFactory.createMembersDao();
-					// login_idが使われているかチェックする
-					if (MembersDao.CheckLoginId(edit_login_id) || this.loginId.equals(edit_login_id)) {
-						MembersDao.updateWhithoutPass(member);
-						MembersDao.updateAccountWhithoutPass(member);
-						request.setAttribute("member", member);
+				} else {
+					try {
+						MembersDao MembersDao = DaoFactory.createMembersDao();
+						MembersDao.update(memberE);
 						request.setAttribute("memberId", editId);
+						request.setAttribute("member", memberE);
 						request.getRequestDispatcher("view/membereditDone.jsp").forward(request, response);
-					} else {
-						// login_idが他のユーザーのlogin_idとかぶった場合の処理内容
-						request.setAttribute("error", true);
-						request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
+					} catch (Exception e) {
+						throw new ServletException(e);
 					}
-				} catch (Exception e) {
-					throw new ServletException(e);
 				}
 			} else {
-
-				request.setAttribute("errorchar", true);
+				for(String error_message:errorListE) {
+					request.setAttribute(error_message, true);
+				}
+				//request.setAttribute("errorchar", true);
+				request.setAttribute("member", memberE);
 				request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
 			}
-			}
-			break;
 
+			break;
+//  ---------------------------------------------------------------------------------------------------------------
 
 		case MEMBER_DELETE:
 			String memberId = request.getParameter("member_id");
@@ -484,13 +424,12 @@ public class MemberServlet extends HttpServlet {
 			request.getRequestDispatcher("view/memberdelDone.jsp").forward(request, response);
 			break;
 		}
-
 	}
 
-	// メンバー登録、編集時のデータチェックメソッド、戻り値をList<String>のエラー名に変える予定
+	// メンバー登録、編集時のデータチェックメソッド、戻り値List<String>
 	private List<String> memberDataValid(Members member, String servname) {
 		List<String> validList = new ArrayList<String>();
-		if(member.getKana()!=null) {
+		if(DataValid.isNotNull(member.getKana())) {
 			if(!DataValid.isKana(member.getKana())){
 				validList.add("error_kana");
 			}
@@ -498,24 +437,26 @@ public class MemberServlet extends HttpServlet {
 		if(!DataValid.isTelFormat(member.getTel())) {
 			validList.add("error_tel");
 		}
-		//日付のM Dを1つにしている //そもそもData型の時点でチェックできてるのでこのチェックは必要無い可能性あり
-//		if(!DataValid.isDateFormat(member.getBirthday(), "yyyy-M-d")) {
-//			return "error_birthday";
-//		}
-		//このチェックは必要無い可能性あり
-//		if(servname.equals("memberInsert")) {
-//			if(!DataValid.isDateFormat(member.getHired(), "yyyy-M-d")) {
-//				return "error_hired";
-//			}
-//		}
-		if(!DataValid.isAlphanum(member.getLogin_id())||
-				DataValid.limitChar(member.getLogin_id(), 8)) {
+		//日付のM Dを1つにしている
+		if(!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-M-d")) {
+			validList.add("error_birthday");
+		}
+		if(servname.equals("memberInsert")) {
+			if(!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
+				validList.add("error_hired");
+			}
+		}
+		if(!DataValid.isAlphanum(member.getLogin_id())){
 			validList.add("error_login_id");
 		}
-		if(!DataValid.inNotNum(member.getLogin_pass())) {
-			validList.add("error_login_pass");
+		if (DataValid.isNotNull(member.getLogin_pass())) {
+			if (!DataValid.inNotNum(member.getLogin_pass()) ||
+					DataValid.limitChar(member.getLogin_pass(), 7)) {
+				validList.add("error_login_pass");
+			}
 		}
 		return validList;
 	}
+
 
 }
