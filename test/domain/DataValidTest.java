@@ -59,193 +59,303 @@ public class DataValidTest {
 	static final int LIMITTER =5;
 
 	@Test
-	public void testIsNotNullInteger() {
+	public void 正常系testIsNotNullInteger() {
 
 		boolean check = DataValid.isNotNull(INT_NUM);
 		assertThat(check, is(true));
 
-
-		boolean check2 = DataValid.isNotNull(FALSE_NUM);
-		assertThat(check2, is(false));
 	}
 
 	@Test
-	public void testIsNotNullString() {
+	public void 異常系testIsNotNullInteger() {
+
+		boolean check2 = DataValid.isNotNull(FALSE_NUM);
+		assertThat(check2, is(false));
+
+	}
+
+	@Test
+	public void 正常系testIsNotNullString() {
 
 		boolean check = DataValid.isNotNull(STRING_CHAR);
 		assertThat(check, is(true));
 
+	}
+	@Test
+	public void 異常系1testIsNotNullString() {
 
 		boolean check2 = DataValid.isNotNull(FALSE_NULL_CHAR);
 		assertThat(check2, is(false));
 
+	}
+	@Test
+	public void 異常系2testIsNotNullString() {
+
 		boolean check3 = DataValid.isNotNull(FALSE_EMPTY_CHAR);
 		assertThat(check3, is(false));
+
 	}
 
 	@Test
-	public void testIsNotNullDate() {
+	public void 正常系testIsNotNullDate() {
 
         boolean check = DataValid.isNotNull(DATE);
         assertThat(check, is(true));
 
+}
+
+	@Test
+	public void 異常系testIsNotNullDate() {
 
         boolean check2 = DataValid.isNotNull(FALSE_DATE);
         assertThat(check2, is(false));
+
 	}
 
 	@Test
-	public void testLimitCharStringInt() {
+	public void 正常系testLimitCharStringInt() {
 
 		boolean check =DataValid.limitChar(STR, LIMITTER);
 		assertThat(check, is(true));
 
+}
+	@Test
+	public void 異常系testLimitCharStringInt() {
 
 		boolean check2 =DataValid.limitChar(FALSE_STR, LIMITTER);
 		assertThat(check2, is(false));
+
 	}
 
+
 	@Test
-	public void testLimitCharIntInt() {
+	public void 正常系testLimitCharIntInt() {
 
 		boolean check =DataValid.limitChar(LIMIT_NUM, LIMITTER);
 		assertThat(check, is(true));
 
+}
+
+	@Test
+	public void 異常系testLimitCharIntInt() {
 
 		boolean check2 =DataValid.limitChar(FALSE_LIMIT_NUM, LIMITTER);
 		assertThat(check2, is(false));
+
 	}
 
+
 	@Test
-	public void testChkLiteAndNum() {
+	public void 正常系testChkLiteAndNum() {
 
 		boolean check =DataValid.chkLiteAndNum(HALF);
 		assertThat(check, is(true));
 
+}
+	@Test
+	public void 異常系testChkLiteAndNum() {
 
 		boolean check2 =DataValid.chkLiteAndNum(FALSE_HALF);
 		assertThat(check2, is(false));
+
 	}
 
 	@Test
-	public void testIsAlphanum() {
+	public void 正常系testIsAlphanum() {
 
 		boolean check =DataValid.isAlphanum(HAIHUN_HALF);
 		assertThat(check, is(true));
 
+	}
+	@Test
+	public void 異常系testIsAlphanum() {
 
 		boolean check2 =DataValid.isAlphanum(FALSE_HAIHUN_HALF);
 		assertThat(check2, is(false));
+
 	}
 
+
 	@Test
-	public void testInNotNum() {
+	public void 正常系testInNotNum() {
 
 		boolean check =DataValid.inNotNum(ENG_HALF);
 		assertThat(check, is(true));
 
+}
+
+	@Test
+	public void 異常系testInNotNum() {
 
 		boolean check2 =DataValid.inNotNum(FALSE_ENG_HALF);
 		assertThat(check2, is(false));
+
 	}
 
 	@Test
-	public void testIsNum() {
+	public void 正常系testIsNum() {
 
 		boolean check =DataValid.isNum(HALF_NUM);
 		assertThat(check, is(true));
 
+}
+
+	@Test
+	public void 異常系testIsNum() {
 
 		boolean check2 =DataValid.isNum(FALSE_HALF_NUM);
 		assertThat(check2, is(false));
+
 	}
 
 	@Test
-	public void testIsKana() {
+	public void 正常系testIsKana() {
 
 		boolean check =DataValid.isKana(KANA);
 		assertThat(check, is(true));
 
+}
+
+	@Test
+	public void 異常系testIsKana() {
 
 		boolean check2 =DataValid.isKana(FALSE_KANA);
 		assertThat(check2, is(false));
+
 	}
 
 	@Test
-	public void testIsRange() {
-
-
+	public void 正常系testIsRange() {
 
 		boolean check =DataValid.isRange(VALUE, BEGIN, END);
 		assertThat(check, is(true));
 
+		}
+
+	@Test
+	public void 異常系1testIsRange() {
+
 		boolean check2 =DataValid.isRange(FALSE_VALUE_OVER, FALSE_BEGIN, FALSE_END);
 		assertThat(check2, is(false));
-
-		boolean check3 =DataValid.isRange(FALSE_VALUE_UNDER, FALSE_BEGIN, FALSE_END);
-		assertThat(check3, is(false));
 	}
 
 	@Test
-	public void testIsDateFormat() {
+	public void 異常系2testIsRange() {
 
+		boolean check3 =DataValid.isRange(FALSE_VALUE_UNDER, FALSE_BEGIN, FALSE_END);
+		assertThat(check3, is(false));
+
+	}
+
+	@Test
+	public void 正常系1testIsDateFormat() {
 
 		boolean check =DataValid.isDateFormat(STR_DATE,TYPE);
 		assertThat(check, is(true));
 
+	}
+
+	@Test
+	public void 正常系2testIsDateFormat() {
 
 		boolean check1 =DataValid.isDateFormat(STR_DATE1,TYPE1);
 		assertThat(check1, is(true));
 
 
+	}
+
+	@Test
+	public void 異常系1testIsDateFormat() {
+
 		boolean check2 =DataValid.isDateFormat(FALSE_STR_DATE,FALSE_TYPE);
 		assertThat(check2, is(false));
+
+	}
+
+	@Test
+	public void 異常系2testIsDateFormat() {
 
 		boolean check3 = DataValid.isDateFormat(FALSE_STR_DATE2,TYPE);
 		assertThat(check3, is(false));
 	}
 
+
 	@Test
-	public void testIsTimeFormat() {
+	public void 正常系testIsTimeFormat() {
 		boolean check =DataValid.isTimeFormat(TIME);
 		assertThat(check, is(true));
 
+		}
+
+	@Test
+	public void 異常系1testIsTimeFormat() {
 
 		boolean checkfalse1 =DataValid.isTimeFormat(FALSE_TIME);
 		assertThat(checkfalse1, is(false));
 
-		boolean checkfalse2 =DataValid.isTimeFormat(NULL_TIME);
-		assertThat(checkfalse2, is(false));
-
-		boolean checkfalse3 =DataValid.isTimeFormat(EMPTY_TIME);
-		assertThat(checkfalse3, is(false));
 	}
 
 	@Test
-	public void testIsTelFormat() {
+	public void 異常系2testIsTimeFormat() {
+
+		boolean checkfalse2 =DataValid.isTimeFormat(NULL_TIME);
+		assertThat(checkfalse2, is(false));
+
+	}
+
+	@Test
+	public void 異常系3testIsTimeFormat() {
+
+		boolean checkfalse3 =DataValid.isTimeFormat(EMPTY_TIME);
+		assertThat(checkfalse3, is(false));
+
+	}
+
+	@Test
+	public void 正常系1testIsTelFormat() {
 
 		boolean check =DataValid.isTelFormat(TEL);
 		assertThat(check, is(true));
 
+	}
+
+	@Test
+	public void 正常系2testIsTelFormat() {
 
 		boolean check1 =DataValid.isTelFormat(TEL1);
 		assertThat(check1, is(true));
 
 
+	}
+	@Test
+	public void 正常系3testIsTelFormat() {
+
 		boolean check2 =DataValid.isTelFormat(TEL2);
 		assertThat(check2, is(true));
 
+	}
+	@Test
+	public void 正常系4testIsTelFormat() {
 
 		boolean check3 =DataValid.isTelFormat(TEL3);
 		assertThat(check3, is(true));
 
+	}
+	@Test
+	public void 正常系5testIsTelFormat() {
 
 		boolean check4 =DataValid.isTelFormat(TEL4);
 		assertThat(check4, is(true));
 
+	}
+	@Test
+	public void 異常系testIsTelFormat() {
 
 		boolean checkfalse =DataValid.isTelFormat(FALSE_TEL);
 		assertThat(checkfalse, is(false));
+
 	}
+
+
 
 }
