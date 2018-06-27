@@ -125,8 +125,10 @@ public class MembersDaoImpl implements MembersDao {
 		users.setAddress(rs.getString("address"));
 		users.setTel(rs.getString("tel"));
 		users.setBirthday(rs.getDate("birthday"));
+		users.setBirthday_str(rs.getString("birthday"));
 		users.setPosition_type((Integer) rs.getInt("position_type"));
 		users.setHired(rs.getDate("hired"));
+		users.setHired_str(rs.getString("hired"));
 
 		return users;
 	}
