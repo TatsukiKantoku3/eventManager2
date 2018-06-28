@@ -217,6 +217,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 		assertThat(MemberFileReader.errorCode, is(expected));
 	}
 
+
 	/**
 	 *メンバーIDに半角英数字以外の値を入力してエラーコードを確認します。
 	 */
