@@ -215,34 +215,38 @@ public class MembersDaoImpl implements MembersDao {
 	@Override
 	public String insertMast(List<Members> memberList) throws Exception {
 		try (Connection con = ds.getConnection()) {
-			con.setAutoCommit(false);//オートコミットを外す
-			String sql = "INSERT INTO members(member_id,name,kana,birthday,address,tel,hired,dep_id,position_type,login_id)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?);";
+			try {
+				con.setAutoCommit(false);//オートコミットを外す
+				String sql = "INSERT INTO members(member_id,name,kana,birthday,address,tel,hired,dep_id,position_type,login_id)"
+						+ "VALUES(?,?,?,?,?,?,?,?,?,?);";
 
-			for (Members member : memberList) {
-				Timestamp Birth = new Timestamp(member.getBirthday().getTime());
-				Timestamp Hire = new Timestamp(member.getHired().getTime());
-				PreparedStatement stmt = con.prepareStatement(sql);
-				stmt.setString(1, member.getMember_id());
-				stmt.setString(2, member.getName());
-				stmt.setString(3, member.getKana());
-				stmt.setTimestamp(4, Birth);
-				stmt.setString(5, member.getAddress());
-				stmt.setString(6, member.getTel());
-				stmt.setTimestamp(7, Hire);
-				stmt.setObject(8, member.getDep_id(), Types.INTEGER);
-				stmt.setObject(9, 0);
-				stmt.setString(10, member.getLogin_id());
-				stmt.executeUpdate();
+				for (Members member : memberList) {
+					Timestamp Birth = new Timestamp(member.getBirthday().getTime());
+					Timestamp Hire = new Timestamp(member.getHired().getTime());
+					PreparedStatement stmt = con.prepareStatement(sql);
+					stmt.setString(1, member.getMember_id());
+					stmt.setString(2, member.getName());
+					stmt.setString(3, member.getKana());
+					stmt.setTimestamp(4, Birth);
+					stmt.setString(5, member.getAddress());
+					stmt.setString(6, member.getTel());
+					stmt.setTimestamp(7, Hire);
+					stmt.setObject(8, member.getDep_id(), Types.INTEGER);
+					stmt.setObject(9, 0);
+					stmt.setString(10, member.getLogin_id());
+					stmt.executeUpdate();
 
+				}
+
+				con.commit();
+			} catch (SQLException e) {
+
+				con.rollback();
+				return "300";
 			}
-
-			con.commit();
-		} catch (Exception e) {
-
-			return "300";
 		}
 		return "100";
+
 	}
 
 	/**
@@ -269,7 +273,7 @@ public class MembersDaoImpl implements MembersDao {
 	public Members login(String loginId, String loginPass) throws Exception {
 		Members member = null;
 		try (Connection con = ds.getConnection()) {
-			String sql2 = "SELECT*FROM account WHERE login_id=?";
+			String sql2 = "SELECT * FROM account WHERE login_id=?";
 			PreparedStatement stmt2 = con.prepareStatement(sql2);
 			stmt2.setString(1, loginId);
 			ResultSet rs2 = stmt2.executeQuery();
@@ -481,18 +485,18 @@ public class MembersDaoImpl implements MembersDao {
 	 * login_pssのみ更新のメソッド
 	 */
 	public String CheckLoginPass(Members members) throws SQLException {
-		int line=0;
+		int line = 0;
 		try (Connection con = ds.getConnection()) {
 			String sql = "update account set login_pass=? where login_id=?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, members.getLogin_pass());
 			stmt.setString(2, members.getLogin_id());
 
-			line=stmt.executeUpdate();
+			line = stmt.executeUpdate();
 
-			if(line==0) {
+			if (line == 0) {
 				return "300";
-			}else {
+			} else {
 				return "100";
 			}
 		}
