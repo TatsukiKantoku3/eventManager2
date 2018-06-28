@@ -42,23 +42,24 @@ public class FileIOServlet extends HttpServlet {
 		String complete = fileName + "complete";
 
 		String result = null;
+		FileController fileController=new FileController();
 		try {
 			switch (fileName) {
 
 			case MEMBER_INSERT:
-				result = FileController.member(fileName);
+				result = fileController.member(fileName);
 
 				break;
 			case ACCOUNT_INSERT:
-				result = FileController.account(fileName);
+				result = fileController.account(fileName);
 
 				break;
 			case PLACE_INSERT:
-				result = FileController.place(fileName);
+				result = fileController.place(fileName);
 
 				break;
 			case DEPART_INSERT:
-				result = FileController.depart(fileName);
+				result = fileController.depart(fileName);
 
 				break;
 			}

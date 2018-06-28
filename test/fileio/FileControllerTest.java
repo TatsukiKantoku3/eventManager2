@@ -3,26 +3,26 @@ package fileio;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
-import com.OutputLog;
-import com.javaranch.unittest.helper.sql.pool.JNDIUnitTestHelper;
+import com.TestDBAccess;
 
-
-public class FileControllerTest extends OutputLog {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class FileControllerTest extends TestDBAccess {
+	FileController target=new FileController();
 	protected final String MEMBER_INSERT = "memberInsert";
 	protected final String ACCOUNT_INSERT = "accountInsert";
 	protected final String PLACE_INSERT = "placeInsert";
@@ -32,22 +32,13 @@ public class FileControllerTest extends OutputLog {
 	protected final String PLACE_FAULT = "place_fault";
 	protected final String DEPART_FAULT = "depart_fault";
 
-	private static final String EXPECTED = "100"; // expected
+	private static final String EXPECTED = "100";
 //	private static final String FAULT_EXPECTED300 = "300";
 //	private static final String FAULT_EXPECTED302 = "302";
-	private static final String FAULT_EXPECTED_FILE = "ファイル読み込みエラー";
+	private static final String FAULT_EXPECTED_FILE = "214";//ファイル読み込みエラー";
 
 	private static  DataSource testds;
 
-
-	static {
-		// JNDI準備
-		try {
-			JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
-		} catch (NamingException | IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -66,17 +57,22 @@ public class FileControllerTest extends OutputLog {
 			throw new RuntimeException(e);
 		}
 
-		// 各テーブルTruncate処理
+		// Members,Account,Place,Departmentテーブルをトランケート
 		try (Connection conn = testds.getConnection() ) {
 
 			try {
-				//SQL処理
 				conn.setAutoCommit(false);//オートコミットを外す
 
-				//Members,Account,Place,Departmentテーブルをトランケート
-				String sqlTrunc = "TRUNCATE TABLE eventdb2.members; ";
+				String sqlTrunc = "set foreign_key_checks = 0";
 				Statement stmt1 = (Statement) conn.createStatement();
 				stmt1.executeUpdate(sqlTrunc);
+
+				sqlTrunc = "TRUNCATE TABLE eventdb2.members";
+				stmt1.executeUpdate(sqlTrunc);
+
+				sqlTrunc ="set foreign_key_checks = 1";
+				stmt1.executeUpdate(sqlTrunc);
+
 
 				String sqlTrunc2 = "TRUNCATE TABLE eventdb2.account; ";
 				Statement stmt2 = (Statement) conn.createStatement();
@@ -102,7 +98,6 @@ public class FileControllerTest extends OutputLog {
 				try {
 					if (conn != null) {
 						conn.close();
-						//System.out.println("切断しました");
 					}
 				} catch (SQLException e) {
 					System.out.println("error2");
@@ -122,8 +117,14 @@ public class FileControllerTest extends OutputLog {
 				conn.setAutoCommit(false);//オートコミットを外す
 
 				//Members,Account,Place,Departmentテーブルをトランケート
-				String sqlTrunc = "TRUNCATE TABLE eventdb2.members; ";
+				String sqlTrunc = "set foreign_key_checks = 0";
 				Statement stmt1 = (Statement) conn.createStatement();
+				stmt1.executeUpdate(sqlTrunc);
+
+				sqlTrunc = "TRUNCATE TABLE eventdb2.members";
+				stmt1.executeUpdate(sqlTrunc);
+
+				sqlTrunc ="set foreign_key_checks = 1";
 				stmt1.executeUpdate(sqlTrunc);
 
 				String sqlTrunc2 = "TRUNCATE TABLE eventdb2.account; ";
@@ -174,7 +175,7 @@ public class FileControllerTest extends OutputLog {
 	public void 正常1testMember() {
 		String result;
 		try {
-			result = FileController.member(MEMBER_INSERT);
+			result = target.member(MEMBER_INSERT);
 			assertThat(result, is(EXPECTED));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -185,7 +186,7 @@ public class FileControllerTest extends OutputLog {
 	public void 正常2testAccount() {
 		String result;
 		try {
-			result = FileController.account(ACCOUNT_INSERT);
+			result = target.account(ACCOUNT_INSERT);
 			assertThat(result, is(EXPECTED));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,7 +196,7 @@ public class FileControllerTest extends OutputLog {
 	@Test
 	public void 正常3testPlace(){
 		try {
-			String result = FileController.place(PLACE_INSERT);
+			String result = target.place(PLACE_INSERT);
 			assertThat(result, is(EXPECTED));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -205,7 +206,7 @@ public class FileControllerTest extends OutputLog {
 	@Test
 	public void 正常4testDepart() {
 		try {
-			String result = FileController.depart(DEPART_INSERT);
+			String result = target.depart(DEPART_INSERT);
 			assertThat(result, is(EXPECTED));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -219,7 +220,7 @@ public class FileControllerTest extends OutputLog {
 	public void 異常系1testMember() {
 		String result = null;
 		try {
-			result =  FileController.member(MEMBER_FAULT);
+			result =  target.member(MEMBER_FAULT);
 			assertThat(result, is(FAULT_EXPECTED_FILE));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -231,7 +232,7 @@ public class FileControllerTest extends OutputLog {
 	public void 異常系2testAccount() {
 		String result = null;
 		try {
-			result =  FileController.account(ACCOUNT_FAULT);
+			result =  target.account(ACCOUNT_FAULT);
 			assertThat(result, is(FAULT_EXPECTED_FILE));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -243,7 +244,7 @@ public class FileControllerTest extends OutputLog {
 	public void 異常系3testPlace() {
 		String result = null;
 		try {
-			result =  FileController.place(PLACE_FAULT);
+			result =  target.place(PLACE_FAULT);
 			assertThat(result, is(FAULT_EXPECTED_FILE));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -254,7 +255,7 @@ public class FileControllerTest extends OutputLog {
 	public void 異常系4testDepart() {
 		String result = null;
 		try {
-			result =  FileController.depart(DEPART_FAULT);
+			result =  target.depart(DEPART_FAULT);
 			assertThat(result, is(FAULT_EXPECTED_FILE));
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import com.OutputLog;
 public class FileController extends OutputLog {
 
-	public static String member(String fileName) throws Exception {
+	public  String member(String fileName) throws Exception {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
 		MemberFileReader member = new MemberFileReader((String) rb.getString(fileName),
@@ -17,7 +17,7 @@ public class FileController extends OutputLog {
 		return code;
 	}
 
-	public static String account(String fileName) throws Exception {
+	public  String account(String fileName) throws Exception {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
 		AccountFileReader account = new AccountFileReader((String) rb.getString(fileName),
@@ -29,7 +29,7 @@ public class FileController extends OutputLog {
 		return code;
 	}
 
-	public static String place(String fileName) throws Exception {
+	public  String place(String fileName) throws Exception {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
 		PlaceFileReader place = new PlaceFileReader((String) rb.getString(fileName),
@@ -41,7 +41,7 @@ public class FileController extends OutputLog {
 		return code;
 	}
 
-	public static String depart(String fileName) throws Exception {
+	public  String depart(String fileName) throws Exception {
 
 		ResourceBundle rb = ResourceBundle.getBundle("fileIO");
 		DepartFileReader depart = new DepartFileReader((String) rb.getString(fileName),
