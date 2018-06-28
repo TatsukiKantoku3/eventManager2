@@ -25,8 +25,6 @@ import dao.MembersDao;
 import domain.Depart;
 import domain.Members;
 
-
-
 @WebServlet("/Member")
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -38,7 +36,6 @@ public class MemberServlet extends HttpServlet {
 	protected final String MEMBER_INSERT = "memberInsert";
 	protected final String MEMBER_EDIT = "memberEdit";
 	protected final String MEMBER_DELETE = "memberDelete";
-
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -89,7 +86,7 @@ public class MemberServlet extends HttpServlet {
 
 				//lastpageを設定する
 				int a = (membersDao.countAll());
-				int lastpage =  (int) Math.ceil((double)a / 5);
+				int lastpage = (int) Math.ceil((double) a / 5);
 
 				request.setAttribute("membersList", memberList);
 				request.setAttribute("lastpage", lastpage);
@@ -121,8 +118,8 @@ public class MemberServlet extends HttpServlet {
 
 		case MEMBER_INSERT:
 			try {
-				DepartDao departDao =DaoFactory.createDepartDao();
-				List<Depart> DepList=departDao.DepList();
+				DepartDao departDao = DaoFactory.createDepartDao();
+				List<Depart> DepList = departDao.DepList();
 				request.getSession().setAttribute("DepList", DepList);
 				request.getRequestDispatcher("view/memberinsert.jsp").forward(request, response);
 			} catch (Exception e) {
@@ -131,11 +128,11 @@ public class MemberServlet extends HttpServlet {
 			break;
 		case MEMBER_EDIT:
 			MembersDao MembersDao = DaoFactory.createMembersDao();
-			DepartDao departDao =DaoFactory.createDepartDao();
-			int auth_id=(Integer)request.getSession().getAttribute("auth_id");
-			if(auth_id==2) {
-				String member_id=(String)request.getSession().getAttribute("member_id");
-				String login_id=(String)request.getSession().getAttribute("login_id");
+			DepartDao departDao = DaoFactory.createDepartDao();
+			int auth_id = (Integer) request.getSession().getAttribute("auth_id");
+			if (auth_id == 2) {
+				String member_id = (String) request.getSession().getAttribute("member_id");
+				String login_id = (String) request.getSession().getAttribute("login_id");
 				try {
 					Members member = MembersDao.findById(member_id);
 					member.setLogin_id(login_id);
@@ -146,22 +143,22 @@ public class MemberServlet extends HttpServlet {
 				} catch (Exception e) {
 					throw new ServletException(e);
 				}
-			}else {
-			this.editId = (String) request.getSession().getAttribute("editingId");
-			String login_id = request.getParameter("login_id");
+			} else {
+				this.editId = (String) request.getSession().getAttribute("editingId");
+				String login_id = request.getParameter("login_id");
 
-			try {
-				Members member = MembersDao.findById(this.editId);
-				member.setLogin_id(login_id);
-				this.loginId = member.getLogin_id();
+				try {
+					Members member = MembersDao.findById(this.editId);
+					member.setLogin_id(login_id);
+					this.loginId = member.getLogin_id();
 
-				List<Depart> DepList=departDao.DepList();
-				request.getSession().setAttribute("DepList", DepList);
-				request.setAttribute("member", member);
-				request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
-			} catch (Exception e) {
-				throw new ServletException(e);
-			}
+					List<Depart> DepList = departDao.DepList();
+					request.getSession().setAttribute("DepList", DepList);
+					request.setAttribute("member", member);
+					request.getRequestDispatcher("view/memberedit.jsp").forward(request, response);
+				} catch (Exception e) {
+					throw new ServletException(e);
+				}
 			}
 			break;
 		case MEMBER_DELETE:
@@ -176,7 +173,6 @@ public class MemberServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String servlet_id = request.getParameter("servletName");
-
 
 		switch (servlet_id) {
 		case MEMBER_LIST:
@@ -205,18 +201,18 @@ public class MemberServlet extends HttpServlet {
 			break;
 		case MEMBER_INSERT:
 
-			String member_id=request.getParameter("member_id");
+			String member_id = request.getParameter("member_id");
 			String name = request.getParameter("name");
-			String kana=request.getParameter("kana");
-			String address=request.getParameter("address");
-			String tel =request.getParameter("tel");
+			String kana = request.getParameter("kana");
+			String address = request.getParameter("address");
+			String tel = request.getParameter("tel");
 			String birthday_str = request.getParameter("birthday");
 			String hired_str = request.getParameter("hired");
 
 			//birthdayの定義
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date birthday=null;
-			Date hired=null;
+			Date birthday = null;
+			Date hired = null;
 
 			try {
 				birthday = sdf.parse(birthday_str);
@@ -229,10 +225,9 @@ public class MemberServlet extends HttpServlet {
 			String login_pass = request.getParameter("login_pass");
 			int dep_id = Integer.parseInt(request.getParameter("dep_id"));
 			//int position_type=Integer.parseInt(request.getParameter("position_type"));
-			int auth_id= Integer.parseInt(request.getParameter("auth_id"));
+			int auth_id = Integer.parseInt(request.getParameter("auth_id"));
 			//String birth_str = request.getParameter("birthday");
 			//String hired_str = request.getParameter("hired");
-
 
 			// データの追加
 			Members memberI = new Members();
@@ -252,7 +247,7 @@ public class MemberServlet extends HttpServlet {
 
 			// memberDataValid()  DataValidを使って値をチェックする
 			List<String> errorList = memberDataValid(memberI, "memberInsert");
-			if(errorList.size() == 0) {
+			if (errorList.size() == 0) {
 
 				// パスワードのハッシュ化
 				String hashedPass = BCrypt.hashpw(login_pass, BCrypt.gensalt());
@@ -275,7 +270,7 @@ public class MemberServlet extends HttpServlet {
 					throw new ServletException(e);
 				}
 			} else {
-				for(String error_message:errorList) {
+				for (String error_message : errorList) {
 					request.setAttribute(error_message, true);
 				}
 				//request.setAttribute(error_message, true);
@@ -284,7 +279,7 @@ public class MemberServlet extends HttpServlet {
 			}
 			break;
 
-// ----------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------
 
 		case MEMBER_EDIT:
 			int auth = (int) request.getSession().getAttribute("auth_id");
@@ -300,18 +295,19 @@ public class MemberServlet extends HttpServlet {
 					if (!edit_login_pass.equals(edit_check_login_pass)) {
 						request.setAttribute("errorchar", true);
 						request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
-					}
-					MembersDao MembersDao = DaoFactory.createMembersDao();
-					try {
-						MembersDao.CheckLoginPass(member);
-						request.getRequestDispatcher("view/membereditDone.jsp").forward(request, response);
-					} catch (SQLException e) {
-						e.printStackTrace();
+					} else {
+						MembersDao MembersDao = DaoFactory.createMembersDao();
+						try {
+							MembersDao.CheckLoginPass(member);
+							request.getRequestDispatcher("view/membereditDone.jsp").forward(request, response);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}
 				} else {
 					// ここにパス変更失敗時の、一般会員のパス変更ページ遷移を記述
-					//request.setAttribute("errorchar", true);
-					//request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
+					request.setAttribute("errorchar", true);
+					request.getRequestDispatcher("view/onlyPassEdit.jsp").forward(request, response);
 				}
 			}
 
@@ -347,7 +343,7 @@ public class MemberServlet extends HttpServlet {
 			memberE.setBirthday(birth_day);
 			memberE.setLogin_id(edit_login_id);
 
-			if(DataValid.isNotNull(edit_login_pass))
+			if (DataValid.isNotNull(edit_login_pass))
 				memberE.setLogin_pass(edit_login_pass);
 
 			memberE.setDep_id(edit_dep_id);
@@ -359,11 +355,11 @@ public class MemberServlet extends HttpServlet {
 
 			// memberDataValid()  DataValidを使って値をチェックする
 			List<String> errorListE = memberDataValid(memberE, "memberEdit");
-			if(errorListE.size() == 0) {
+			if (errorListE.size() == 0) {
 
-				if(DataValid.isNotNull(edit_login_pass)) {
-				String hashedPass = BCrypt.hashpw(edit_login_pass, BCrypt.gensalt());
-				memberE.setLogin_pass(hashedPass);
+				if (DataValid.isNotNull(edit_login_pass)) {
+					String hashedPass = BCrypt.hashpw(edit_login_pass, BCrypt.gensalt());
+					memberE.setLogin_pass(hashedPass);
 					try {
 						MembersDao MembersDao = DaoFactory.createMembersDao();
 						// login_idが使われているかチェックする
@@ -394,7 +390,7 @@ public class MemberServlet extends HttpServlet {
 					}
 				}
 			} else {
-				for(String error_message:errorListE) {
+				for (String error_message : errorListE) {
 					request.setAttribute(error_message, true);
 				}
 				//request.setAttribute("errorchar", true);
@@ -403,11 +399,11 @@ public class MemberServlet extends HttpServlet {
 			}
 
 			break;
-//  ---------------------------------------------------------------------------------------------------------------
+		//  ---------------------------------------------------------------------------------------------------------------
 
 		case MEMBER_DELETE:
 			String memberId = request.getParameter("member_id");
-			String dlete_login_id=request.getParameter("login_id");
+			String dlete_login_id = request.getParameter("login_id");
 			try {
 				MembersDao MembersDao = DaoFactory.createMembersDao();
 				AttendDao attendDao = DaoFactory.createAttendDao();
@@ -429,24 +425,24 @@ public class MemberServlet extends HttpServlet {
 	// メンバー登録、編集時のデータチェックメソッド、戻り値List<String>
 	private List<String> memberDataValid(Members member, String servname) {
 		List<String> validList = new ArrayList<String>();
-		if(DataValid.isNotNull(member.getKana())) {
-			if(!DataValid.isKana(member.getKana())){
+		if (DataValid.isNotNull(member.getKana())) {
+			if (!DataValid.isKana(member.getKana())) {
 				validList.add("error_kana");
 			}
 		}
-		if(!DataValid.isTelFormat(member.getTel())) {
+		if (!DataValid.isTelFormat(member.getTel())) {
 			validList.add("error_tel");
 		}
 		//日付のM Dを1つにしている
-		if(!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-MM-dd")) {
+		if (!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-MM-dd")) {
 			validList.add("error_birthday");
 		}
-		if(servname.equals("memberInsert")) {
-			if(!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
+		if (servname.equals("memberInsert")) {
+			if (!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
 				validList.add("error_hired");
 			}
 		}
-		if(!DataValid.isAlphanum(member.getLogin_id())){
+		if (!DataValid.isAlphanum(member.getLogin_id())) {
 			validList.add("error_login_id");
 		}
 		if (DataValid.isNotNull(member.getLogin_pass())) {
@@ -457,6 +453,5 @@ public class MemberServlet extends HttpServlet {
 		}
 		return validList;
 	}
-
 
 }
