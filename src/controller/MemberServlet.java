@@ -96,6 +96,8 @@ public class MemberServlet extends HttpServlet {
 				throw new ServletException(e);
 			}
 			break;
+
+
 		case MEMBER_INFO:
 			try {
 				String memberId = request.getParameter("member_id");
@@ -116,6 +118,7 @@ public class MemberServlet extends HttpServlet {
 			}
 			break;
 
+
 		case MEMBER_INSERT:
 			try {
 				DepartDao departDao = DaoFactory.createDepartDao();
@@ -126,6 +129,8 @@ public class MemberServlet extends HttpServlet {
 				throw new ServletException(e);
 			}
 			break;
+
+
 		case MEMBER_EDIT:
 			MembersDao MembersDao = DaoFactory.createMembersDao();
 			DepartDao departDao = DaoFactory.createDepartDao();
@@ -178,6 +183,8 @@ public class MemberServlet extends HttpServlet {
 		case MEMBER_LIST:
 
 			break;
+
+
 		case MEMBER_INFO:
 			try {
 				String memberId = request.getParameter("member_id");
@@ -199,6 +206,8 @@ public class MemberServlet extends HttpServlet {
 			}
 
 			break;
+
+
 		case MEMBER_INSERT:
 
 			String member_id = request.getParameter("member_id");
@@ -224,10 +233,8 @@ public class MemberServlet extends HttpServlet {
 			String login_id = request.getParameter("login_id");
 			String login_pass = request.getParameter("login_pass");
 			int dep_id = Integer.parseInt(request.getParameter("dep_id"));
-			//int position_type=Integer.parseInt(request.getParameter("position_type"));
 			int auth_id = Integer.parseInt(request.getParameter("auth_id"));
-			//String birth_str = request.getParameter("birthday");
-			//String hired_str = request.getParameter("hired");
+
 
 			// データの追加
 			Members memberI = new Members();
@@ -279,7 +286,6 @@ public class MemberServlet extends HttpServlet {
 			}
 			break;
 
-		// ----------------------------------------------------------------------------------------------------------
 
 		case MEMBER_EDIT:
 			int auth = (int) request.getSession().getAttribute("auth_id");
@@ -399,7 +405,7 @@ public class MemberServlet extends HttpServlet {
 			}
 
 			break;
-		//  ---------------------------------------------------------------------------------------------------------------
+
 
 		case MEMBER_DELETE:
 			String memberId = request.getParameter("member_id");
@@ -450,7 +456,7 @@ public class MemberServlet extends HttpServlet {
 			validList.add("error_login_id");
 		}
 		if (DataValid.isNotNull(member.getLogin_pass())) {
-			if (!DataValid.inNotNum(member.getLogin_pass()) ||
+			if (!DataValid.chkLiteAndNum(member.getLogin_pass()) ||
 					DataValid.limitChar(member.getLogin_pass(), 7)) {
 				validList.add("error_login_pass");
 			}

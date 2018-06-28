@@ -34,12 +34,9 @@ public class AccountFileReader extends EventMgFileIO {
 		String result = null; //結果
 
 		List<String[]> fileRead = new ArrayList<String[]>();
-//		try {
-			fileRead = enableFile();//ファイル有効性チェック
-//		} catch (NoSuchFileException e) {
-//			result = "指定のファイルが存在しません";
-//			return result;
-//		}
+
+		fileRead = enableFile();//ファイル有効性チェック
+
 		result = getResult(); //結果セット
 		if (!result.equals(SUCCESS)) {//異常であれば終了
 			logger.info(className);
@@ -91,7 +88,6 @@ public class AccountFileReader extends EventMgFileIO {
 	 *			index0には"D"が格納されています
 	 *			検査対象はindex1からになります
 	 * **/
-
 	protected boolean enableLine(String[] columns) {
 
 		// データ行の列で空のデータがないか
@@ -103,7 +99,7 @@ public class AccountFileReader extends EventMgFileIO {
 			}
 		}
 		// データ項目の個別チェック
-		if(!DataValid.isNum(columns[1]) || !DataValid.limitChar(columns[1], 8)) {
+		if(!DataValid.limitChar(columns[1], 8) || !DataValid.chkLiteAndNum(columns[1])) {
 			CHECKCODE="205";
 
 			return false;
@@ -112,7 +108,7 @@ public class AccountFileReader extends EventMgFileIO {
 			CHECKCODE="205";
 			return false;
 		}
-		if(DataValid.limitChar(columns[3],7)  || !DataValid.isAlphanum(columns[3])) {
+		if(DataValid.limitChar(columns[3],7)  || !DataValid.chkLiteAndNum(columns[3])) {
 			CHECKCODE="205";
 			return false;
 		}
