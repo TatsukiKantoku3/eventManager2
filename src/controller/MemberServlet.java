@@ -253,7 +253,7 @@ public class MemberServlet extends HttpServlet {
 			memberI.setHired_str(hired_str);
 
 			// memberDataValid()  DataValidを使って値をチェックする
-			List<String> errorList = memberDataValid(memberI, "memberInsert");
+			List<String> errorList = memberDataValid(memberI);
 			if (errorList.size() == 0) {
 
 				// パスワードのハッシュ化
@@ -360,7 +360,7 @@ public class MemberServlet extends HttpServlet {
 			memberE.setBirthday_str(edit_birthday);
 
 			// memberDataValid()  DataValidを使って値をチェックする
-			List<String> errorListE = memberDataValid(memberE, "memberEdit");
+			List<String> errorListE = memberDataValid(memberE);
 			if (errorListE.size() == 0) {
 
 				if (DataValid.isNotNull(edit_login_pass)) {
@@ -429,7 +429,7 @@ public class MemberServlet extends HttpServlet {
 	}
 
 	// メンバー登録、編集時のデータチェックメソッド、戻り値List<String>
-	private List<String> memberDataValid(Members member, String servname) {
+	private List<String> memberDataValid(Members member) {
 		List<String> validList = new ArrayList<String>();
 		if(!DataValid.isAlphanum(member.getMember_id())){
 			validList.add("error_member_id");
@@ -447,7 +447,7 @@ public class MemberServlet extends HttpServlet {
 		if (!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-MM-dd")&&!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
 			validList.add("error_birthday");
 		}
-		if (servname.equals("memberInsert")) {
+		if (DataValid.isNotNull(member.getHired_str())) {
 			if (!DataValid.isDateFormat(member.getHired_str(), "yyyy-MM-dd")&&!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
 				validList.add("error_hired");
 			}
