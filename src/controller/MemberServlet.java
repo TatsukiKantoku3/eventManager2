@@ -425,6 +425,9 @@ public class MemberServlet extends HttpServlet {
 	// メンバー登録、編集時のデータチェックメソッド、戻り値List<String>
 	private List<String> memberDataValid(Members member, String servname) {
 		List<String> validList = new ArrayList<String>();
+		if(!DataValid.isAlphanum(member.getMember_id())){
+			validList.add("error_member_id");
+		}
 		if (DataValid.isNotNull(member.getKana())) {
 			if (!DataValid.isKana(member.getKana())) {
 				validList.add("error_kana");
@@ -433,12 +436,13 @@ public class MemberServlet extends HttpServlet {
 		if (!DataValid.isTelFormat(member.getTel())) {
 			validList.add("error_tel");
 		}
+
 		//日付のM Dを1つにしている
-		if (!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-MM-dd")) {
+		if (!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-MM-dd")&&!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
 			validList.add("error_birthday");
 		}
 		if (servname.equals("memberInsert")) {
-			if (!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
+			if (!DataValid.isDateFormat(member.getHired_str(), "yyyy-MM-dd")&&!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
 				validList.add("error_hired");
 			}
 		}

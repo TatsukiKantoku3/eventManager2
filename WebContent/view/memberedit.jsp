@@ -19,6 +19,9 @@
 				<form action="Member" method="post">
 
 					<p class="bold">社員番号（必須）</p>
+					<c:if test="${!empty error_member_id}">
+						<div class="alert alert-warning" role="alert">社員IDはアルファベットとハイフンのみ使用できます</div>
+					</c:if>
 					<p>
 						<input type="text" name="member_id" placeholder="社員番号" class="form-control" value="${member.member_id}" maxlength="8" required>
 					</p>
