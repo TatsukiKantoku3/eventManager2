@@ -66,7 +66,7 @@ public class DataValid {
 
 	/**
 	 * 文字数制限
-	 * String型の引数の文字数がint型の引数limitNum以上ならfalseを返却する
+	 * String型の引数の文字数がint型の引数limitNumより大きい場合falseを返却する
 	 * @param String str, int limitNum
 	 * @return boolean result
 	 */
