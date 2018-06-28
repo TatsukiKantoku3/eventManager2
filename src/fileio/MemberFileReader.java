@@ -15,8 +15,9 @@ import domain.Members;
 
 public class MemberFileReader extends EventMgFileIO {
 	private String fileName;
-	static String errorCode="100";
-	static final String className = new Object(){}.getClass().getEnclosingClass().getName();
+	static String errorCode = "100";
+	static final String className = new Object() {
+	}.getClass().getEnclosingClass().getName();
 
 	/**
 	 * ファイル名と列数をセットします
@@ -26,8 +27,9 @@ public class MemberFileReader extends EventMgFileIO {
 	 * **/
 	MemberFileReader(String filename, int columns) {
 		super(filename, columns);
-		this.fileName=filename;
+		this.fileName = filename;
 	}
+
 	/**
 	 * このクラスのメイン処理です
 	 * @return String 結果コードを返却します
@@ -39,7 +41,7 @@ public class MemberFileReader extends EventMgFileIO {
 
 		List<String[]> fileRead = new ArrayList<String[]>();
 
-			fileRead = enableFile();//ファイル有効性チェック
+		fileRead = enableFile();//ファイル有効性チェック
 
 		result = getResult(); //結果セット
 		if (!result.equals(SUCCESS)) {//異常であれば終了
@@ -57,7 +59,7 @@ public class MemberFileReader extends EventMgFileIO {
 
 				// ドメインにセット
 				Members domain = new Members();
-				Date birthday =null;
+				Date birthday = null;
 				Date hired = null;
 
 				// 誕生日の型をDate型に変換
@@ -65,15 +67,15 @@ public class MemberFileReader extends EventMgFileIO {
 					DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 					birthday = df.parse(columns[4]);
 
-				// 入社日をDate型に変換
-					String fileNames[] = fileName.split("_",0);
+					// 入社日をDate型に変換
+					String fileNames[] = fileName.split("_", 0);
 					String year = fileNames[2].substring(0, 4) + "年";
 					DateFormat df2 = new SimpleDateFormat("yyyy年M月d日");
 					hired = df2.parse(year + columns[7]);
 				} catch (ParseException p) {
-					result="201";
+					result = "201";
 
-					 logger.error(className+p.getMessage());
+					logger.error(className + p.getMessage());
 					return result;
 				}
 
@@ -91,15 +93,15 @@ public class MemberFileReader extends EventMgFileIO {
 				MembersList.add(domain);
 			} else {
 				result = errorCode;
-				 logger.info(className);
+				logger.info(className);
 				return result;
 			}
 		}
 		//リストをDB登録
 
-			MembersDao MembersDao = DaoFactory.createMembersDao();
-			result = MembersDao.insertMast(MembersList);
-			logger.info(className);
+		MembersDao MembersDao = DaoFactory.createMembersDao();
+		result = MembersDao.insertMast(MembersList);
+		logger.info(className);
 		return result;
 	}
 
@@ -118,47 +120,56 @@ public class MemberFileReader extends EventMgFileIO {
 		// データ行の列で空のデータがないか
 		for (int i = 1; i < columns.length; i++) {
 			//空のデータがあれば終了
-			if (!DataValid.isNotNull(columns[i]) && i!=3) {
-				errorCode="203";
+			if (!DataValid.isNotNull(columns[i]) && i != 3) {
+				errorCode = "203";
 				return false;
 			}
-		}// データ項目の個別チェック
-		if(!DataValid.chkLiteAndNum(columns[1])) {
-			errorCode="205";
+		}
+		// データ項目の個別チェック
+		if (!DataValid.chkLiteAndNum(columns[1])) {
+			errorCode = "205";
 			return false;
-		}//"INCORRECT_FORMAT_ERROR";
-		if(!DataValid.limitChar(columns[1],8)) {
-			errorCode="205";
+		} //"INCORRECT_FORMAT_ERROR";
+
+		if (!DataValid.limitChar(columns[1], 8)) {
+			errorCode = "205";
 			return false;
-		}//"INCORRECT_FORMAT_ERROR";
-		if(!DataValid.limitChar(columns[2], 50)) {
-			errorCode="205";
+		} //"INCORRECT_FORMAT_ERROR";
+
+		if (!DataValid.limitChar(columns[2], 50)) {
+			errorCode = "205";
 			return false;
-		}//return "INCORRECT_FORMAT_ERROR";
-		if(!DataValid.isKana(columns[3])) {
-			errorCode="204";
+		} //return "INCORRECT_FORMAT_ERROR";
+
+		if (!DataValid.isKana(columns[3]) && DataValid.isNotNull(columns[3])) {
+			errorCode = "204";
 			return false;
-		}//return "INCORRECT_FORMAT_ERROR";
-		if(!DataValid.limitChar(columns[3],100)) {
-			errorCode="205";
+		} //return "INCORRECT_FORMAT_ERROR";
+
+		if (!DataValid.limitChar(columns[3], 100)) {
+			errorCode = "205";
 			return false;
-		}//"INCORRECT_FORMAT_ERROR";
-		if(!DataValid.isDateFormat(columns[4],"yyyy/M/d")) {
-			errorCode="200";
+		} //"INCORRECT_FORMAT_ERROR";
+
+		if (!DataValid.isDateFormat(columns[4], "yyyy/M/d")) {
+			errorCode = "200";
 			return false;
-		}//"DATE_FORMAT_ERROR";
-		if(!DataValid.isTelFormat(columns[6])) {
-			errorCode="200";
+		} //"DATE_FORMAT_ERROR";
+
+		if (!DataValid.isTelFormat(columns[6])) {
+			errorCode = "200";
 			return false;
-		}//"INCORRECT_FORMAT_ERROR";
-		if(!DataValid.isDateFormat(columns[7], "M月d日")) {
-			errorCode="200";
+		} //"INCORRECT_FORMAT_ERROR";
+
+		if (!DataValid.isDateFormat(columns[7], "M月d日")) {
+			errorCode = "200";
 			return false;
-		}//"DATE_FORMAT_ERROR";
-		if(!DataValid.isRange(Integer.parseInt(columns[8]),1,5)) {
-			errorCode="200";
+		} //"DATE_FORMAT_ERROR";
+
+		if (!DataValid.isRange(Integer.parseInt(columns[8]), 1, 5)) {
+			errorCode = "200";
 			return false;
-		}// "OUT_OF_INDEX_ERROR";
+		} // "OUT_OF_INDEX_ERROR";
 
 		return true;
 

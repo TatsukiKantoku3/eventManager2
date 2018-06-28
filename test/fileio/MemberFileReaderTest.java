@@ -46,6 +46,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	static final String FALSE_ENTER = "04/01";
 	static final String FALSE_DEP_ID = "6";
 	static final String EMPTY = "";
+	static final String NULL = null;
 
 	static DataSource ds;
 
@@ -97,6 +98,17 @@ public class MemberFileReaderTest extends TestDBAccess {
 	@Test
 	public void 正常系testEnableLine() {
 		String[] test = { EMPTY, MEMBER_ID, NAME, KANA, BIRTHDAY, ADDRESS, TEL, ENTER, DEP_ID };
+		assertThat(target.enableLine(test), is(true));
+
+	}
+
+	/**
+	 * データ有効性チェック
+	 * 正常なデータを入力して戻り値がtrueであることを確認します。
+	 */
+	@Test
+	public void 正常系testEnableLine2() {
+		String[] test = { EMPTY, MEMBER_ID, NAME, EMPTY, BIRTHDAY, ADDRESS, TEL, ENTER, DEP_ID };
 		assertThat(target.enableLine(test), is(true));
 
 	}
