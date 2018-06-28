@@ -14,11 +14,13 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.TestDBAccess;
 
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FileControllerTest extends TestDBAccess {
 	FileController target=new FileController();
 	protected final String MEMBER_INSERT = "memberInsert";
@@ -30,22 +32,13 @@ public class FileControllerTest extends TestDBAccess {
 	protected final String PLACE_FAULT = "place_fault";
 	protected final String DEPART_FAULT = "depart_fault";
 
-	private static final String EXPECTED = "100"; // expected
+	private static final String EXPECTED = "100";
 //	private static final String FAULT_EXPECTED300 = "300";
 //	private static final String FAULT_EXPECTED302 = "302";
-	private static final String FAULT_EXPECTED_FILE = "ファイル読み込みエラー";
+	private static final String FAULT_EXPECTED_FILE = "214";//ファイル読み込みエラー";
 
 	private static  DataSource testds;
 
-
-//	static {
-//		// JNDI準備
-//		try {
-//			JNDIUnitTestHelper.init("WebContent/WEB-INF/classes/jndi_unit_test_helper.properties");
-//		} catch (NamingException | IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -64,14 +57,12 @@ public class FileControllerTest extends TestDBAccess {
 			throw new RuntimeException(e);
 		}
 
-		// 各テーブルTruncate処理
+		// Members,Account,Place,Departmentテーブルをトランケート
 		try (Connection conn = testds.getConnection() ) {
 
 			try {
-				//SQL処理
 				conn.setAutoCommit(false);//オートコミットを外す
 
-				//Members,Account,Place,Departmentテーブルをトランケート
 				String sqlTrunc = "set foreign_key_checks = 0";
 				Statement stmt1 = (Statement) conn.createStatement();
 				stmt1.executeUpdate(sqlTrunc);
@@ -107,7 +98,6 @@ public class FileControllerTest extends TestDBAccess {
 				try {
 					if (conn != null) {
 						conn.close();
-						//System.out.println("切断しました");
 					}
 				} catch (SQLException e) {
 					System.out.println("error2");
