@@ -436,6 +436,7 @@ public class MemberServlet extends HttpServlet {
 		if (!DataValid.isTelFormat(member.getTel())) {
 			validList.add("error_tel");
 		}
+
 		//日付のM Dを1つにしている
 		if (!DataValid.isDateFormat(member.getBirthday_str(), "yyyy-MM-dd")&&!DataValid.isDateFormat(member.getHired_str(), "yyyy-M-d")) {
 			validList.add("error_birthday");
