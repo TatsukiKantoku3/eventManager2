@@ -139,7 +139,7 @@ public class MemberFileReader extends EventMgFileIO {
 			errorCode="204";
 			return false;
 		}//return "INCORRECT_FORMAT_ERROR";
-		if(!DataValid.limitChar(columns[3],50)) {
+		if(!DataValid.limitChar(columns[3],100)) {
 			errorCode="205";
 			return false;
 		}//"INCORRECT_FORMAT_ERROR";
