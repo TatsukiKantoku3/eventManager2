@@ -112,7 +112,7 @@ public class AccountFileReader extends EventMgFileIO {
 			CHECKCODE="205";
 			return false;
 		}
-		if(DataValid.limitChar(columns[3],8)  || !DataValid.isAlphanum(columns[3])) {
+		if(DataValid.limitChar(columns[3],7)  || !DataValid.isAlphanum(columns[3])) {
 			CHECKCODE="205";
 			return false;
 		}

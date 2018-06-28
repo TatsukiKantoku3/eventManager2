@@ -3,6 +3,7 @@ package dao;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,15 +20,22 @@ import javax.sql.DataSource;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runners.MethodSorters;
 
 import com.TestDBAccess;
 
 import domain.Members;
 
+
+@FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class MembersDaoImplTest extends TestDBAccess{
 
-
+	@Rule
+	 public ExpectedException thrown = ExpectedException.none();
 	//前提条件
 	final String NORMAL_MEMBER_ID1="001";
 	final String NORMAL_MEMBER_ID2="002";
@@ -800,15 +808,10 @@ public class MembersDaoImplTest extends TestDBAccess{
 		assertThat(line, is(NUMBER0));
 
 	}
-	@Test
-	public void testDelete異常13() throws Exception{
 
-		member =new Members();
-		member.setLogin_id("falutid");
-		int line=target.delete(member);
-		assertThat(line, is(NUMBER0));
 
-	}
+
+
 
 
 	@Test
@@ -906,4 +909,70 @@ public class MembersDaoImplTest extends TestDBAccess{
 			target.deleteAccount(member);
 
 	}
+	@Test
+	public void testz_Delete異常() throws Exception {
+		member=new Members();
+		member.setLogin_id("login_id");
+
+		Class c=target.getClass();
+		Field fld=c.getDeclaredField("ds");
+		fld.setAccessible(true);
+
+		fld.set(target, null);
+		thrown.expect(NullPointerException.class);
+		target.delete(member);
+	}
+
+	@Test
+	public void testz_deleteaccount異常() throws Exception {
+		member=new Members();
+
+		member.setLogin_id("login_id");
+		Class c=target.getClass();
+		Field fld=c.getDeclaredField("ds");
+		fld.setAccessible(true);
+
+		fld.set(target, null);
+		thrown.expect(NullPointerException.class);
+		target.deleteAccount(member);
+	}
+
+	@Test
+	public void testz_findall異常() throws Exception {
+		Class c=target.getClass();
+		Field fld=c.getDeclaredField("ds");
+		fld.setAccessible(true);
+		fld.set(target, null);
+		thrown.expect(NullPointerException.class);
+		target.findAll(1);
+	}
+
+	@Test
+	public void testz_countall異常() throws Exception {
+		Class c=target.getClass();
+		Field fld=c.getDeclaredField("ds");
+		fld.setAccessible(true);
+		fld.set(target, null);
+		thrown.expect(NullPointerException.class);
+		target.countAll();
+	}
+	@Test
+	public void testz_CheckLoginId異常() throws Exception {
+
+		Class c=target.getClass();
+		Field fld=c.getDeclaredField("ds");
+		fld.setAccessible(true);
+		fld.set(target, null);
+		thrown.expect(NullPointerException.class);
+		target.CheckLoginId("login_id");
+	}
+
+	@Test
+	public void testCheckLoginId正常16() throws Exception {
+
+		boolean result=target.CheckLoginId("login_id");
+		assertThat(result,is(true));
+
+	}
+
 }

@@ -21,7 +21,7 @@ public class AccountFileReaderTest extends TestDBAccess {
 	String DATA="D";
 	String MEMBERID="105";
 	String LOGINID="a-yamamoto";
-	String LOGINPASS="ayamamoto";
+	String LOGINPASS="ayamamot";
 	String AUTHID="1";
 
 	//異常系

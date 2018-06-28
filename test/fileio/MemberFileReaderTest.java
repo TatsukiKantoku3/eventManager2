@@ -195,7 +195,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	@Test
 	public void 異常系testMainStringArray3() {
 		try {
-			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\member_20180404.csv",
+			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_3\\member_20180404.csv",
 					valid_data_quantity);
 			String result = MembersFileReader.main();
 			String expected="300";
