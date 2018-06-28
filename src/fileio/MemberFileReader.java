@@ -122,8 +122,11 @@ public class MemberFileReader extends EventMgFileIO {
 				errorCode="203";
 				return false;
 			}
-		}
-		// データ項目の個別チェック
+		}// データ項目の個別チェック
+		if(!DataValid.chkLiteAndNum(columns[1])) {
+			errorCode="205";
+			return false;
+		}//"INCORRECT_FORMAT_ERROR";
 		if(!DataValid.limitChar(columns[1],8)) {
 			errorCode="205";
 			return false;
