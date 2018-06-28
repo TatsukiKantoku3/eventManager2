@@ -173,7 +173,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work\\member.csv",
 					valid_data_quantity);
 			String result = MembersFileReader.main();
-			String expected="ファイル読み込みエラー";
+			String expected="214";
 			assertThat(result, is(expected));
 		} catch (Exception e) {
 			e.printStackTrace();
