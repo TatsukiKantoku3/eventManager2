@@ -49,11 +49,10 @@ public class DataValid {
 		return result;
 	}
 
-	//修正しました
-	///--Dataではなくて、Dateでは？
+
 	/**
-	 * Data型の引数がnullならfalseを返却する
-	 * @param Data data
+	 * Date型の引数がnullならfalseを返却する
+	 * @param Date date
 	 * @return boolean result
 	 */
 	public static boolean isNotNull(Date date) {
@@ -62,7 +61,7 @@ public class DataValid {
 			result = false;
 		return result;
 	}
-	///--必要なら変更
+
 
 	/**
 	 * 文字数制限
@@ -90,8 +89,7 @@ public class DataValid {
 		return result;
 	}
 
-	//ハイフンまで含めるか否かの違いです。説明文を修正しました
-	//--これの違いは？
+
 	/**
 	 * String型の引数が半角英数字以外ならfalseを返却する
 	 * @param String str
@@ -115,7 +113,7 @@ public class DataValid {
 			result = false;
 		return result;
 	}
-	//--これの違いは？
+
 
 	/**
 	 * String型の引数が半角英字以外ならfalseを返却する
@@ -154,7 +152,7 @@ public class DataValid {
 		return result;
 	}
 
-	//不等号の向きと論理演算子を下記説明通りになるように変更しました
+
 	/**
 	 * int型の第一引数Valueが第二引数begin以上、第三引数end以下ならtrueを返す
 	 * @param int value, int begin, int true
@@ -188,6 +186,7 @@ public class DataValid {
 		return result;
 	}
 
+
 	/**
 	 * String型の引数が hh:mm 以外ならfalseを返却する
 	 * @param String time
@@ -203,7 +202,7 @@ public class DataValid {
 		return true;
 	}
 
-	//trueになる例を右側に書きくわえました
+
 	/**
 	 * String型の引数が電話番号フォーマット以外ならfalseを返却する
 	 * @param String number
