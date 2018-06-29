@@ -45,6 +45,10 @@ public class MemberFileReaderTest extends TestDBAccess {
 	static final String FALSE_TEL = "0000-1122-3344";
 	static final String FALSE_ENTER = "04/01";
 	static final String FALSE_DEP_ID = "6";
+	static final String FILE1="c:\\work\\member.csv";
+	static final String FILE2="c:\\work_1\\member_20180403.csv";
+	static final String FILE3="c:\\work_1\\member_20180404.csv";
+	static final String FILE4="c:\\work_1\\member_001.csv";
 	static final String EMPTY = "";
 	static final String NULL = null;
 
@@ -246,7 +250,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	@Test
 	public void 異常系testMainString1() {
 		try {
-			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work\\member.csv",
+			MemberFileReader MembersFileReader = new MemberFileReader(FILE1,
 					valid_data_quantity);
 			String result = MembersFileReader.main();
 			String expected = "214";
@@ -262,7 +266,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	@Test
 	public void 異常系testMainString2() {
 		try {
-			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\member_20180403.csv",
+			MemberFileReader MembersFileReader = new MemberFileReader(FILE2,
 					valid_data_quantity);
 			String result = MembersFileReader.main();
 			String expected = "200";
@@ -279,7 +283,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	@Test
 	public void 異常系testMainString3() {
 		try {
-			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\member_20180404.csv",
+			MemberFileReader MembersFileReader = new MemberFileReader(FILE3,
 					valid_data_quantity);
 			String result = MembersFileReader.main();
 			String expected = "300";
@@ -295,7 +299,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	@Test
 	public void 異常系testMainString4() {
 		try {
-			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\member_001.csv",
+			MemberFileReader MembersFileReader = new MemberFileReader(FILE4,
 					valid_data_quantity);
 			String result = MembersFileReader.main();
 			String expected = "201";
