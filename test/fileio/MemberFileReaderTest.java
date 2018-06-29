@@ -120,7 +120,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	 *
 	 */
 	@Test
-	public void 正常系testMainStringArray() {
+	public void 正常系testMainString() {
 		try {
 			String result = target.main();
 			String expected = "100";
@@ -244,7 +244,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	 * ファイルの存在しないパスを指定して登録を実行し、エラーコードを確認する。
 	 */
 	@Test
-	public void 異常系testMainStringArray1() {
+	public void 異常系testMainString1() {
 		try {
 			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work\\member.csv",
 					valid_data_quantity);
@@ -260,7 +260,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	 * 不正なデータが入っているファイルを読み込んで、エラーコードを確認する。
 	 */
 	@Test
-	public void 異常系testMainStringArray2() {
+	public void 異常系testMainString2() {
 		try {
 			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\member_20180403.csv",
 					valid_data_quantity);
@@ -277,7 +277,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	 * エラーコードを確認する。
 	 */
 	@Test
-	public void 異常系testMainStringArray3() {
+	public void 異常系testMainString3() {
 		try {
 			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\member_20180404.csv",
 					valid_data_quantity);
@@ -293,7 +293,7 @@ public class MemberFileReaderTest extends TestDBAccess {
 	 * ファイル名に含まれる日付を不正な値にして読み込み、エラーコードを確認する。
 	 */
 	@Test
-	public void 異常系testMainStringArray4() {
+	public void 異常系testMainString4() {
 		try {
 			MemberFileReader MembersFileReader = new MemberFileReader("c:\\work_1\\member_001.csv",
 					valid_data_quantity);
